@@ -1,0 +1,46 @@
+@import 'base';
+
+.container-main {
+  width: 100%;
+  height: calc(100% - #{$navbar-height});
+
+  display: flex;
+
+  justify-content: space-around;
+}
+
+.container-posts {
+  background-color: rgba(0, 0, 0, .15);
+
+  width: 80%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+.container-other {
+  background-color: rgba(0, 0, 0, .2);
+
+  width: 20%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 600px) {
+  .container-main {
+    flex-direction: column;
+  }
+
+  .container-other, .container-posts {
+    width: 100%;
+  }
+}

@@ -12,20 +12,16 @@ class NavBar extends Component {
           <div className="nav-bar">
             <ul>
               <li className="nav-left">
-                <li className="nav-link">
-                  <A href="/">
-                    Home   
-                  </A>
-                </li>
+                <A className="nav-link" href="/">
+                    Home 
+                </A>
               </li>
               {!this.props.logged &&
                 <li className="nav-right">
-                    <li className="nav-link">
-                      <A href="/login">
-                        Log in
-                      </A>
-                    </li>
-                  </li>
+                  <A href="/login" className="nav-link">
+                    Log in
+                  </A>
+                </li>
               } 
             </ul>
           </div>
