@@ -31,7 +31,7 @@ namespace Problem.Api
             
             services.AddDbContext<ApplicationDbContext>(opt =>
             {
-                opt.UseSqlServer(Configuration.GetConnectionString("Local"));
+                opt.UseSqlServer(Configuration.GetConnectionString("Hosted"));
             });
 
             services.AddControllers();
