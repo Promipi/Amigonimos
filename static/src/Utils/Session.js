@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { browserHistory } from 'react-router';
-
+import "babel-polyfill"
 
 export const login = async () => {
   new Promise((resolve, reject) => {
     axios.get(`La concha de tu madre para cuando el backend`).get('https://api.coindesk.com/v1/bpi/currentprice.json')
     .then(response => {
-      setAuthToken(response.data.token, response.data.id, new Date());
+      date = new Date();
+      date.setHours(0, 0, 0, 0);
+      setAuthToken(response.data.token, response.data.id, date);
       resolve(true);
     })
     .catch(error => reject(error));
@@ -14,7 +16,6 @@ export const login = async () => {
 }
 
 const setAuthToken = (token, id, date) => {
-  date.setHours(0, 0, 0, 0)
   localStorage.setItem("auth_token", token);
   localStorage.setItem("id_token", id);
   localStorage.setItem("time_token", date);
