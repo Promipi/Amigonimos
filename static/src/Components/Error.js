@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-class Home extends Component {
+class PageError extends Component {
     render() {
         return (
           <div>
-            <h1>xd</h1>
+            <h1>ERROR</h1>
           </div>
         )
     }
 }
 
-export default Home;
+export default PageError;
