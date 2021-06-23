@@ -11,17 +11,21 @@ class NavBar extends Component {
         return ( 
           <div className="nav-bar">
             <ul>
-              <li className="nav-link">
-                <A href="/home">
-                  Home   
-                </A>
+              <li className="nav-left">
+                <li className="nav-link">
+                  <A href="/">
+                    Home   
+                  </A>
+                </li>
               </li>
               {!this.props.logged &&
-                <li className="nav-link nav-right">
-                  <A href="/login">
-                    Log in
-                  </A>
-                </li> 
+                <li className="nav-right">
+                    <li className="nav-link">
+                      <A href="/login">
+                        Log in
+                      </A>
+                    </li>
+                  </li>
               } 
             </ul>
           </div>

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import NavBar from './Navbar';
+import React, { Component } from 'react';
+import NavBar from './NavBar';
 
 class Home extends Component {
     render() {
