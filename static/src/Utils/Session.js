@@ -1,10 +1,18 @@
 import axios from 'axios'
 import { browserHistory } from 'react-router';
-import "babel-polyfill"
+import * as Cypher from './Cypher';
 
-export const login = async () => {
+export const login = async (name, pass) => {
+  name = Cypher.Encrypt(name);
+  pass = Cypher.Encrypt(pass);
+
   new Promise((resolve, reject) => {
-    axios.get(`La concha de tu madre para cuando el backend`).get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    axios.get(`La concha de tu madre para cuando el backend`,{
+      params: {
+        username: name,
+        password: pass
+      }
+    })
     .then(response => {
       date = new Date();
       date.setHours(0, 0, 0, 0);
