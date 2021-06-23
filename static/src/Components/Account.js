@@ -5,7 +5,7 @@ class Account extends Component {
     render() {
         return (
           <div>
-            <NavBar logged={this.props.isLogged} />
+            <NavBar logged={this.props.logged} />
             <h1>xd</h1>
           </div>
         )

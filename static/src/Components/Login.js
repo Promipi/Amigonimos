@@ -3,6 +3,7 @@ import '../styles/login.scss'
 
 class Login extends Component {
     render() {
+        if(this.props.logged) window.location.href="./";
         return (
           <div className="main-container">
             <div className="container">

@@ -37,7 +37,7 @@ const clearAuthToken = () => {
 
 export const logout = () => {
   clearAuthToken();
-  browserHistory.push('/');
+  window.location.href = "./";
 }
 
 export const getIdToken = () => {

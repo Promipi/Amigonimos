@@ -18,7 +18,7 @@ const App = () => {
 	const routes = {
 		'/': () => <Home logged={isLogged}/>,
 		'/account': () => <Account logged={isLogged} />,
-		'/login': () => <Login />
+		'/login': () => <Login logged={isLogged} />
 	};
 	const Router = useRoutes(routes);
 	return (
