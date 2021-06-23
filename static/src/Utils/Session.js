@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { browserHistory } from 'react-router';
 import * as Cypher from './Cypher';
 
 export const login = async (name, pass) => {
