@@ -1,8 +1,14 @@
+@import 'base';
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+}
+
+p {
+  font-size: $text-size;
 }
 
 .main-container {
@@ -57,7 +63,7 @@ input {
     width: 0;
     bottom: 1px; 
     position: absolute;
-    background: #69359C; 
+    background: $primary-color; 
     transition: 0.2s ease all; 
     -moz-transition: 0.2s ease all; 
     -webkit-transition: 0.2s ease all;
@@ -82,7 +88,7 @@ input:focus {
 .form-btn {
   color: white;
   
-  background: #69359C;
+  background: $primary-color;
   display: block;
   font-weight: bold;
   padding: 10px;
@@ -90,6 +96,6 @@ input:focus {
   
   cursor: pointer;
   &:hover {
-    background: #8B72BE;
+    background: $primary-light-color;
   }
 }
