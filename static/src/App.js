@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { useRoutes } from 'hookrouter';
 import axios from 'axios';
 
+import "babel-polyfill"
+
 import * as Session from './Utils/Session';
 
-import Home from './Components/Home.js';
+import Home from './Components/Home';
 import Login from './Components/Login';
 import Account from './Components/Account';
 import PageError from './Components/Error';
