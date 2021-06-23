@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import * as Session from './Utils/Session';
 
-import Home from './Components/Home';
+import Home from './Components/Home.js';
 import Login from './Components/Login';
 import Account from './Components/Account';
 import PageError from './Components/Error';
