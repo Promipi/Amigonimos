@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useRoutes } from 'hookrouter';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
 
 import "babel-polyfill"
@@ -15,16 +15,24 @@ import './styles/main.scss';
 
 const App = () => {
 	let isLogged = Session.isLoggedIn();
-	const routes = {
-		'/': () => <Home logged={isLogged}/>,
-		'/account': () => <Account logged={isLogged} />,
-		'/login': () => <Login logged={isLogged} />
-	};
-	const Router = useRoutes(routes);
+
 	return (
-		<div>
-			{Router || PageError}
-		</div>
+		<Router>
+			<Switch>
+				<Route exact path="/">
+					<Home logged={isLogged}/>
+				</Route>
+				<Route exact path="/account">
+					<Account logged={isLogged} />
+				</Route>
+				<Route exact path="/login">
+					<Login logged={isLogged} />
+				</Route>
+				<Route path="/page/:page">
+					<Home logged={isLogged} />
+				</Route>
+			</Switch>
+		</Router>
 	);
 };
 

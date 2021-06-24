@@ -1,23 +1,37 @@
-import React, { Component } from 'react';
-import NavBar from './NavBar';
-import '../styles/home.scss'
+import React,{useEffect,useState} from "react";
+import NavBar from "./NavBar";
+import "../styles/home.scss";
+import { Link, Switch, Route} from "react-router-dom";
+import Posts from "./Posts";
 
-class Home extends Component {
-    render() {
-        return (
-          <div>
-            <NavBar logged={this.props.logged} />
-            <div className="container-main">
-              <div className="container-posts">
-                <h1>Posts</h1>
-              </div>
-              <div className="container-other"> 
-                <h1>Ads y nose</h1>
-              </div>
-            </div> 
-          </div>
-        )
-    }
-}
+const Home = ({logged}) => {
+  const [pages,setPages] = useState(0);
+
+  useEffect(()=>{
+    console.log(pages);
+  });
+
+  return (
+    <div>
+      <NavBar logged={logged} />
+      <div className="container-main">
+        <div className="container-posts">
+          <h1>Posts</h1>
+          <Switch>
+            <Route exact path="/">
+              <Posts setTotalPages={setPages} />
+            </Route>
+            <Route path="/page/:page">
+              <Posts setTotalPages={setPages}/>
+            </Route>
+          </Switch>
+        </div>
+        <div className="container-other">
+          <h1>Ads y nose</h1>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Home;

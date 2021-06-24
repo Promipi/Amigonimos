@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {A} from 'hookrouter';
+import {Link} from 'react-router-dom';
 
 import * as Session from '../Utils/Session';
 
@@ -14,22 +14,22 @@ class NavBar extends Component {
           <div className="nav-bar">
             <ul>
               <li className="nav-left">
-                <A href="/" className="nav-link">
+                <Link to="/" className="nav-link">
                     Home 
-                </A>
+                </Link>
               </li>
               {!this.props.logged &&
                 <li className="nav-right">
-                  <A href="/login" className="nav-link">
+                  <Link to="/login" className="nav-link">
                     Sign in
-                  </A>
+                  </Link>
                 </li>
               } 
               {this.props.logged && 
                 <li className="nav-right">
-                  <A href="#!" onClick={() => Session.logout()} className="nav-link">
+                  <Link to="#!" onClick={() => Session.logout()} className="nav-link">
                     Sign out
-                  </A>
+                  </Link>
                 </li>
               } 
             </ul>
