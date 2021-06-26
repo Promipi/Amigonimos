@@ -23,11 +23,13 @@ namespace Help.Services.Repository
             _context = context; _mapper = mapper;
         }
 
-        public async Task<GetResponseDto<DataCollection<Domain.Help>>> Get(Func<Domain.Help, bool> filter, int page, int take)
+        public async Task<GetResponseDto<DataCollection<Domain.Help>>> Get(List<Func<Domain.Help, bool>> filter, int page, int take)
         {
             var response = new GetResponseDto<DataCollection<Domain.Help>>();
             try {
-                var result = await _context.Helps.Where(filter).GetPagedAsync(page, take);
+                var helps = _context.Helps.ToList();
+                filter.ForEach(f => { helps = helps.Where(f).ToList(); });
+                var result = await helps.GetPagedAsync(page, take);
 
                 response.Success = true;
                 response.Message = "Success";
@@ -63,7 +65,9 @@ namespace Help.Services.Repository
             var response = new PostResponseDto<Domain.Help>();
             try
             {
-                var problem = _mapper.Map<Domain.Help>(helpUpdateDto);
+                var problem = _context.Helps.Find(helpUpdateDto.Id);
+                problem.Content = helpUpdateDto.Content;
+
                 var result = _context.Helps.Update(problem);
                 await _context.SaveChangesAsync();
                 response.Success = true;

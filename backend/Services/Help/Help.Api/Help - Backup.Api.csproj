@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common.Collection\Common.Collection.csproj" />
     <ProjectReference Include="..\..\..\Common\Common.Responses\Common.Responses.csproj" />
+    <ProjectReference Include="..\..\Problem\Problem.Api\Problem.Api.csproj" />
     <ProjectReference Include="..\Help.Domain\Help.Domain.csproj" />
     <ProjectReference Include="..\Help.Services.Repository\Help.Services.Repository.csproj" />
   </ItemGroup>

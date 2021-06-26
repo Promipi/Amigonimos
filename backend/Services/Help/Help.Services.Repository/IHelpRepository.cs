@@ -11,7 +11,7 @@ namespace Help.Services.Repository
 {
     public interface IHelpRepository
     {
-        public Task<GetResponseDto<DataCollection<Domain.Help>>> Get(Func<Domain.Help, bool> filter, int page, int take);
+        public Task<GetResponseDto<DataCollection<Domain.Help>>> Get(List<Func<Domain.Help, bool>> filter, int page, int take);
 
         public Task<PostResponseDto<Domain.Help>> Add(HelpCreateDto helpCreateDto);
 
