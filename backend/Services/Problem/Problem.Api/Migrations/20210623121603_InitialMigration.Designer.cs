@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Problem.Api;
+using Problem.Persistance.Database;
 
 namespace Problem.Api.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(ProblemDbContext))]
     [Migration("20210623121603_InitialMigration")]
     partial class InitialMigration
     {

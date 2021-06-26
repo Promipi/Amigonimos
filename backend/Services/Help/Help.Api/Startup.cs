@@ -50,7 +50,7 @@ namespace Help.Api
 
 
 
-            services.AddSingleton(new MapperConfiguration(m => m.AddProfile(new MapingProfile())).CreateMapper());
+            services.AddSingleton(new MapperConfiguration(m => m.AddProfile(new MappingProfile())).CreateMapper());
 
             services.AddTransient<IHelpRepository,HelpRepository>();
         }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Help.Api.Mapper
 {
-    public class MapingProfile : Profile
+    public class MappingProfile : Profile
     {
-        public MapingProfile()
+        public MappingProfile()
         {
             CreateMap<HelpCreateDto, Domain.Help>();
             CreateMap<HelpUpdateDto, Domain.Help>();

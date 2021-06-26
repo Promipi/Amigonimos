@@ -10,7 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Problem.Api.Mapper;
-using Problem.Api.Repository;
+using Problem.Persistance.Database;
+using Problem.Services.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Problem.Api
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<ApplicationDbContext>(opt =>
+            services.AddDbContext<ProblemDbContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("Hosted"));
             });
@@ -48,7 +49,9 @@ namespace Problem.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Problem.Api", Version = "v1" });
             });
 
-            services.AddTransient<IProblemsRepository, ProblemsRepository>();
+            services.AddSingleton(new MapperConfiguration(m => m.AddProfile(new MappingProfile())).CreateMapper());
+
+            services.AddTransient<IProblemRepository, ProblemRepository>();
            
         }
 

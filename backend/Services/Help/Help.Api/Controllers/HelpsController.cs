@@ -2,6 +2,7 @@
 using Common.Responses;
 using Help.Domain.DTOs;
 using Help.Services.Repository;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Help.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("AmigonimoPolicy")]
     public class HelpsController : ControllerBase
     {
         private readonly IHelpRepository _repository;
@@ -37,7 +39,7 @@ namespace Help.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetResponseDto<Domain.Help>>> Get(string id)
         {
-             var response = await _repository.GetById(id);
+            var response = await _repository.GetById(id);
             if (response.Success) return Ok(response);
 
             return BadRequest(response);

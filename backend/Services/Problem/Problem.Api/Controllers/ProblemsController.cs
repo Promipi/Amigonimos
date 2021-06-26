@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Problem.Api.Common;
-using Problem.Api.DTOs;
-using Problem.Api.Repository;
+using Problem.Domain.Dtos;
+using Problem.Services.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,49 +17,58 @@ namespace Problem.Api.Controllers
     public class ProblemsController : ControllerBase
     {
 
-        IProblemsRepository _repository;
-        public ProblemsController(IProblemsRepository repository)
+        IProblemRepository _repository;
+        public ProblemsController(IProblemRepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataCollection<Models.Problem>>> Get(int page = 1, int take = 10, string ownerId = "", DateTime creationDate = default)
+        public async Task<ActionResult<DataCollection<Domain.Problem>>> Get(int page = 1, int take = 10, string ownerId = "", DateTime creationDate = default)
         {
-            Func<Models.Problem, bool> filter = x=>x.Id==x.Id;
-            if (ownerId != "") filter += x => x.OwnerId == ownerId;
-            if (creationDate != default) filter += x => x.CreationDate == creationDate;
+            List<Func<Domain.Problem, bool>> filter = new List<Func<Domain.Problem, bool>>() { x => x.Id == x.Id };   
+            if (ownerId != "") filter.Add(x => x.OwnerId == ownerId);
+            if (creationDate != default) filter.Add(x => x.CreationDate == creationDate);
 
-            var result = await _repository.Get(filter, page, take);
-            return Ok(result);
+            var response = await _repository.Get(filter, page, take);
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Problem>> GetById(string id)
+        public async Task<ActionResult<Domain.Problem>> Get(string id)
         {
-            var result = await _repository.GetById(id);
-            return result;
+            var response = await _repository.GetById(id);
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Add(ProblemCreateDto problemCreationDto)
+        public async Task<ActionResult<bool>> Create(ProblemCreateDto problemCreateDto)
         {
-            var result = await _repository.Add(problemCreationDto);
-            return Ok(result);
+            var response = await _repository.Add(problemCreateDto);
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
         }
 
         [HttpPut]
         public async Task<ActionResult<bool>> Update(ProblemUpdateDto problemUpdateDto)
         {
-            var result = await _repository.Update(problemUpdateDto);
-            return Ok(result);
-        }
+            var response = await _repository.Update(problemUpdateDto);
+            if (response.Success) return Ok(response);
 
-        [HttpDelete]
-        public async Task<ActionResult<bool>> Delete(string ownerId)
+            return BadRequest(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> Delete(string id)
         {
-            var result = await _repository.Delete(ownerId);
-            return Ok(result);
+            var response = await _repository.Delete(id);
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
         }
     }
 }
