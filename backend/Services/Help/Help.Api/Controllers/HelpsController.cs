@@ -10,6 +10,6 @@ namespace Help.Api.Controllers
     [Route("api/[controller]")]
     public class HelpsController : ControllerBase
     {
-        
+
     }
 }

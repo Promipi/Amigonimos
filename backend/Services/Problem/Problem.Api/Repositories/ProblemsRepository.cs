@@ -18,6 +18,8 @@ namespace Problem.Api.Repository
         public Task<bool> Update(ProblemUpdateDto problemUpdateDto);
 
         public Task<bool> Delete(string problemId);
+
+        public Task<Models.Problem> GetById(string id);
     }
 
     public class ProblemsRepository : IProblemsRepository
@@ -32,6 +34,13 @@ namespace Problem.Api.Repository
         public async Task<DataCollection<Models.Problem>> Get(Func<Models.Problem,bool> filter,int page,int take)
         {
             var result = await _context.Problems.Where(filter).GetPagedAsync(page,take);
+
+            return result;
+        }
+
+        public async Task<Models.Problem> GetById(string id)
+        {
+            var result = await _context.Problems.FindAsync(id);
 
             return result;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Problem.Api.Common;
 using Problem.Api.DTOs;
@@ -12,6 +13,7 @@ namespace Problem.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AmigonimoPolicy")]
     public class ProblemsController : ControllerBase
     {
 
@@ -30,6 +32,13 @@ namespace Problem.Api.Controllers
 
             var result = await _repository.Get(filter, page, take);
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Models.Problem>> GetById(string id)
+        {
+            var result = await _repository.GetById(id);
+            return result;
         }
 
         [HttpPost]
