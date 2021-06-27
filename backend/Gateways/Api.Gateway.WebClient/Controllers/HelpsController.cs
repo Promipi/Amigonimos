@@ -13,6 +13,7 @@ namespace Api.Gateway.WebClient.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName ="Help.API")]
     public class HelpsController : ControllerBase
     {
         private readonly IHelpProxy _helpProxy;

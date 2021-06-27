@@ -29,9 +29,19 @@ namespace Api.Gateway.WebClient
             services.AddAppsettingBinding(Configuration,ModeTypes.Local).AddProxiesRegistration(Configuration);
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(setupAction =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api.Gateway.WebClient", Version = "v1" });
+                setupAction.SwaggerDoc("Problem.API", new OpenApiInfo 
+                {
+                    Title = "Problem.API", Version = "v1" , Description = "Through this API you can access the problems that people publish as well as insert, delete and filter them" ,
+                    Contact = new OpenApiContact() { Email = "promipisharp@gmail.com", Name = "Promipi", Url = new Uri( "https://discord.gg/JqU4v28" ) }
+                }); //problems.API specification
+
+                setupAction.SwaggerDoc("Help.API", new OpenApiInfo()
+                {
+                    Title = "Help.API", Version = "v1" , Description = "Through this API you can access the help that pertain to a problem as well as edit, delete and create new ones.",
+                    Contact = new OpenApiContact() { Email = "promipisharp@gmail.com", Name = "Promipi", Url = new Uri( "https://discord.gg/JqU4v28" ) }
+                }); //helps.API specification
             });
         }
 
@@ -43,7 +53,13 @@ namespace Api.Gateway.WebClient
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api.Gateway.WebClient v1"));
+            app.UseSwaggerUI(setupAction=> {
+
+                setupAction.SwaggerEndpoint(
+                    "/swagger/Problem.API/swagger.json", "Problem.API");
+                setupAction.SwaggerEndpoint(
+                   "/swagger/Help.API/swagger.json", "Help.API");
+            });
 
             app.UseRouting();
 

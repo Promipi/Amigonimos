@@ -12,6 +12,7 @@ namespace Api.Gateway.WebClient.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "Problem.API")]
     public class ProblemsController : ControllerBase
     {
         private readonly IProblemProxy _problemProxy;
