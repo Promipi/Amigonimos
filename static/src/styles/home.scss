@@ -1,5 +1,15 @@
 @import 'base';
 
+
+a{
+  text-decoration: none;
+}
+
+img{
+  max-height: 100%;
+  max-width: 100%;
+}
+
 .container-main {
   width: 100%;
   height: calc(100% - #{$navbar-height});
@@ -10,7 +20,7 @@
 }
 
 .container-posts {
-  background-color: rgba(0, 0, 0, .15);
+  background-color: #F4F2F8;
 
   width: 80%;
   height: 100%;
@@ -19,12 +29,28 @@
   align-items: center;
 
   flex-direction: column;
+  overflow-y: auto;
 }
 
-.container-other {
-  background-color: rgba(0, 0, 0, .2);
+.container-posts::-webkit-scrollbar,.container-other>*> *::-webkit-scrollbar,.container-other::-webkit-scrollbar{
+  width:10px;
+}
 
-  width: 20%;
+.container-posts::-webkit-scrollbar-thumb,.container-other>*>*::-webkit-scrollbar-thumb,.container-other::-webkit-scrollbar-thumb{
+  background-color: #a2a1a3;
+  border-radius: 2px;
+}
+
+.container-posts::-webkit-scrollbar-track,.container-other>*>*::-webkit-scrollbar-track,.container-other::-webkit-scrollbar-track{
+  background-color: #dddddd;
+  border-radius: 2px;
+}
+
+
+.container-other {
+  background-color: #7C85EF;
+
+  width: 25%;
   height: 100%;
 
   display: flex;
@@ -32,14 +58,84 @@
   align-items: center;
 
   flex-direction: column;
+  overflow-y:auto;
+}
+.container-other > *{
+  width:100%;
 }
 
-@media only screen and (max-width: 600px) {
+.page-nav{
+  text-align: center;
+  display:flex;
+  width:70%;
+  margin:0 auto;
+  justify-content: center;
+  overflow-x:auto;
+}
+
+.page-link{
+  margin:0 10px;
+}
+
+.page-nav::-webkit-scrollbar{
+  width:12px;
+}
+
+.page-nav::-webkit-scrollbar-track{
+  background-color: #8B72BE;
+  border-radius: 8px;
+}
+
+.page-nav::-webkit-scrollbar-thumb{
+  background-color: #4D0180;
+  border-radius: 8px;
+}
+
+.tips,.friends-container{
+  max-height: 250px;
+  overflow-y:auto;
+}
+
+.tips-container{
+  margin: 5px 0 0 0;
+}
+
+.tip{
+  background-color:rgba(255, 255, 255, 0.13);
+  margin:0px 0 5px 0;
+  padding:15px;
+  display: flex;
+  justify-content:space-between;
+}
+
+.likes-tip{
+  display:flex;
+  align-items: center;
+}
+
+.likes-tip > *{
+  margin:0 5px;
+}
+
+.title-tip > *{
+  text-align: left;
+}
+
+@media only screen and (max-width: 720px) {
   .container-main {
-    flex-direction: column;
+    display:block;
   }
 
   .container-other, .container-posts {
     width: 100%;
   }
+
+  .container-other{
+    height:400px;
+
+    &>*{
+      height:auto;
+    }
+  }
+
 }

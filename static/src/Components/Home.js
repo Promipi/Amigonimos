@@ -3,32 +3,29 @@ import NavBar from "./NavBar";
 import "../styles/home.scss";
 import { Link, Switch, Route} from "react-router-dom";
 import Posts from "./Posts";
+import Post from './Post';
+import RightSide from './RightSide';
 
 const Home = ({logged}) => {
-  const [pages,setPages] = useState(0);
-
-  useEffect(()=>{
-    console.log(pages);
-  });
 
   return (
     <div>
       <NavBar logged={logged} />
       <div className="container-main">
         <div className="container-posts">
-          <h1>Posts</h1>
           <Switch>
             <Route exact path="/">
-              <Posts setTotalPages={setPages} />
+              <Posts/>
+            </Route>
+            <Route path="/post/:id">
+              <Post logged={logged}/>
             </Route>
             <Route path="/page/:page">
-              <Posts setTotalPages={setPages}/>
+              <Posts/>
             </Route>
           </Switch>
         </div>
-        <div className="container-other">
-          <h1>Ads y nose</h1>
-        </div>
+        <RightSide logged={logged}/>
       </div>
     </div>
   );

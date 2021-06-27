@@ -4,7 +4,7 @@
   width: 100%;
   height: $navbar-height;
   top: 0;
-  background-color: rgba(0, 0, 0, .125);
+  background-color: #3F3AAA;
 }
 
 .nav-bar ul {
@@ -25,15 +25,19 @@
   text-align: center;
 
   text-decoration: none;
-  color: #000000;
+  color: #fff;
   font-weight: bold;
+
+  & i{
+    margin: 0 10px 0 0;
+  }
 
   &::after {
     content: '';
     display: block;
     width: 0;
     height: 2px;
-    background: $primary-light-color;
+    background: #fff;
     transition: width .3s;
   }
   
