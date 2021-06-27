@@ -23,7 +23,7 @@ namespace Help.Services.Repository
             _context = context; _mapper = mapper;
         }
 
-        public async Task<GetResponseDto<DataCollection<Domain.Help>>> Get(List<Func<Domain.Help, bool>> filter, int page, int take)
+        public async Task<GetResponseDto<DataCollection<Domain.Help>>> GetAsync(List<Func<Domain.Help, bool>> filter, int page, int take)
         {
             var response = new GetResponseDto<DataCollection<Domain.Help>>();
             try {
@@ -42,7 +42,7 @@ namespace Help.Services.Repository
             return response;         
         }
 
-        public async Task<PostResponseDto<Domain.Help>> Add(HelpCreateDto helpCreateDto)
+        public async Task<PostResponseDto<Domain.Help>> AddAsync(HelpCreateDto helpCreateDto)
         {
             var response = new PostResponseDto<Domain.Help>();
             try{
@@ -60,7 +60,7 @@ namespace Help.Services.Repository
             return response;
         }
 
-        public async Task<PostResponseDto<Domain.Help>> Update(HelpUpdateDto helpUpdateDto)
+        public async Task<PostResponseDto<Domain.Help>> UpdateAsync(HelpUpdateDto helpUpdateDto)
         {
             var response = new PostResponseDto<Domain.Help>();
             try
@@ -81,7 +81,7 @@ namespace Help.Services.Repository
             return response;
         }
 
-        public async Task<DeleteResponseDto> Delete(string problemId)
+        public async Task<DeleteResponseDto> DeleteAsync(string problemId)
         {
             var response = new DeleteResponseDto();
             try
@@ -98,7 +98,7 @@ namespace Help.Services.Repository
             return response;
         }
 
-        public async Task<GetResponseDto<Domain.Help>> GetById(string id)
+        public async Task<GetResponseDto<Domain.Help>> GetByIdAsync(string id)
         {
             var response = new GetResponseDto<Domain.Help>();
             try

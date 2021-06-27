@@ -30,7 +30,7 @@ namespace Help.Api.Controllers
             if (problemId != "") filter.Add(x => x.ProblemId == problemId);
             if (ownerId != "") filter.Add(x => x.OwnerId == ownerId);
 
-            var response = await _repository.Get(filter, page, take);
+            var response = await _repository.GetAsync(filter, page, take);
             if (response.Success) return Ok(response);
 
             return BadRequest(response);
@@ -39,7 +39,7 @@ namespace Help.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetResponseDto<Domain.Help>>> Get(string id)
         {
-            var response = await _repository.GetById(id);
+            var response = await _repository.GetByIdAsync(id);
             if (response.Success) return Ok(response);
 
             return BadRequest(response);
@@ -48,7 +48,7 @@ namespace Help.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<PostResponseDto<Domain.Help>>> Create(HelpCreateDto helpCreateDto)
         {
-            var response = await _repository.Add(helpCreateDto);
+            var response = await _repository.AddAsync(helpCreateDto);
             if (response.Success) return Ok(response);
 
             return BadRequest(response);
@@ -57,7 +57,7 @@ namespace Help.Api.Controllers
         [HttpPut]
         public async Task<ActionResult<PostResponseDto<Domain.Help>>> Update(HelpUpdateDto helpUpdateDto)
         {
-            var response = await _repository.Update(helpUpdateDto);
+            var response = await _repository.UpdateAsync(helpUpdateDto);
             if (response.Success) return Ok(response);
 
             return BadRequest(response);
@@ -66,7 +66,7 @@ namespace Help.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<DeleteResponseDto> > Update(string id)
         {
-            var response = await _repository.Delete(id);
+            var response = await _repository.DeleteAsync(id);
             if (response.Success) return Ok(response);
 
             return BadRequest(response);

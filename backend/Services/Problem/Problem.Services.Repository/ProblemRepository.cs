@@ -21,7 +21,7 @@ namespace Problem.Services.Repository
             _context = context; _mapper = mapper;
         }
 
-        public async Task<PostResponseDto<Domain.Problem>> Add(ProblemCreateDto problemCreateDto)
+        public async Task<PostResponseDto<Domain.Problem>> AddAsync(ProblemCreateDto problemCreateDto)
         {
             var response = new PostResponseDto<Domain.Problem>();
             try
@@ -41,7 +41,7 @@ namespace Problem.Services.Repository
             return response;
         }
 
-        public async Task<DeleteResponseDto> Delete(string problemId)
+        public async Task<DeleteResponseDto> DeleteAsync(string problemId)
         {
             var response = new DeleteResponseDto();
             try
@@ -58,7 +58,7 @@ namespace Problem.Services.Repository
             return response;
         }
 
-        public async Task<GetResponseDto<DataCollection<Domain.Problem>>> Get(List<Func<Domain.Problem, bool>> filter, int page, int take)
+        public async Task<GetResponseDto<DataCollection<Domain.Problem>>> GetAsync(List<Func<Domain.Problem, bool>> filter, int page, int take)
         {
             var response = new GetResponseDto<DataCollection<Domain.Problem>>();
             try
@@ -79,7 +79,7 @@ namespace Problem.Services.Repository
             return response;
         }
 
-        public async Task<GetResponseDto<Domain.Problem>> GetById(string id)
+        public async Task<GetResponseDto<Domain.Problem>> GetByIdAsync(string id)
         {
             var response = new GetResponseDto<Domain.Problem>();
             try
@@ -95,7 +95,7 @@ namespace Problem.Services.Repository
             return response;
         }
 
-        public async Task<PostResponseDto<Domain.Problem>> Update(ProblemUpdateDto problemUpdateDto)
+        public async Task<PostResponseDto<Domain.Problem>> UpdateAsync(ProblemUpdateDto problemUpdateDto)
         {
             var response = new PostResponseDto<Domain.Problem>();
             try

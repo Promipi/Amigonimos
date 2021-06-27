@@ -11,14 +11,14 @@ namespace Problem.Services.Repository
 {
     public interface IProblemRepository
     {
-        public Task<GetResponseDto<DataCollection<Domain.Problem>>> Get(List<Func<Domain.Problem, bool>> filter, int page, int take);
+        public Task<GetResponseDto<DataCollection<Domain.Problem>>> GetAsync(List<Func<Domain.Problem, bool>> filter, int page, int take);
 
-        public Task<PostResponseDto<Domain.Problem>> Add(ProblemCreateDto helpCreateDto);
+        public Task<PostResponseDto<Domain.Problem>> AddAsync(ProblemCreateDto helpCreateDto);
 
-        public Task<PostResponseDto<Domain.Problem>> Update(ProblemUpdateDto helpUpdateDto);
+        public Task<PostResponseDto<Domain.Problem>> UpdateAsync(ProblemUpdateDto helpUpdateDto);
 
-        public Task<DeleteResponseDto> Delete(string helpId);
+        public Task<DeleteResponseDto> DeleteAsync(string helpId);
 
-        public Task<GetResponseDto<Domain.Problem>> GetById(string id);
+        public Task<GetResponseDto<Domain.Problem>> GetByIdAsync(string id);
     }
 }
