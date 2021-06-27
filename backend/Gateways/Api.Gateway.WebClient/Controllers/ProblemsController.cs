@@ -2,6 +2,7 @@
 using Common.Collection;
 using Common.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Problem.Domain.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,42 @@ namespace Api.Gateway.WebClient.Controllers
         {
             var response = await _problemProxy.GetAsync(page, take, ownerId,creationDate);
             if (response.Success) return Ok(response);
+            return BadRequest(response);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Problem.Domain.Problem>> Get(string id)
+        {
+            var response = await _problemProxy.GetByIdAsync(id);
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<bool>> Create(ProblemCreateDto problemCreateDto)
+        {
+            var response = await _problemProxy.AddAsync(problemCreateDto);
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<bool>> Update(ProblemUpdateDto problemUpdateDto)
+        {
+            var response = await _problemProxy.UpdateAsync(problemUpdateDto);
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> Delete(string id)
+        {
+            var response = await _problemProxy.DeleteAsync(id);
+            if (response.Success) return Ok(response);
+
             return BadRequest(response);
         }
     }

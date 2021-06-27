@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Api.Gateway.Proxies
 
         public Task<DeleteResponseDto> DeleteAsync(string helpId);
 
-        public Task<GetResponseDto<Problem.Domain.Problem>> GetByIdAsync(string id);
+        public Task<GetResponseDto<Problem.Domain.Problem>> GetByIdAsync(string helpId);
     }
     public class ProblemProxy : IProblemProxy
     {
@@ -38,12 +39,16 @@ namespace Api.Gateway.Proxies
 
         public async Task<PostResponseDto<Problem.Domain.Problem>> AddAsync(ProblemCreateDto helpCreateDto)
         {
-            throw new NotImplementedException();
+            var request = await _httpClient.PostAsJsonAsync($"{_apiUrls.Value.ProblemApi}/api/problems/",helpCreateDto); //post an new problem create
+            var response = JsonConvert.DeserializeObject<PostResponseDto<Problem.Domain.Problem>>(await request.Content.ReadAsStringAsync());
+            return response;
         }
 
         public async Task<DeleteResponseDto> DeleteAsync(string helpId)
         {
-            throw new NotImplementedException();
+            var request = await _httpClient.DeleteAsync($"{_apiUrls.Value.ProblemApi}/api/problems/{helpId}");
+            var response = JsonConvert.DeserializeObject<DeleteResponseDto>(await request.Content.ReadAsStringAsync());
+            return response;
         }
 
         public async Task<GetResponseDto<DataCollection<Problem.Domain.Problem>>> GetAsync(int page = 1, int take = 10, string ownerId = null, DateTime creationDate = default)
@@ -55,12 +60,16 @@ namespace Api.Gateway.Proxies
 
         public async Task<GetResponseDto<Problem.Domain.Problem>> GetByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            var request = await _httpClient.GetAsync($"{_apiUrls.Value.ProblemApi}/api/problems/{id}");
+            var response = JsonConvert.DeserializeObject<GetResponseDto<Problem.Domain.Problem>>(await request.Content.ReadAsStringAsync());
+            return response;
         }
 
         public async Task<PostResponseDto<Problem.Domain.Problem>> UpdateAsync(ProblemUpdateDto helpUpdateDto)
         {
-            throw new NotImplementedException();
+            var request = await _httpClient.PutAsJsonAsync($"{_apiUrls.Value.ProblemApi}/api/problems", helpUpdateDto);
+            var response = JsonConvert.DeserializeObject<PostResponseDto<Problem.Domain.Problem>>(await request.Content.ReadAsStringAsync());
+            return response;
         }
     }
 }
