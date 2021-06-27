@@ -2,6 +2,7 @@
 using Common.Collection;
 using Common.Responses;
 using Help.Domain.DTOs;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +15,7 @@ namespace Api.Gateway.WebClient.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName ="Help.API")]
+    [EnableCors("AmigonimoPolicy")]
     public class HelpsController : ControllerBase
     {
         private readonly IHelpProxy _helpProxy;

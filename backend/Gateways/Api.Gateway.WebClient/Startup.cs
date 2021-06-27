@@ -29,8 +29,10 @@ namespace Api.Gateway.WebClient
             services.AddAppsettingBinding(Configuration,ModeTypes.Local).AddProxiesRegistration(Configuration);
 
             services.AddControllers();
+
             services.AddSwaggerGen(setupAction =>
             {
+                
                 setupAction.SwaggerDoc("Problem.API", new OpenApiInfo 
                 {
                     Title = "Problem.API", Version = "v1" , Description = "Through this API you can access the problems that people publish as well as insert, delete and filter them" ,
@@ -43,6 +45,13 @@ namespace Api.Gateway.WebClient
                     Contact = new OpenApiContact() { Email = "promipisharp@gmail.com", Name = "Promipi", Url = new Uri( "https://discord.gg/JqU4v28" ) }
                 }); //helps.API specification
             });
+
+            services.AddCors(setupAction => setupAction.AddPolicy("AmigonimoPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

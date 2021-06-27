@@ -1,6 +1,7 @@
 ﻿using Api.Gateway.Proxies;
 using Common.Collection;
 using Common.Responses;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Problem.Domain.Dtos;
 using System;
@@ -13,6 +14,7 @@ namespace Api.Gateway.WebClient.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [ApiExplorerSettings(GroupName = "Problem.API")]
+    [EnableCors("AmigonimoPolicy")]
     public class ProblemsController : ControllerBase
     {
         private readonly IProblemProxy _problemProxy;
