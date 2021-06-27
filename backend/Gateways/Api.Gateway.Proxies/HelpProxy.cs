@@ -37,35 +37,35 @@ namespace Api.Gateway.Proxies
 
         public async Task<PostResponseDto<Help.Domain.Help>> AddAsync(HelpCreateDto helpCreateDto)
         {
-            var request = await _httpClient.PostAsJsonAsync($"{_apiUrls.Value.ProblemApi}/api/problems/", helpCreateDto); //post an new problem create
+            var request = await _httpClient.PostAsJsonAsync($"{_apiUrls.Value.HelpApi}/api/helps/", helpCreateDto); //post an new problem create
             var response = JsonConvert.DeserializeObject<PostResponseDto<Help.Domain.Help>>(await request.Content.ReadAsStringAsync());
             return response;
         }
 
         public async Task<DeleteResponseDto> DeleteAsync(string helpId)
         {
-            var request = await _httpClient.DeleteAsync($"{_apiUrls.Value.ProblemApi}/api/problems/{helpId}");
+            var request = await _httpClient.DeleteAsync($"{_apiUrls.Value.HelpApi}/api/helps/{helpId}");
             var response = JsonConvert.DeserializeObject<DeleteResponseDto>(await request.Content.ReadAsStringAsync());
             return response;
         }
 
         public async Task<GetResponseDto<DataCollection<Help.Domain.Help>>> GetAsync(int page = 1, int take = 10, string problemId = "", string ownerId = "")
         {
-            var request = await _httpClient.GetAsync($"{_apiUrls.Value.ProblemApi}/api/problems?page={page}&take={take}&problemId={problemId}&ownerId={ownerId}");
+            var request = await _httpClient.GetAsync($"{_apiUrls.Value.HelpApi}/api/helps?page={page}&take={take}&problemId={problemId}&ownerId={ownerId}");
             var response = JsonConvert.DeserializeObject<GetResponseDto<DataCollection<Help.Domain.Help>>>(await request.Content.ReadAsStringAsync());
             return response;
         }
 
         public async Task<GetResponseDto<Help.Domain.Help>> GetByIdAsync(string id)
         {
-            var request = await _httpClient.GetAsync($"{_apiUrls.Value.ProblemApi}/api/problems/{id}");
+            var request = await _httpClient.GetAsync($"{_apiUrls.Value.HelpApi}/api/helps/{id}");
             var response = JsonConvert.DeserializeObject<GetResponseDto<Help.Domain.Help>>(await request.Content.ReadAsStringAsync());
             return response;
         }
 
         public async Task<PostResponseDto<Help.Domain.Help>> UpdateAsync(HelpUpdateDto helpUpdateDto)
         {
-            var request = await _httpClient.PutAsJsonAsync($"{_apiUrls.Value.ProblemApi}/api/problems", helpUpdateDto);
+            var request = await _httpClient.PutAsJsonAsync($"{_apiUrls.Value.HelpApi}/api/helps", helpUpdateDto);
             var response = JsonConvert.DeserializeObject<PostResponseDto<Help.Domain.Help>>(await request.Content.ReadAsStringAsync());
             return response;
         }

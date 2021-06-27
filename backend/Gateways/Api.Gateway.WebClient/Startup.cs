@@ -26,7 +26,7 @@ namespace Api.Gateway.WebClient
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAppsettingBinding(Configuration,ModeTypes.Local).AddProxiesRegistration(Configuration);
+            services.AddAppsettingBinding(Configuration,ModeTypes.Hosted).AddProxiesRegistration(Configuration);
 
             services.AddControllers();
 
@@ -71,6 +71,8 @@ namespace Api.Gateway.WebClient
             });
 
             app.UseRouting();
+
+            app.UseCors("AmigonimoPolicy");
 
             app.UseAuthorization();
 

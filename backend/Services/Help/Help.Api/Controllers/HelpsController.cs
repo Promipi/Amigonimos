@@ -27,8 +27,8 @@ namespace Help.Api.Controllers
         public async Task<ActionResult<GetResponseDto<DataCollection<Domain.Help>>>> Get(int page = 1, int take = 10, string problemId = "", string ownerId = "")
         {
             List<Func<Domain.Help, bool>> filter = new List<Func<Domain.Help, bool>>() { x => x.Id == x.Id };
-            if (problemId != "") filter.Add(x => x.ProblemId == problemId);
-            if (ownerId != "") filter.Add(x => x.OwnerId == ownerId);
+            if (problemId != "" && problemId != null) filter.Add(x => x.ProblemId == problemId);
+            if (ownerId != "" && ownerId != null) filter.Add(x => x.OwnerId == ownerId);
 
             var response = await _repository.GetAsync(filter, page, take);
             if (response.Success) return Ok(response);

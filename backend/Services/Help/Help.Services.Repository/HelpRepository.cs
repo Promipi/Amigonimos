@@ -48,7 +48,7 @@ namespace Help.Services.Repository
             try{
                 var problem = _mapper.Map<Domain.Help>(helpCreateDto);
                 var result = await _context.Helps.AddAsync(problem);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 response.Success = true;
                 response.Message = "Element Craeted";
                 response.ElementCreated = result.Entity;

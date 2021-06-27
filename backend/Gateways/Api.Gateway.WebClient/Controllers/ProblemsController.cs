@@ -24,7 +24,7 @@ namespace Api.Gateway.WebClient.Controllers
             _problemProxy = problemProxy;
         }
         [HttpGet]
-        public async Task<ActionResult<GetResponseDto<DataCollection<Problem.Domain.Problem>>>> Get(int page=1,int take=10,string ownerId="",DateTime creationDate=default)
+        public async Task<ActionResult<GetResponseDto<DataCollection<Problem.Domain.Problem>>>> Get(int page=1,int take=10,string ownerId="", DateTime creationDate=default)
         {
             var response = await _problemProxy.GetAsync(page, take, ownerId,creationDate);
             if (response.Success) return Ok(response);
