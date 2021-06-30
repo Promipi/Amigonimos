@@ -29,7 +29,7 @@ h3{
 
 .post-bar{
     background-color:#69359C;
-    flex-grow: 1;
+    width:100px;
 }
 
 .post-title{
@@ -44,6 +44,7 @@ h3{
 .post-content{
     background-color: #fff;
     padding:15px;
+    word-break: break-word;
 }
 
 .post-date > *{
@@ -68,7 +69,7 @@ h3{
 
 
 .helps-container{
-    max-height: 100px;
+    max-height: 250px;
     background-color:#fff;
     overflow-y:auto;
 

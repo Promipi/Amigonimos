@@ -4,7 +4,7 @@
   width: 100%;
   height: $navbar-height;
   top: 0;
-  background-color: #3F3AAA;
+  background-color: #2980B9;
 }
 
 .nav-bar ul {
@@ -13,14 +13,17 @@
   justify-content: space-between;
   list-style-type: none;
   flex-direction: row;
+  height:100%;
 }
 
 .nav-left,.nav-right{
   display:flex;
+  align-items: center;
+  height:100%;
 }
 
 .nav-link {
-  padding: 20px;
+  padding: 0px 20px;
   cursor: pointer;
   text-align: center;
 

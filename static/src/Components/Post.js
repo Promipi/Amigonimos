@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { format } from "timeago.js";
+import * as timeago from 'timeago.js';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const Post = ({ logged }) => {
   logged = true;
@@ -28,20 +32,26 @@ const Post = ({ logged }) => {
       setHelps(helpsData.content.items);
       setLoaded(true);
     } catch (err) {
-      alert(err.message);
+      MySwal.fire({title:"Error",icon:"error",text:err.message});
     }
   };
 
 
   const handleSubmit = async(e) =>{
-    e.preventDefault();
-    const res = await axios.post("https://amigonimo-web-api.herokuapp.com/api/helps",JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:"Rogelio"}),{
-      headers:{
-        "Content-Type":"application/json"
-      }
-    });
-    const data = res.data;
-    setHelps([...helps,data.elementCreated])
+    try{
+      e.preventDefault();
+      setMessage("");
+      const res = await axios.post("https://amigonimo-web-api.herokuapp.com/api/helps",JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:"Rogelio"}),{
+        headers:{
+          "Content-Type":"application/json"
+        }
+      });
+      const data = res.data;
+      getPostById(id);
+      MySwal.fire({title:"Success",icon:"success"});
+    }catch(err){
+      MySwal.fire({title:"Error",icon:"error",text:err.message});
+    }
   }
 
   useEffect(() => {
@@ -66,7 +76,7 @@ const Post = ({ logged }) => {
                   <p>{post.content}</p>
                 </div>
                 <div className="post-date">
-                  <h5>{format(post.creationDate)}</h5>
+                  <h5>{timeago.format(post.creationDate+"Z")}</h5>
                 </div>
               </div>
               <div className="post-help">
@@ -84,7 +94,7 @@ const Post = ({ logged }) => {
                     </div>
                     <div className="helps-comentario">
                         <p>{help.content}</p>
-                        <h4>{format(help.creationDate)}</h4>
+                        <h4>{timeago.format(help.creationDate+"Z")}</h4>
                     </div>
                   </div>
                 )):
@@ -92,7 +102,7 @@ const Post = ({ logged }) => {
                   <p>No hay comentarios</p>
                 )}
               </div>
-              {logged && (
+              {logged ? (
                 <form className="comment-form">
                   <div className="form-group">
                     <input
@@ -102,14 +112,16 @@ const Post = ({ logged }) => {
                       id="comentario"
                       name="comentario"
                       onChange={e=>setMessage(e.target.value)}
-                    />
+                      autoComplete="off"
+                      value={message}
+                      />
                   </div>
                   <button onClick={handleSubmit}>
-                    <i class="fas fa-paper-plane"></i>
+                    <i className="fas fa-paper-plane"></i>
                   </button>
                 </form>
-              )}
-              {!logged && (
+              ) :
+              (
                 <form className="comment-form">
                   <label>Debes iniciar sesion para ayudar!!!</label>
                   <Link to="/login">Iniciar Sesion</Link>

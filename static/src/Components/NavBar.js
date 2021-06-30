@@ -11,20 +11,23 @@ const NavBar = ({ logged }) => {
       <ul>
         <li className="nav-left">
           <Link to="/" className="nav-link">
-            <i class="fas fa-home"></i>Home
+            <h1>AM</h1>
+          </Link>
+          <Link to="/" className="nav-link" id="home">
+            <i className="fas fa-home"></i>Home
           </Link>
         </li>
         {!logged && (
           <li className="nav-right">
             <Link to="/login" className="nav-link">
-              <i class="fas fa-sign-in-alt"></i>Sign in
+              <i className="fas fa-sign-in-alt"></i>Sign in
             </Link>
           </li>
         )}
         {logged && (
           <li className="nav-right">
             <Link to="#!" onClick={() => Session.logout()} className="nav-link">
-              <i class="fas fa-sign-out-alt"></i>Sign out
+              <i className="fas fa-sign-out-alt"></i>Sign out
             </Link>
           </li>
         )}

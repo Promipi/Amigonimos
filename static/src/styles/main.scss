@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Rubik', sans-serif;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
@@ -33,13 +33,15 @@ p {
   box-shadow: 0 10px 15px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.18);
 }
 
-
+form{
+  width:100%;
+}
 
 form h1 {
   margin: 5px;
 }
 
-input {
+input,textarea{
   display: block;
   padding: 10px;
   background: rgba(0, 0, 0, .05);
@@ -94,6 +96,9 @@ input:focus {
   margin-bottom: 5px;
   
   cursor: pointer;
+  appearance: none;
+  border:none;
+  transition:all .15s;
   &:hover {
     background: $primary-light-color;
   }

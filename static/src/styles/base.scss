@@ -10,3 +10,9 @@ $navbar-height: 4em;
 /* Responsive 16px Font Size*/
 
 $text-size: clamp(16px, 10vw, 20px);
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+
+button{
+    cursor:pointer;
+}

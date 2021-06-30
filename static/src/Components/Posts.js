@@ -3,6 +3,10 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import "../styles/posts.scss";
 import * as timeago from "timeago.js";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const Posts = ({ }) => {
   const [posts, setPosts] = useState([]);
@@ -23,7 +27,7 @@ const Posts = ({ }) => {
         setPages(data.content.pages);
         setLoaded(true);
       }catch(err){
-          alert(err.message)
+          MySwal.fire({title:"Error",text:err.message,icon:"error"});
       }
   };
 
@@ -34,7 +38,7 @@ const Posts = ({ }) => {
   return (
     <div style={{width:"100%"}}>
         <div className="title">
-            <h2><i class="fas fa-angle-right"></i>Publicaciones</h2>
+            <h2><i className="fas fa-angle-right"></i>Publicaciones</h2>
         </div>
       {!loaded && <h3>Cargando...</h3>}
       {loaded &&
@@ -42,9 +46,9 @@ const Posts = ({ }) => {
           <Link to={`/post/${post.id}`} className="post" key={id}>
             <div className="post-bar"></div>
             <div className="post-title">
-              <h3 key={id}><i class="fas fa-angle-right"></i>{post.title}</h3>
+              <h3 key={id}><i className="fas fa-angle-right"></i>{post.title}</h3>
               <div className="post-date">
-                {timeago.format(post.creationDate)}
+                {timeago.format(post.creationDate+"Z")}
               </div>
             </div>
           </Link>

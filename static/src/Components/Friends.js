@@ -5,7 +5,7 @@ const Friends = () =>{
     return(
         <div className="friends-container">
             <div className="title" style={{backgroundColor:"#7C85EF"}}>
-                <h2><i class="fas fa-user-friends"></i>Amigos</h2>
+                <h2><i className="fas fa-user-friends"></i>Amigos</h2>
             </div>
             <div className="friend">
                 <div className="avatar">

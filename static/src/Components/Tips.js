@@ -13,7 +13,7 @@ const Tips = () =>{
                     </div>
                     <div className="likes-tip">
                         <p>10</p>
-                        <i class="fas fa-heart"></i>
+                        <i className="fas fa-heart"></i>
                     </div>
                 </li>
             </ul>

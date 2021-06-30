@@ -34,6 +34,12 @@ const App = () => {
 				<Route path="/post/:id">
 					<Home logged={isLogged} />
 				</Route>
+				<Route exact path="/add">
+					<Home logged={isLogged} />
+				</Route>
+				<Route path="/*">
+					<PageError />
+				</Route>
 			</Switch>
 		</Router>
 	);
