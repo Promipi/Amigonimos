@@ -12,6 +12,6 @@ namespace Common.Responses
 
         public string Message { get; set; }
 
-        public T ElementCreated { get; set; }
+        public T Entity { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace Help.Services.Repository
                 _context.SaveChanges();
                 response.Success = true;
                 response.Message = "Element Craeted";
-                response.ElementCreated = result.Entity;
+                response.Entity = result.Entity;
             }
             catch(Exception ex){
                 response.Message = ex.Message;
@@ -72,7 +72,7 @@ namespace Help.Services.Repository
                 await _context.SaveChangesAsync();
                 response.Success = true;
                 response.Message = "Element Updated";
-                response.ElementCreated = result.Entity;
+                response.Entity = result.Entity;
             }
             catch (Exception ex)
             {
