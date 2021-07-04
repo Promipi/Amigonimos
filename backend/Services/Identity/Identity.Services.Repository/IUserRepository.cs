@@ -25,8 +25,8 @@ namespace Identity.Services.Repository
 
     public partial interface IUserRepository
     {
-        public Task<GetResponseDto<TokenInfo>> Login(LoginDto loginDto);
+        public Task<GetResponseDto<TokenInfo>> LoginAsync(LoginDto loginDto);
 
-        public Task<GetResponseDto<TokenInfo>> CreateUser(UserCreateDto userCreateDto);
+        public Task<GetResponseDto<TokenInfo>> CreateUserAsync(UserCreateDto userCreateDto);
     }
 }

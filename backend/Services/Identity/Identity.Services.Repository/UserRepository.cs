@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Collection;
+using Common.Paging;
 using Common.Responses;
 using Identity.Domain;
 using Identity.Domain.Auth;
@@ -33,7 +34,7 @@ namespace Identity.Services.Repository
             _context = context; _configuration = configuration;
         }
 
-        public async Task<GetResponseDto<TokenInfo>> CreateUser(UserCreateDto userCreateDto)
+        public async Task<GetResponseDto<TokenInfo>> CreateUserAsync(UserCreateDto userCreateDto)
         {
             var response = new GetResponseDto<TokenInfo>();
             var user = _mapper.Map<User>(userCreateDto);
@@ -41,7 +42,7 @@ namespace Identity.Services.Repository
 
             if (result.Succeeded)
             {
-                response.Success = true;
+                response.Success = true; response.Message = "User Created";
                 response.Content = await BuildToken(user); 
             }
             else
@@ -54,7 +55,7 @@ namespace Identity.Services.Repository
             return response;
         }
 
-        public async Task<GetResponseDto<TokenInfo>> Login(LoginDto loginDto)
+        public async Task<GetResponseDto<TokenInfo>> LoginAsync(LoginDto loginDto)
         {
             var response = new GetResponseDto<TokenInfo>();
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
@@ -103,7 +104,23 @@ namespace Identity.Services.Repository
 
         public async Task<GetResponseDto<DataCollection<User>>> GetAsync(List<Func<User, bool>> filter, int page, int take)
         {
-            throw new NotImplementedException();
+            var response = new GetResponseDto<DataCollection<User>>();
+            try
+            {
+                var helps = _context.Users.ToList();
+                filter.ForEach(f => { helps = helps.Where(f).ToList(); });
+                var result = await helps.GetPagedAsync(page, take);
+
+                response.Success = true;
+                response.Message = "Success";
+                response.Content = result;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+
+            return response;
         }
 
         public async Task<GetResponseDto<User>> GetByIdAsync(string id)
@@ -138,11 +155,13 @@ namespace Identity.Services.Repository
         }
 
 
+
+
         private async Task<TokenInfo> BuildToken(User userInfo)
         {
             var claims = new List<Claim> //the claims are created
             {
-                new Claim("user_id",userInfo.Id),
+                new Claim(JwtRegisteredClaimNames.NameId,userInfo.Id),
                 new Claim(JwtRegisteredClaimNames.UniqueName,userInfo.UserName),
             };
 

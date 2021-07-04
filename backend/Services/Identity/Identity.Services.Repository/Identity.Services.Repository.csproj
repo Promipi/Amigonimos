@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common.Collection\Common.Collection.csproj" />
+    <ProjectReference Include="..\..\..\Common\Common.Paging\Common.Paging.csproj" />
     <ProjectReference Include="..\..\..\Common\Common.Responses\Common.Responses.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
     <ProjectReference Include="..\Identity.Persistece.Database\Identity.Persistece.Database.csproj" />
