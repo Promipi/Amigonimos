@@ -1,4 +1,5 @@
-﻿using Common.Collection;
+﻿using Api.Gateway.Proxies.Config;
+using Common.Collection;
 using Common.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -32,14 +33,15 @@ namespace Api.Gateway.Proxies
         private readonly IOptions<ApiUrls> _apiUrls;
         private readonly HttpClient _httpClient;
 
-        public ProblemProxy(HttpClient httpClient, IOptions<ApiUrls> apiUrls)
+        public ProblemProxy(HttpClient httpClient, IOptions<ApiUrls> apiUrls,IHttpContextAccessor httpContextAccessor)
         {
-            _apiUrls = apiUrls; _httpClient = httpClient;
+            _apiUrls = apiUrls; _httpClient = httpClient; _httpClient.AddBearerToken(httpContextAccessor);
         }
 
         public async Task<PostResponseDto<Problem.Domain.Problem>> AddAsync(ProblemCreateDto helpCreateDto)
         {
             var request = await _httpClient.PostAsJsonAsync($"{_apiUrls.Value.ProblemApi}/api/problems/",helpCreateDto); //post an new problem create
+            request.EnsureSuccessStatusCode();
             var response = JsonConvert.DeserializeObject<PostResponseDto<Problem.Domain.Problem>>(await request.Content.ReadAsStringAsync());
             return response;
         }
@@ -47,6 +49,7 @@ namespace Api.Gateway.Proxies
         public async Task<DeleteResponseDto> DeleteAsync(string helpId)
         {
             var request = await _httpClient.DeleteAsync($"{_apiUrls.Value.ProblemApi}/api/problems/{helpId}");
+            request.EnsureSuccessStatusCode();
             var response = JsonConvert.DeserializeObject<DeleteResponseDto>(await request.Content.ReadAsStringAsync());
             return response;
         }
@@ -54,6 +57,7 @@ namespace Api.Gateway.Proxies
         public async Task<GetResponseDto<DataCollection<Problem.Domain.Problem>>> GetAsync(int page = 1, int take = 10, string ownerId = null, DateTime creationDate = default)
         {
             var request = await _httpClient.GetAsync($"{_apiUrls.Value.ProblemApi}/api/problems?page={page}&take={take}&ownerId={ownerId}&creationDate={creationDate}");
+            request.EnsureSuccessStatusCode();
             var response = JsonConvert.DeserializeObject<GetResponseDto<DataCollection<Problem.Domain.Problem>>>(await request.Content.ReadAsStringAsync());
             return response;
         }
@@ -61,6 +65,7 @@ namespace Api.Gateway.Proxies
         public async Task<GetResponseDto<Problem.Domain.Problem>> GetByIdAsync(string id)
         {
             var request = await _httpClient.GetAsync($"{_apiUrls.Value.ProblemApi}/api/problems/{id}");
+            request.EnsureSuccessStatusCode();
             var response = JsonConvert.DeserializeObject<GetResponseDto<Problem.Domain.Problem>>(await request.Content.ReadAsStringAsync());
             return response;
         }
@@ -68,6 +73,7 @@ namespace Api.Gateway.Proxies
         public async Task<PostResponseDto<Problem.Domain.Problem>> UpdateAsync(ProblemUpdateDto helpUpdateDto)
         {
             var request = await _httpClient.PutAsJsonAsync($"{_apiUrls.Value.ProblemApi}/api/problems", helpUpdateDto);
+            request.EnsureSuccessStatusCode();
             var response = JsonConvert.DeserializeObject<PostResponseDto<Problem.Domain.Problem>>(await request.Content.ReadAsStringAsync());
             return response;
         }

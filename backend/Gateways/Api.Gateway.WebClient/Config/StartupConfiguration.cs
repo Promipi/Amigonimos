@@ -20,6 +20,7 @@ namespace Api.Gateway.WebClient.Config
             service.Configure<ApiUrls>(opts => {
                 opts.HelpApi = configuration[$"ApiUrls:{mode}:HelpApi"];
                 opts.ProblemApi = configuration[$"ApiUrls:{mode}:ProblemApi"];
+                opts.IdentityApi = configuration[$"ApiUrls:{mode}:IdentityApi"];
             });    
             return service;
         }
@@ -29,7 +30,8 @@ namespace Api.Gateway.WebClient.Config
             service.AddHttpContextAccessor();
 
             service.AddHttpClient<IProblemProxy, ProblemProxy>();
-            service.AddHttpClient<IHelpProxy, HelpProxy>();
+            service.AddHttpClient<IHelpProxy,HelpProxy>();
+            service.AddHttpClient<IUserProxy,UserProxy>();
 
             return service;
         }

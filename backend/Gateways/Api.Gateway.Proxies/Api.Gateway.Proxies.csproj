@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\Common\Common.Collection\Common.Collection.csproj" />
     <ProjectReference Include="..\..\Common\Common.Responses\Common.Responses.csproj" />
     <ProjectReference Include="..\..\Services\Help\Help.Domain\Help.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\Identity\Identity.Domain\Identity.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Problem\Problem.Domain\Problem.Domain.csproj" />
   </ItemGroup>
 

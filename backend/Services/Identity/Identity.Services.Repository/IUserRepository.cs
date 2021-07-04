@@ -3,7 +3,6 @@ using Common.Responses;
 using Identity.Domain;
 using Identity.Domain.Auth;
 using Identity.Domain.DTOs;
-using Problem.Domain.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
