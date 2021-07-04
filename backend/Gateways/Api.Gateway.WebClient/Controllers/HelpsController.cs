@@ -2,12 +2,15 @@
 using Common.Collection;
 using Common.Responses;
 using Help.Domain.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Api.Gateway.WebClient.Controllers
@@ -44,6 +47,7 @@ namespace Api.Gateway.WebClient.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<PostResponseDto<Help.Domain.Help>>> Create(HelpCreateDto helpCreateDto)
         {
             var response = await _helpProxy.AddAsync(helpCreateDto);
@@ -53,6 +57,7 @@ namespace Api.Gateway.WebClient.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<PostResponseDto<Help.Domain.Help>>> Update(HelpUpdateDto helpUpdateDto)
         {
             var response = await _helpProxy.UpdateAsync(helpUpdateDto);
@@ -62,6 +67,7 @@ namespace Api.Gateway.WebClient.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<DeleteResponseDto>> Update(string id)
         {
             var response = await _helpProxy.DeleteAsync(id);

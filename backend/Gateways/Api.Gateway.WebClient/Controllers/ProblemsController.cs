@@ -1,12 +1,15 @@
 ﻿using Api.Gateway.Proxies;
 using Common.Collection;
 using Common.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Problem.Domain.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Api.Gateway.WebClient.Controllers
@@ -42,6 +45,7 @@ namespace Api.Gateway.WebClient.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<bool>> Create(ProblemCreateDto problemCreateDto)
         {
             var response = await _problemProxy.AddAsync(problemCreateDto);
@@ -51,6 +55,7 @@ namespace Api.Gateway.WebClient.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<bool>> Update(ProblemUpdateDto problemUpdateDto)
         {
             var response = await _problemProxy.UpdateAsync(problemUpdateDto);
@@ -59,6 +64,7 @@ namespace Api.Gateway.WebClient.Controllers
             return BadRequest(response);
         }
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<bool>> Delete(string id)
         {
             var response = await _problemProxy.DeleteAsync(id);

@@ -17,7 +17,6 @@ namespace Help.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [EnableCors("AmigonimoPolicy")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class HelpsController : ControllerBase
     {
         private readonly IHelpRepository _repository;
@@ -50,6 +49,7 @@ namespace Help.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<PostResponseDto<Domain.Help>>> Create(HelpCreateDto helpCreateDto)
         {
             var response = await _repository.AddAsync(helpCreateDto);
@@ -59,6 +59,7 @@ namespace Help.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<PostResponseDto<Domain.Help>>> Update(HelpUpdateDto helpUpdateDto)
         {
             var response = await _repository.UpdateAsync(helpUpdateDto);
@@ -68,6 +69,7 @@ namespace Help.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<DeleteResponseDto> > Update(string id)
         {
             var response = await _repository.DeleteAsync(id);

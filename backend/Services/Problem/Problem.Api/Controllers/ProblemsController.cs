@@ -17,7 +17,6 @@ namespace Problem.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AmigonimoPolicy")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProblemsController : ControllerBase
     {
 
@@ -50,6 +49,7 @@ namespace Problem.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<bool>> Create(ProblemCreateDto problemCreateDto)
         {
             var response = await _repository.AddAsync(problemCreateDto);
@@ -59,6 +59,7 @@ namespace Problem.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<bool>> Update(ProblemUpdateDto problemUpdateDto)
         {
             var response = await _repository.UpdateAsync(problemUpdateDto);
@@ -67,6 +68,7 @@ namespace Problem.Api.Controllers
             return BadRequest(response);
         }
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<bool>> Delete(string id)
         {
             var response = await _repository.DeleteAsync(id);
