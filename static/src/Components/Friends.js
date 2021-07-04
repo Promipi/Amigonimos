@@ -4,7 +4,7 @@ import '../styles/friends.scss';
 const Friends = () =>{
     return(
         <div className="friends-container">
-            <div className="title" style={{backgroundColor:"#7C85EF"}}>
+            <div className="title">
                 <h2><i className="fas fa-user-friends"></i>Amigos</h2>
             </div>
             <div className="friend">

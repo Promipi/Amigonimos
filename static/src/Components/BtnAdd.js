@@ -1,11 +1,11 @@
-import React,{useState} from 'react';
+import React from 'react';
 import '../styles/btn-add.scss';
 import {Link} from 'react-router-dom';
 
-const BtnAdd = ({onClick}) =>{
+const BtnAdd = () =>{
     return(
-        <Link to="/add" className="btn-add" onClick={onClick}>
-            <i className="fas fa-plus"></i>
+        <Link to="/add" className="btn-add btn transparent nav-link">
+            Add Post
         </Link>
     )
 }

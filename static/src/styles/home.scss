@@ -22,6 +22,14 @@ img{
 .container-posts {
   background-color: #ECF0F1;
   position: relative;
+  background-image: url("data:image/svg+xml,%3Csvg width='84' height='48' viewBox='0 0 84 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h12v6H0V0zm28 8h12v6H28V8zm14-8h12v6H42V0zm14 0h12v6H56V0zm0 8h12v6H56V8zM42 8h12v6H42V8zm0 16h12v6H42v-6zm14-8h12v6H56v-6zm14 0h12v6H70v-6zm0-16h12v6H70V0zM28 32h12v6H28v-6zM14 16h12v6H14v-6zM0 24h12v6H0v-6zm0 8h12v6H0v-6zm14 0h12v6H14v-6zm14 8h12v6H28v-6zm-14 0h12v6H14v-6zm28 0h12v6H42v-6zm14-8h12v6H56v-6zm0-8h12v6H56v-6zm14 8h12v6H70v-6zm0 8h12v6H70v-6zM14 24h12v6H14v-6zm14-8h12v6H28v-6zM14 8h12v6H14V8zM0 8h12v6H0V8z' fill='%23ffffff' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+
+  & > div > a.post{
+    transition:all .2s;
+    &:hover{
+      transform:scale(1.08);
+    }
+  }
 
   & .title{
     background:#fff;
@@ -53,7 +61,7 @@ img{
 
 
 .container-other {
-  background-color: #7C85EF;
+  background-color: #ECF0F1;
 
   width: 25%;
   height: 100%;
@@ -73,16 +81,53 @@ img{
 .page-nav{
   text-align: center;
   display:flex;
-  width:70%;
-  margin:0 auto;
+  max-width:70%;
+  margin:0 auto 20px auto;
   justify-content: center;
+  box-shadow: 0 0 3px 1px rgba(56,55,56,.8);
   overflow-x:auto;
-  margin: 0 0 20px 0;
+  border-radius: 30px;
+  background-color: #fff;
 }
 
 .page-link{
-  margin:0 10px;
+  margin:10px;
+  position:relative;
+  text-decoration: none;
+  display:flex;
+  align-items: center;
+  justify-content:center;
+  color:black;
+  width:30px;
+  height:30px;
+  z-index:0;
+  transition:all 0.25s;
+
+  &::before{
+    position:absolute;
+    content:"";
+    background-color:$complement-color;
+    top:50%;
+    left:50%;
+    width:0;
+    height:0;
+    transform:translate(-50%,-50%);
+    border-radius: 50%;
+    transition:all .25s;
+    z-index:-1;
+  }
+
+  &:hover::before{
+    width:35px;
+    height:35px;
+  }
+
+  &:hover{
+    color:white;
+  }
 }
+
+
 
 .page-nav::-webkit-scrollbar{
   width:12px;
@@ -101,6 +146,12 @@ img{
 .tips,.friends-container{
   max-height: 250px;
   overflow-y:auto;
+  box-shadow: 0 3px 5px rgba(0,0,0,.1);
+  margin: 0 0 1px 0;
+
+  & .title{
+    background-color: $white;
+  }
 }
 
 .tips-container{

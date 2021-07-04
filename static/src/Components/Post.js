@@ -4,15 +4,16 @@ import axios from "axios";
 import * as timeago from 'timeago.js';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Loader from './Loader';
 
 const MySwal = withReactContent(Swal)
 
-const Post = ({ logged }) => {
-  logged = true;
+const Post = ({ user }) => {
   const [post, setPost] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [helps, setHelps] = useState(null);
   const [message,setMessage] = useState("");
+  const [isLoading,setLoading] = useState(false);
   const { id } = useParams();
 
   const getPostById = async (id) => {
@@ -40,15 +41,19 @@ const Post = ({ logged }) => {
   const handleSubmit = async(e) =>{
     try{
       e.preventDefault();
-      setMessage("");
+      if(message.trim()==="") return MySwal.fire("Alert","No puedes comentar un menaje en blanco.","info");
+      setLoading(true);
       const res = await axios.post("https://amigonimo-web-api.herokuapp.com/api/helps",JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:"Rogelio"}),{
         headers:{
           "Content-Type":"application/json"
         }
       });
       const data = res.data;
-      getPostById(id);
-      MySwal.fire({title:"Success",icon:"success"});
+      setMessage("");
+      MySwal.fire({title:"Success",icon:"success"}).then(()=>{
+        setLoading(false);
+        setHelps([...helps,data.elementCreated])
+      });
     }catch(err){
       MySwal.fire({title:"Error",icon:"error",text:err.message});
     }
@@ -59,10 +64,10 @@ const Post = ({ logged }) => {
   }, []);
 
   return (
-    <div style={{ width: "100%" }}>
-      {!loaded && <h2>Cargando...</h2>}
+    <div style={{ width: "100%",height:"100%" }}>
+      {!loaded && <Loader />}
       {loaded && (
-        <div>
+        <div style={{height: "100%"}}>
           <div className="title">
             <h2>
               <i className="fas fa-angle-right"></i>
@@ -102,7 +107,7 @@ const Post = ({ logged }) => {
                   <p>No hay comentarios</p>
                 )}
               </div>
-              {logged ? (
+              {user ? (
                 <form className="comment-form">
                   <div className="form-group">
                     <input
@@ -116,15 +121,20 @@ const Post = ({ logged }) => {
                       value={message}
                       />
                   </div>
-                  <button onClick={handleSubmit}>
-                    <i className="fas fa-paper-plane"></i>
-                  </button>
+                  {
+                    !isLoading ? (
+                      <button onClick={handleSubmit}>
+                        <i className="fas fa-paper-plane"></i>
+                      </button>
+                    ) :
+                    <i className="fas fa-spinner spin"></i>
+                  }
                 </form>
               ) :
               (
                 <form className="comment-form">
                   <label>Debes iniciar sesion para ayudar!!!</label>
-                  <Link to="/login">Iniciar Sesion</Link>
+                  <Link to={`/login?redirect=${window.location.href}`}>Iniciar Sesion</Link>
                 </form>
               )}
             </div>

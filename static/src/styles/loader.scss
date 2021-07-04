@@ -1,0 +1,11 @@
+.loader{
+    display:flex;
+    justify-content:center;
+    flex-direction: column;
+    align-items: center;
+    height:80%;
+
+    & i{
+        font-size:52px;
+    }
+}

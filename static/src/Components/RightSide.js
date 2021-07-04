@@ -19,7 +19,6 @@ const RightSide = ({logged}) =>{
                 logged && (
                     <div style={{width:"100%",height:"100%"}}>
                         <Friends />
-                        <hr></hr>
                         <Tips />
                         <Footer id="footer"/>
                     </div>

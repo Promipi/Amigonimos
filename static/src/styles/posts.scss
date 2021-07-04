@@ -1,3 +1,5 @@
+@import 'base';
+
 .title{
     box-shadow: 0 3px 5px rgba(0,0,0,.1);
     padding: 20px;
@@ -6,7 +8,8 @@
     top:0;
 
     & i{
-        margin:0 10px 0 0
+        margin:0 10px 0 0;
+        font-size: smaller;
     }
 }
 
@@ -25,11 +28,13 @@ h3{
 
 .post.help{
     flex-direction: column;
+    max-height:78%;
 }
 
 .post-bar{
-    background-color:#69359C;
+    background-color:$complement-color;
     width:100px;
+    min-width:100px;
 }
 
 .post-title{
@@ -45,6 +50,12 @@ h3{
     background-color: #fff;
     padding:15px;
     word-break: break-word;
+}
+
+.post-body{
+    & p{
+        font-size: clamp(18px,2.5vw,22px);
+    }
 }
 
 .post-date > *{
@@ -64,12 +75,13 @@ h3{
 
 .post-help > *{
     text-align:left !important;
-    font-size: clamp(22px,20vw,32px)
+    font-size: clamp(22px,2.5vw,32px);
+    font-weight: 500;
 }
 
 
 .helps-container{
-    max-height: 250px;
+    max-height: 100%;
     background-color:#fff;
     overflow-y:auto;
 
@@ -94,10 +106,16 @@ h3{
     display:flex;
     padding:10px;
     justify-content: center;
+    align-items:center;
 
     & .form-group{
         width:80%;
         margin: 0 10px;
+
+        & input{
+            height:36px;
+            font-size:18px !important;
+        }
     }
 
     & .form-group .form-control{
@@ -113,6 +131,16 @@ h3{
         width:36px;
         height:36px;
         background:none;
+        background-color:rgba(0,0,0,.05);
+        border-radius: 6px;
+        display:flex;
+        align-items: center;
+        justify-content:center;
+        transition: all .5s;
+
+        &:hover{
+            background-color:rgba(0,0,0,.15)
+        }
     }
 }
 
@@ -129,6 +157,12 @@ h3{
         & img{
             border-radius:50%;
             margin:0 20px 0 0;
+        }
+    }
+
+    & .helps-comentario{
+        & h4{
+            font-size: clamp(14px,2.5vw,16px)
         }
     }
 }

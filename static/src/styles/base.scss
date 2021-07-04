@@ -1,7 +1,11 @@
 /* Base Colors */
 
-$primary-color: #69359C;
-$primary-light-color: #8B72BE;
+$primary-color: #114358;
+$primary-light-color: #5dbee4;
+$complement-color: #F2AA1F;
+$secondary-color: #F1ECE2;
+$black:#090909;
+$white:#fff;
 
 /* Navbar Config */
 
@@ -9,7 +13,7 @@ $navbar-height: 4em;
 
 /* Responsive 16px Font Size*/
 
-$text-size: clamp(16px, 10vw, 20px);
+$text-size: clamp(16px,2.5vw,18px);
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 

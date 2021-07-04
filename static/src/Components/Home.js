@@ -1,29 +1,20 @@
-import React,{useEffect,useState} from 'react';
+import React,{useContext} from 'react';
 import NavBar from "./NavBar";
 import "../styles/home.scss";
-import { Link, Switch, Route} from "react-router-dom";
+import { Switch, Route} from "react-router-dom";
 import Posts from "./Posts";
 import Post from './Post';
 import RightSide from './RightSide';
 import Footer from './Footer';
-import BtnAdd from './BtnAdd';
-import Modal from './Modal';
 import FormAdd from './FormAdd';
+import {UserContext} from '../Context/UserContext'
 
-const Home = ({logged}) => {
-  const [show,setShow] = useState(false);
-
-  const handleClick = () =>{
-    setShow(true);
-  }
-
-  const handleClose = () =>{
-    setShow(false);
-  }
+const Home = () => {
+  const {user} = useContext(UserContext);
 
   return (
     <div>
-      <NavBar logged={logged} />
+      <NavBar user={user} />
       <div className="container-main">
         <div className="container-posts">
           <Switch>
@@ -31,18 +22,17 @@ const Home = ({logged}) => {
               <Posts/>
             </Route>
             <Route path="/post/:id">
-              <Post logged={logged}/>
+              <Post user={user}/>
             </Route>
             <Route path="/page/:page">
               <Posts/>
             </Route>
             <Route path="/add">
-              <FormAdd />
+              <FormAdd user={user}/>
             </Route>
           </Switch>
-          <BtnAdd onClick={handleClick}/>
         </div>
-        <RightSide logged={logged}/>
+        <RightSide user={user}/>
       </div>
       <Footer />
     </div>

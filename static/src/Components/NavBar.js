@@ -1,11 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-import * as Session from "../Utils/Session";
+import { Link, useHistory } from "react-router-dom";
+import BtnAdd from "./BtnAdd";
 
 import "../styles/navbar.scss";
 
-const NavBar = ({ logged }) => {
+const NavBar = ({ user }) => {
+  const history = useHistory();
+  console.log(user);
+  
   return (
     <div className="nav-bar">
       <ul>
@@ -17,17 +19,21 @@ const NavBar = ({ logged }) => {
             <i className="fas fa-home"></i>Home
           </Link>
         </li>
-        {!logged && (
+        {!user && (
           <li className="nav-right">
-            <Link to="/login" className="nav-link">
-              <i className="fas fa-sign-in-alt"></i>Sign in
+            <Link to="/login" className="nav-link btn transparent">
+              Sign in
+            </Link>
+            <Link className="nav-link" to="/register" className="nav-link btn">
+              Register
             </Link>
           </li>
         )}
-        {logged && (
+        {user && (
           <li className="nav-right">
-            <Link to="#!" onClick={() => Session.logout()} className="nav-link">
-              <i className="fas fa-sign-out-alt"></i>Sign out
+            <BtnAdd />
+            <Link onClick={() => {history.replace('/');}} className="nav-link btn">
+              Sign out
             </Link>
           </li>
         )}

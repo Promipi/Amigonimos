@@ -5,6 +5,7 @@ import "../styles/posts.scss";
 import * as timeago from "timeago.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Loader from './Loader'
 
 const MySwal = withReactContent(Swal)
 
@@ -36,11 +37,11 @@ const Posts = ({ }) => {
   }, [page]);
 
   return (
-    <div style={{width:"100%"}}>
+    <div style={{width:"100%",height:"100%"}}>
         <div className="title">
             <h2><i className="fas fa-angle-right"></i>Publicaciones</h2>
         </div>
-      {!loaded && <h3>Cargando...</h3>}
+      {!loaded && <Loader />}
       {loaded &&
         posts.map((post, id) => (
           <Link to={`/post/${post.id}`} className="post" key={id}>
