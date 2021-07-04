@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Problem.Api.Mapper;
 using Problem.Persistance.Database;
@@ -15,6 +17,7 @@ using Problem.Services.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Problem.Api
@@ -49,6 +52,21 @@ namespace Problem.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Problem.Api", Version = "v1" });
             });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+            AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(Configuration["api_key"])),
+                };
+            });
+
+            services.AddAuthorization();
+
             services.AddSingleton(new MapperConfiguration(m => m.AddProfile(new MappingProfile())).CreateMapper());
 
             services.AddTransient<IProblemRepository, ProblemRepository>();
@@ -68,6 +86,8 @@ namespace Problem.Api
             app.UseRouting();
 
             app.UseCors("MyPolicy");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

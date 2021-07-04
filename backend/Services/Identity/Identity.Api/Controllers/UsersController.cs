@@ -5,6 +5,7 @@ using Identity.Domain.DTOs;
 using Identity.Services.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Problem.Domain.Auth;
 using System;
@@ -16,6 +17,7 @@ namespace Identity.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("AmigonimoPolicy")]
     public class UsersController : ControllerBase
     {
         private IUserRepository _userRepository;

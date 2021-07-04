@@ -1,4 +1,6 @@
 ﻿using Common.Collection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +9,7 @@ using Problem.Services.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Problem.Api.Controllers
@@ -14,6 +17,7 @@ namespace Problem.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AmigonimoPolicy")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProblemsController : ControllerBase
     {
 

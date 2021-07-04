@@ -74,6 +74,8 @@ namespace Identity.Api
                 };
             });
 
+            services.AddAuthorization();
+
             services.AddSingleton(new MapperConfiguration(m => {
                 m.AddProfile(new MapperProfile());
             }).CreateMapper());
@@ -93,6 +95,10 @@ namespace Identity.Api
             }
 
             app.UseRouting();
+
+            app.UseCors();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
