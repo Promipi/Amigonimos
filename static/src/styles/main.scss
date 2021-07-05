@@ -43,6 +43,8 @@ p {
   border-radius: 4px;
   font-weight: 500;
   transition:all .25s;
+  color: $white;
+  
   &:after {
     content: "";
     display: none;

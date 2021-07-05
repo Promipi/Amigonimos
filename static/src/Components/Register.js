@@ -1,9 +1,8 @@
 import React,{useState,useContext} from 'react';
 import LogoComponent from './LogoContainer';
-import {Link, useHistory,useLocation} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import '../styles/login.scss';
-import {useUser} from '../Hooks/useUser';
-
+import queryString from 'query-string'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { UserContext } from '../Context/UserContext';
@@ -11,34 +10,41 @@ import { UserContext } from '../Context/UserContext';
 const MySwal = withReactContent(Swal)
 
 const Register = () =>{
+    const redirectUrl = queryString.parse(useLocation().search).redirect;
+    const {user,Register} = useContext(UserContext);
+    const [username,setUsername] = useState("");
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState("");
 
-    const {Register} = useUser().funciones;
-    const redirectUrl = queryString.parse(useLocation().search).redirect
-    const history = useHistory()
-    const {user} = useContext(UserContext);
-
-    if(user) MySwal.fire("Alert","You have already logged in","info").then(()=>history.replace(redirectUrl ? redirectUrl : "/"))
+    if(user) MySwal.fire("Alert","You have already logged in","info").then(()=>window.location.replace(redirectUrl ? redirectUrl : "/"))
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
-        await Register()
+        if(username === "") return MySwal.fire("Alert","You cant have an username empty!","info");
+        if(email === "") return MySwal.fire("Alert","You cant have an email empty!","info");
+        if(password === "") return MySwal.fire("Alert","You cant have an password empty!","info");
+        await Register(username,email,password,redirectUrl);
+        setUsername("");
+        setEmail("");
+        setPassword("");
     }
 
     return(
         <div className="container">
             <LogoComponent />
             <form className="form-register" onSubmit={handleSubmit}>
+                <h2>Register</h2>
                 <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Username: " autoComplete="off"/>
+                    <input type="text" placeholder="Username: " autoComplete="off" value={username} onChange={e=>setUsername(e.target.value)}/>
                     <div className="bar" />
                 </div>
                 <div className="form-group" id="form_group">
                     <div>
-                        <input type="email" className="form-control" placeholder="E-mail: " autoComplete="off"/>
+                        <input type="email" placeholder="E-mail: " autoComplete="off" onChange={e=>setEmail(e.target.value)}/>
                         <div className="bar" />
                     </div>
                     <div>
-                        <input type="password" className="form-control" placeholder="Password" autoComplete="off" />
+                        <input type="password" placeholder="Password" autoComplete="off" onChange={e=>setPassword(e.target.value)}/>
                         <div className="bar" />
                     </div>
                 </div>

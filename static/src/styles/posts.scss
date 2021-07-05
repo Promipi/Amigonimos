@@ -6,6 +6,7 @@
     width:100%;
     position:sticky;
     top:0;
+    font-size: clamp(16px,2.5vw,18px);
 
     & i{
         margin:0 10px 0 0;
@@ -101,12 +102,19 @@ h3{
 }
 
 .comment-form{
-    max-height:80px;
     background-color: #fff;
     display:flex;
     padding:10px;
     justify-content: center;
     align-items:center;
+
+    &.not-login{
+        flex-direction: column;
+
+        & > *{
+            margin:10px 0;
+        }
+    }
 
     & .form-group{
         width:80%;

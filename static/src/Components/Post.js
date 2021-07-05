@@ -78,6 +78,7 @@ const Post = ({ user }) => {
             <div className="post help" key={i}>
               <div className="post-content">
                 <div className="post-body">
+                  <h4>Description:</h4>
                   <p>{post.content}</p>
                 </div>
                 <div className="post-date">
@@ -132,9 +133,9 @@ const Post = ({ user }) => {
                 </form>
               ) :
               (
-                <form className="comment-form">
+                <form className="comment-form not-login">
                   <label>Debes iniciar sesion para ayudar!!!</label>
-                  <Link to={`/login?redirect=${window.location.href}`}>Iniciar Sesion</Link>
+                  <Link to={`/login?redirect=${window.location.href}`} className="btn">Iniciar Sesion</Link>
                 </form>
               )}
             </div>
