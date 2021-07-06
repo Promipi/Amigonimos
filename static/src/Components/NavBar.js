@@ -6,7 +6,6 @@ import "../styles/navbar.scss";
 
 const NavBar = ({ user }) => {
   const history = useHistory();
-  console.log(user);
   
   return (
     <div className="nav-bar">
@@ -32,8 +31,8 @@ const NavBar = ({ user }) => {
         {user && (
           <li className="nav-right">
             <BtnAdd />
-            <Link onClick={() => {history.replace('/');}} className="nav-link btn">
-              Sign out
+            <Link to="/profile" className="nav-link btn">
+              Profile
             </Link>
           </li>
         )}

@@ -7,6 +7,7 @@ import Post from './Post';
 import RightSide from './RightSide';
 import Footer from './Footer';
 import FormAdd from './FormAdd';
+import Profile from './Profile';
 import {UserContext} from '../Context/UserContext'
 
 const Home = () => {
@@ -29,6 +30,9 @@ const Home = () => {
             </Route>
             <Route path="/add">
               <FormAdd user={user}/>
+            </Route>
+            <Route path="/profile">
+              <Profile user={user} />
             </Route>
           </Switch>
         </div>

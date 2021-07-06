@@ -22,9 +22,10 @@ const Login = () => {
     e.preventDefault();
     if(emailOrUsername === "") return MySwal.fire("Alert","You cant have an Email or Username empty!","info");
     if(password === "") return MySwal.fire("Alert","You cant have an password empty!","info");
-    await Login(emailOrUsername,password,redirectUrl);
-    setEmailOrUsername("");
-    setPassword("");
+    await Login(emailOrUsername,password,redirectUrl,()=>{
+      setEmailOrUsername("");
+      setPassword("");
+    });
   }
 
   return (

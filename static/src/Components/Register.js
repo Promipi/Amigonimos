@@ -20,13 +20,15 @@ const Register = () =>{
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        const cb = () => {
+            setUsername("");
+            setEmail("");
+            setPassword("");
+        }
         if(username === "") return MySwal.fire("Alert","You cant have an username empty!","info");
         if(email === "") return MySwal.fire("Alert","You cant have an email empty!","info");
         if(password === "") return MySwal.fire("Alert","You cant have an password empty!","info");
-        await Register(username,email,password,redirectUrl);
-        setUsername("");
-        setEmail("");
-        setPassword("");
+        await Register(username,email,password,redirectUrl,cb);
     }
 
     return(
@@ -40,11 +42,11 @@ const Register = () =>{
                 </div>
                 <div className="form-group" id="form_group">
                     <div>
-                        <input type="email" placeholder="E-mail: " autoComplete="off" onChange={e=>setEmail(e.target.value)}/>
+                        <input type="email" placeholder="E-mail: " autoComplete="off" value={email} onChange={e=>setEmail(e.target.value)}/>
                         <div className="bar" />
                     </div>
                     <div>
-                        <input type="password" placeholder="Password" autoComplete="off" onChange={e=>setPassword(e.target.value)}/>
+                        <input type="password" placeholder="Password" autoComplete="off" value={password} onChange={e=>setPassword(e.target.value)}/>
                         <div className="bar" />
                     </div>
                 </div>

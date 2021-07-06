@@ -1,0 +1,41 @@
+.profile-container{
+    width:100%;
+
+    & .profile{
+        background-color:#fff;
+        margin:40px;
+        padding:20px;
+
+        & .logOut{
+            margin:0 0 20px 0;
+            display:flex;
+            justify-content:flex-end;
+        }
+
+        & .profile-data{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap: wrap;
+
+            & .avatar{
+                width:clamp(240px,2.5vw,300px);
+                height:clamp(240px,2.5vw,300px);
+                display:flex;
+                align-items: center;
+            
+                & img{
+                    border-radius:50%;
+                    margin:0 20px 0 0;
+                    border:solid 1px black;
+                }
+            }
+            
+            @media screen and (max-width:560px){
+                &{
+                    justify-content:center;
+                }
+            }
+        }
+    }
+}

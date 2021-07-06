@@ -10,7 +10,10 @@ module.exports = {
     entry: [
         path.join(__dirname, "./src/index.js"),
         path.join(__dirname, "./src/styles/main.scss")
-    ],
+    ], 
+    resolve: {
+        extensions:[".ts",".js"]
+    },
     output: {
         path: path.join(__dirname, "../public"),
         filename: "bundle.js",
@@ -27,6 +30,10 @@ module.exports = {
                 use: {
                     loader: "babel-loader"
                 }
+            },
+            {
+                test:/\.ts/,
+                use:["ts-loader"]
             },
             {
                 test: /\.css$/,

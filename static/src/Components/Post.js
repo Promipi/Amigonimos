@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import * as timeago from 'timeago.js';
 import Swal from 'sweetalert2'
+import {UserContext} from '../Context/UserContext';
 import withReactContent from 'sweetalert2-react-content'
 import Loader from './Loader';
 
@@ -14,6 +15,7 @@ const Post = ({ user }) => {
   const [helps, setHelps] = useState(null);
   const [message,setMessage] = useState("");
   const [isLoading,setLoading] = useState(false);
+  const {token} = useContext(UserContext);
   const { id } = useParams();
 
   const getPostById = async (id) => {
@@ -43,16 +45,17 @@ const Post = ({ user }) => {
       e.preventDefault();
       if(message.trim()==="") return MySwal.fire("Alert","No puedes comentar un menaje en blanco.","info");
       setLoading(true);
-      const res = await axios.post("https://amigonimo-web-api.herokuapp.com/api/helps",JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:"Rogelio"}),{
+      const res = await axios.post("https://amigonimo-web-api.herokuapp.com/api/helps",JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:user.nameid,ownerUsername:user.unique_name}),{
         headers:{
-          "Content-Type":"application/json"
-        }
+          "Content-Type":"application/json",
+          "Authorization" : `Bearer ${token}`
+        },
       });
       const data = res.data;
       setMessage("");
       MySwal.fire({title:"Success",icon:"success"}).then(()=>{
         setLoading(false);
-        setHelps([...helps,data.elementCreated])
+        setHelps([...helps,data.entity])
       });
     }catch(err){
       MySwal.fire({title:"Error",icon:"error",text:err.message});
@@ -96,7 +99,7 @@ const Post = ({ user }) => {
                         src="https://pbs.twimg.com/profile_images/1185798852/anonimo2_400x400.jpg"
                         alt="no"
                       />
-                      <h4>{help.ownerId}</h4>
+                      <Link  to={"/profile/"+help.ownerId}><h4>{help.ownerUsername}</h4></Link>
                     </div>
                     <div className="helps-comentario">
                         <p>{help.content}</p>
