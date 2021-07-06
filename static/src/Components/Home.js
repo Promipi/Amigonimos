@@ -31,8 +31,11 @@ const Home = () => {
             <Route path="/add">
               <FormAdd user={user}/>
             </Route>
-            <Route path="/profile">
+            <Route exact path="/profile">
               <Profile user={user} />
+            </Route>
+            <Route exact path="/profile/:id">
+              <Profile user={user}/>
             </Route>
           </Switch>
         </div>

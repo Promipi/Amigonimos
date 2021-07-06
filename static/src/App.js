@@ -21,6 +21,7 @@ const App = () => {
 					<Route path="/page/:page" component={Home}/>
 					<Route path="/post/:id" component={Home}/>
 					<Route exact path="/add" component={Home}/>
+					<Route exact path="/profile/:id" component={Home}/>
 					<Route path="/register" component={Register} />
 					<Route path="/*" component={PageError}/>
 				</Switch>

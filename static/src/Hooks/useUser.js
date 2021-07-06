@@ -17,8 +17,10 @@ export const useUser = () =>{
         try{
             let objSend = {};
             const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-            if(emailRegex.test(user))
+            if(emailRegex.test(user.trim())){
+                user = user.trim();
                 objSend = JSON.stringify({email:user.trim(),password:password,username:""});
+            }
             else{
                 objSend = JSON.stringify({username:user,password:password,email:""});
                 return MySwal.fire({title:"Login Failed",text:"Only login by email per moment",icon:"info"})
@@ -56,6 +58,9 @@ export const useUser = () =>{
             }
             if(!/[a-z]/.test(password)){
                 throw new Error("Passwords must have at least one lowercase ('a'-'z')");
+            }
+            if(!/[0-9]/.test(password)){
+                throw new Error("Passwords must have at least one number ('0'-'9')");
             }
             const response = await axios.post("https://identity-web-service.herokuapp.com/api/Users/SignUp",JSON.stringify({email: email,password: password,username: username,publicProblems:false,publicHelps:true,publicTips:true}),{
                 headers:{
