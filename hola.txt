@@ -1,1 +1,41 @@
-hola
+{
+    "Message": "The all Tips",
+    "Sucess": true,
+    "Tips": [
+        {
+            "Id": "4b3138cd-8a82-482d-9bef-be79dea834f6",
+            "OwnerId": "613ec81d-33e3-40e0-9806-8aae18b4c53d",
+            "Title": "Primera Prueba tip",
+            "Content": "pruba contenido",
+            "CreationDate": "2021-07-18"
+        },
+        {
+            "Id": "22d07b80-5a35-4c46-9422-0b5e218c0c63",
+            "OwnerId": "58294203-4069-41f1-8c08-a2c8a1791a8c",
+            "Title": "Segunda Prueba tip",
+            "Content": "pruba contenido",
+            "CreationDate": "2021-07-18"
+        },
+        {
+            "Id": "d2057542-889a-463b-906f-87babc44d089",
+            "OwnerId": "3151148b-20a2-44fc-ad39-20e589e78aa9",
+            "Title": "Tercera Prueba tip",
+            "Content": "pruba contenido",
+            "CreationDate": "2021-07-18"
+        },
+        {
+            "Id": "f191c0f7-7626-4106-8e3b-51aff5a5aa65",
+            "OwnerId": "613ec81d-33e3-40e0-9806-8aae18b4c53d",
+            "Title": "Tercera Prueba tip",
+            "Content": "pruba contenido",
+            "CreationDate": "2021-07-18"
+        },
+        {
+            "Id": "2fd519d4-cf01-405d-af4a-eda00886c9ca",
+            "OwnerId": "613ec81d-33e3-40e0-9806-8aae18b4c53d",
+            "Title": "Cuarta Prueba tip",
+            "Content": "pruba contenido",
+            "CreationDate": "2021-07-18"
+        }
+    ]
+}

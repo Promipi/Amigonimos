@@ -1,9 +1,11 @@
+import json
 class QuerysFlask():
-	import json
 	def __init__(self, query):
 		self.query = query.decode("utf-8")
 
 	def QueryDics(self):
+		if self.query == "":
+			return None
 		QueryStr = self.query.split("%22")
 		Dics = []
 		num = 0
@@ -17,6 +19,8 @@ class QuerysFlask():
 		return {"Querys" : Dics}
 
 	def QueryJson(self):
+		if self.query == "":
+			return None
 		QueryStr = self.query.split("%22")
 		Dics = []
 		num = 0

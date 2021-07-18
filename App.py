@@ -50,10 +50,15 @@ def DeleteTipsByIdUser(IdUser):
 
 
 
-#Funcion para mostrar todas los Tips
+#Funcion para mostrar todas los Tips o muestra todos los tips de una ultima semana
+#o de un ultimo mes
 @app.route("/api/Tips", methods = ['GET'])
 def ShowAllTips():
 	cursor = DataBaseConnection.cursor()
+	QueryObject = QuerysFlask(request.query_string)
+	ListQuery = QueryObject.QueryDics()
+	if ListQuery == None:
+		pass
 	cursor.execute("SELECT * FROM Tips;")
 	Tips = []
 	for row in list(cursor):
@@ -66,13 +71,21 @@ def ShowAllTips():
 
 
 
-#Funcion para mostrar un solo tip
+#Funcion para mostrar un solo tip o muetra los tips de todos los usuarios
 @app.route("/api/Tips/<Id>", methods = ['GET'])
-def ShowOneTip(Id):
+def ShowTipOrUserTips(Id):
 	cursor = DataBaseConnection.cursor()
 	QueryObject = QuerysFlask(request.query_string)
 	ListQuery = QueryObject.QueryDics()
-	if ListQuery[0]["TipOrUser"] == "User":
+	if ListQuery == None or ListQuery[0]["Type"] == "Tip":
+		cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
+		TipShow = list(list(cursor)[0])
+		if not TipShow:
+			return json.dumps({"Message" : "That tip does not exist", "Sucess" : False, }, indent=4)
+		TipDic = {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2]}
+		return json.dumps({"Message" : "One Tip", "Sucess" : True, "Tip" : TipDic}, indent=4)
+
+	elif ListQuery[0]["Type"] == "User":
 		cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
 		Tips = []
 		for row in list(cursor):
@@ -83,13 +96,6 @@ def ShowOneTip(Id):
 			return json.dumps({"Message" : f"The user by id = {Id} does not has Tips", "Succes" : False}, indent=4)
 		return json.dumps({"Message" : f"The all Tips from a user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
 
-	else:
-		cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
-		TipShow = list(list(cursor)[0])
-		if not TipShow:
-			return json.dumps({"Message" : "That tip does not exist", "Sucess" : False, }, indent=4)
-		TipDic = {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2]}
-		return json.dumps({"Message" : "One Tip", "Sucess" : True, "Tip" : TipDic}, indent=4)
 
 
 
