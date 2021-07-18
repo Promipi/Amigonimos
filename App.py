@@ -73,10 +73,13 @@ def ShowTipsWeekAgo():
 			DicTip = {"Id" : RowList[0], "OwnerId" : RowList[1], "Title" : RowList[2], "Content" : RowList[3], "CreationDate" : RowList[4]}
 			Tips.append(DicTip)
 
-	return json.dumps({"Message" : "Tips from a week ago", "Sucess" : True, "Days" : Tips})
+	return json.dumps({"Message" : "Tips from a week ago", "Sucess" : True, "Tips" : Tips})
 
 
-
+#Funcion para mostrar los tips de hace un mes 
+@app.route("/ShowTipsMonthAgo", methods = ['GET'])
+def ShowTipsMonthAgo():
+	return json.dumps({"Message" : "Tips from a month ago", "Sucess" : True, "Tips" : {}}, indent=4 )
 
 #Funcion para agregar un tip 
 @app.route("/AddTip", methods = ['POST'])
