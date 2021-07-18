@@ -1,13 +1,13 @@
 import React,{useContext} from 'react';
-import NavBar from "./NavBar";
+import NavBar from "../Components/NavBar";
 import "../styles/home.scss";
 import { Switch, Route} from "react-router-dom";
-import Posts from "./Posts";
-import Post from './Post';
-import RightSide from './RightSide';
-import Footer from './Footer';
+import Posts from "../Components/Posts";
+import Post from '../Components/Post';
+import RightSide from '../Components/RightSide';
+import Footer from '../Components/Footer';
 import FormAdd from './FormAdd';
-import Profile from './Profile';
+import Profile from '../Components/Profile';
 import {UserContext} from '../Context/UserContext'
 
 const Home = () => {

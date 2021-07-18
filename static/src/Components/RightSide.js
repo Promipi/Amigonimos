@@ -4,11 +4,18 @@ import Friends from './Friends';
 import Footer from './Footer';
 
 const RightSide = ({logged}) =>{
-    logged = true;
+    let work = true;
     return(
         <div className="container-other">
             {
-                !logged && (
+                work && (
+                    <div style={{width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                        <h2>Work In Progress</h2>
+                    </div>
+                )
+            }
+            {
+                !logged && !work &&(
                     <div style={{width:"100%",height:"100%"}}>
                         <Tips />
                         <Footer id="footer"/>
@@ -16,7 +23,7 @@ const RightSide = ({logged}) =>{
                 )
             }
             {
-                logged && (
+                logged && !work &&(
                     <div style={{width:"100%",height:"100%"}}>
                         <Friends />
                         <Tips />

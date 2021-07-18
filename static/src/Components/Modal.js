@@ -3,7 +3,7 @@ import '../styles/modal.scss';
 
 const Modal = ({show,onClose,children,title}) =>{
     return(
-        <div className="modal" onClick={onClose} style={{display:show?"flex":"none"}}>
+        <div className={`modal ${show ? "show" : ""}`} onClick={onClose}>
             <div className="modal-content" onClick={e=>e.stopPropagation()}>
                 <div className="modal-header">
                     <h3>{title}</h3>

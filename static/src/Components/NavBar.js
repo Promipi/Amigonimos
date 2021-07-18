@@ -11,9 +11,6 @@ const NavBar = ({ user }) => {
     <div className="nav-bar">
       <ul>
         <li className="nav-left">
-          <Link to="/" className="nav-link">
-            <h1>AM</h1>
-          </Link>
           <Link to="/" className="nav-link" id="home">
             <i className="fas fa-home"></i>Home
           </Link>

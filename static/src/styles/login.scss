@@ -21,7 +21,7 @@
         flex-direction: column;
 
         & h1{
-            font-size:clamp(65px, 2.5vw, 80px)
+            font-size:clamp(55px, 2.5vw, 75px)
         }
 
         & h2{
@@ -80,4 +80,9 @@
 
     }
 
+}
+
+.validation-message{
+    font-size: clamp(14px,2.5vw,18px);
+    color:rgb(212, 0, 0);
 }

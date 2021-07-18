@@ -1,10 +1,10 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import "babel-polyfill"
-import Home from './Components/Home';
-import Login from './Components/Login';
-import PageError from './Components/Error';
-import Register from './Components/Register';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import PageError from './Pages/Error';
+import Register from './Pages/Register';
 import UserContext from './Context/UserContext';
 
 import './styles/main.scss';

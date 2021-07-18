@@ -1,51 +1,74 @@
+@import 'base.scss';
+
 .profile-container{
     width:100%;
 
-    & .profile{
-        background-color:#fff;
-        margin:40px;
-        padding:20px;
+    & .profile-data{
+        margin:20px;
+        background-color: #fff;
+        border-radius:10px;
+        & .profile-avatar{
+            position: relative;
+            padding:20px;
+            z-index:0;
+    
+            &::after{
+                position: absolute;
+                content:"";
+                top: 0;
+                bottom: 50px;
+                left: 0;
+                right: 0;
+                background-color: $complement-color;
+                z-index: -1;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
 
-        h2{
-            font-size:clamp(32px,2.5vw,48px)
-        }
-
-        & .logOut{
-            margin:0 0 20px 0;
-            display:flex;
-            justify-content:flex-end;
-        }
-
-        & .profile-data{
-            display:flex;
-            justify-content:space-around;
-            align-items:center;
-            flex-wrap: wrap;
-
-            & .avatar{
-                width:clamp(240px,2.5vw,300px);
-                height:clamp(240px,2.5vw,300px);
+            & .profile-settings{
                 display:flex;
-                align-items: center;
-            
-                & img{
-                    border-radius:50%;
-                    margin:0 20px 0 0;
-                    border:solid 1px black;
-                }
+                justify-content:flex-end;
+                color:white;
             }
-            
-            @media screen and (max-width:560px){
-                &{
-                    justify-content:center;
-                }
-            }
-        }
 
-        & .profile-helps{
-            & .helps-container{
-                max-height: 300px;
+            & .profile-user{
+                display:flex;
+                & img{
+                    width:100px;
+                    height:100px;
+                    border-radius: 50%;
+                    margin-right: 20px;
+                }
+        
+                & .profile-username{
+                    padding-top:10px;
+                    color:white;
+                    & h2{
+                        font-weight: 700;
+                        font-size: clamp(28px,2.5vw,32px);
+                    }
+                }
             }
         }
+    }
+
+    & .profile-helps{
+        max-height: 300px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar{
+            width:10px;
+        }
+          
+        &::-webkit-scrollbar-thumb{
+            background-color: #a2a1a3;
+            border-radius: 2px;
+        }
+          
+        &::-webkit-scrollbar-track{
+            background-color: #dddddd;
+            border-radius: 2px;
+        }
+          
     }
 }

@@ -2,7 +2,7 @@ import React,{useContext, useState} from "react";
 import "../styles/login.scss";
 import {useLocation,Link, useHistory} from 'react-router-dom';
 import queryString from 'query-string';
-import LogoComponent from './LogoContainer';
+import LogoComponent from '../Components/LogoContainer';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { UserContext } from "../Context/UserContext";
@@ -27,6 +27,7 @@ const Login = () => {
       setPassword("");
     });
   }
+
 
   return (
     <div className="container">

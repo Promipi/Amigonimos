@@ -29,6 +29,7 @@ const Posts = ({ }) => {
         setLoaded(true);
       }catch(err){
           MySwal.fire({title:"Error",text:err.message,icon:"error"});
+          setLoaded(false)
       }
   };
 
@@ -37,9 +38,9 @@ const Posts = ({ }) => {
   }, [page]);
 
   return (
-    <div style={{width:"100%",height:"100%"}}>
+    <div style={{width:"100%"}}>
         <div className="title">
-            <h2><i className="fas fa-angle-right"></i>Publicaciones</h2>
+            <h2><i className="fas fa-angle-right"></i>Posts</h2>
         </div>
       {!loaded && <Loader />}
       {loaded &&
