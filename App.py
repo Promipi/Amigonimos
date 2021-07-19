@@ -21,32 +21,76 @@ def Reverse(lst):
 
 
 
-#Funcion para eliminar un tip o todos los tips de un usuario
+#Funcion para eliminar un tip o los todos los tips de un usuario o los tips del usuasrio pero de hacer semana
+#o para eliminar los tips de un usuario el ultimo mes
 @app.route('/api/Tips/<Id>', methods=['DELETE'])
 def DeleteTip(Id):
 	cursor = DataBaseConnection.cursor()
-	cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
-	TipDeleted = list(list(cursor)[0])
-	if not TipDeleted:
-		return json.dumps({"Message" : f"The Id {Id} does not exist", "Sucess" : False}, indent=4)
-	cursor.execute("DELETE FROM Tips WHERE Id = ?;", (Id))
-	return json.dumps({"Message" : "The tip was deleted", "Sucess" : True, 
-		"Element deleted" : {"Id" : TipDeleted[4], "OwnerId" : TipDeleted[3], "Title" : TipDeleted[0], "Content" : TipDeleted[1], "CreationDate" : TipDeleted[2]}}, indent=4)
+	QueryObject = QuerysFlask(request.query_string)
+	ListQuery = QueryObject.QueryDics()
+	CurrentTime = datetime.date.today()
+	print(ListQuery)
+	if ListQuery['Querys'] == [] or ListQuery['Querys'][0]['Type'] == 'Tip':
+		cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
+		TipDeleted = list(list(cursor)[0])
+		if not TipDeleted:
+			return json.dumps({"Message" : f"The Id {Id} does not exist", "Sucess" : False}, indent=4)
+		cursor.execute("DELETE FROM Tips WHERE Id = ?;", (Id))
+		return json.dumps({"Message" : "The tip was deleted", "Sucess" : True, 
+			"Element deleted" : {"Id" : TipDeleted[4], "OwnerId" : TipDeleted[3], "Title" : TipDeleted[0], "Content" : TipDeleted[1], "CreationDate" : TipDeleted[2]}}, indent=4)
+
+
+	elif ListQuery['Querys'][0]['Type'] == 'User':
+		if len(ListQuery['Querys']) == 1:	
+			cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
+			Tips = []
+			for row in reversed(list(cursor)):
+				RowList = list(row)
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+				Tips.append(DicTip)
+				cursor.execute("DELETE FROM Tips WHERE Id = ?;", (RowList[4]))
+			if not Tips:
+				return json.dumps({"Message" : f"The User by id = {Id} does not has Tips", "Succes" : False}, indent = 4)
+			return json.dumps({"Message" : "The tips were delete", "Sucess" : True,
+				"Tips Deleted": Tips}, indent=4)
+
+		elif ListQuery['Querys'][1]['Time'] == 'Week':
+			cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
+			Tips = []
+			for row in reversed(list(cursor)):
+				RowList = list(row)
+				PastDay = int(RowList[2].split("-")[2])
+				PastMonth = int(RowList[2].split("-")[1])
+				PastYear = int(RowList[2].split("-")[0])
+				Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+				Timelapse = CurrentTime - Pastdate
+				if int(Timelapse.days) <= 7:
+					cursor.execute("DELETE FROM Tips WHERE Id = ?;", (RowList[4]))
+					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+					Tips.append(DicTip)
+				else:
+					break
+			return json.dumps({"Message" : "The tips were delete", "Sucess" : True,
+				"Tips Deleted": Tips}, indent=4)
+
+		elif ListQuery['Querys'][1]['Time'] == 'Month':
+			cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
+			for row in reversed(list(cursor)):
+				RowList = list(row)
+				PastDay = int(RowList[2].split("-")[2])
+				PastMonth = int(RowList[2].split("-")[1])
+				PastYear = int(RowList[2].split("-")[0])
+				Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+				Timelapse = CurrentTime - Pastdate
+				if int(Timelapse.days) <= 31:
+					cursor.execute("DELETE FROM Tips WHERE Id = ?;", (RowList[4]))
+				else:
+					break
+			return json.dumps({"Message" : "The tips were delete", "Sucess" : True,
+				"Tips Deleted": Tips}, indent=4)
+
+
 	
-
-
-#Funcion para eliminar todos los tips de un usuario
-@app.route('/api/Tips/User/<IdUser>', methods = ['DELETE'])
-def DeleteTipsByIdUser(IdUser):
-	cursor = DataBaseConnection.cursor()
-	cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (IdUser))
-	Tips = list(cursor)
-	print(Tips)
-	if not Tips:
-		return json.dumps({"Message" : f"The User by id = {IdUser} does not has Tips", "Succes" : False}, indent = 4)
-	return json.dumps({"Message" : "The tip was delete", "Sucess" : True,
-		"Tips Deleted": {}}, indent=4)
-
 
 
 
@@ -70,7 +114,7 @@ def ShowAllTips():
 		return json.dumps({"Message" : "The all Tips", "Sucess" : True, "Tips" : Tips}, indent=4)
 
 	elif ListQuery['Querys'][0]['Time'] == "Week":
-		for row in Reverse(list(cursor)):
+		for row in reversed(list(cursor)):
 			RowList = list(row)
 			PastDay = int(RowList[2].split("-")[2])
 			PastMonth = int(RowList[2].split("-")[1])
@@ -88,7 +132,7 @@ def ShowAllTips():
 		return json.dumps({"Message" : "Tips from a week ago", "Sucess" : True, "Tips" : Tips}, indent=4)
 
 	elif ListQuery['Querys'][0]['Time'] == "Month":
-		for row in Reverse(list(cursor)):
+		for row in reversed(list(cursor)):
 			RowList = list(row)
 			PastDay = int(RowList[2].split("-")[2])
 			PastMonth = int(RowList[2].split("-")[1])
