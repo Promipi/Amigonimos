@@ -51,33 +51,74 @@ def DeleteTipsByIdUser(IdUser):
 
 
 #Funcion para mostrar todas los Tips o muestra todos los tips de una ultima semana
-#o de un ultimo mes
+#o de un ultimo mes y de la ultima semana 
 @app.route("/api/Tips", methods = ['GET'])
 def ShowAllTips():
 	cursor = DataBaseConnection.cursor()
 	QueryObject = QuerysFlask(request.query_string)
 	ListQuery = QueryObject.QueryDics()
-	if ListQuery == None:
-		pass
+	CurrentTime = datetime.date.today()
 	cursor.execute("SELECT * FROM Tips;")
 	Tips = []
-	for row in list(cursor):
-		RowList = list(row)
-		DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
-		Tips.append(DicTip)
-	if not Tips:
-		return json.dumps({"Message" : "There are not tips", "Sucess" : False}, indent=4)
-	return json.dumps({"Message" : "The all Tips", "Sucess" : True, "Tips" : Tips}, indent=4)
+	if ListQuery["Querys"] == []:
+		for row in list(cursor):
+			RowList = list(row)
+			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+			Tips.append(DicTip)
+		if not Tips:
+			return json.dumps({"Message" : "There are not tips", "Sucess" : False}, indent=4)
+		return json.dumps({"Message" : "The all Tips", "Sucess" : True, "Tips" : Tips}, indent=4)
+
+	elif ListQuery['Querys'][0]['Time'] == "Week":
+		for row in Reverse(list(cursor)):
+			RowList = list(row)
+			PastDay = int(RowList[2].split("-")[2])
+			PastMonth = int(RowList[2].split("-")[1])
+			PastYear = int(RowList[2].split("-")[0])
+			Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+			Timelapse = CurrentTime - Pastdate
+			if int(Timelapse.days) <= 7:
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+				Tips.append(DicTip)
+			else:
+				break
+		if not Tips:
+			return json.dumps({"Message" : "There are not tips on the last week", "Sucess" : False}, indent=4)
+
+		return json.dumps({"Message" : "Tips from a week ago", "Sucess" : True, "Tips" : Tips}, indent=4)
+
+	elif ListQuery['Querys'][0]['Time'] == "Month":
+		for row in Reverse(list(cursor)):
+			RowList = list(row)
+			PastDay = int(RowList[2].split("-")[2])
+			PastMonth = int(RowList[2].split("-")[1])
+			PastYear = int(RowList[2].split("-")[0])
+			Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+			DaysAgo = CurrentTime - Pastdate
+			if int(DaysAgo.days) <= 31:
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+				Tips.append(DicTip)
+			else:
+				break
+		if not Tips:
+			return json.dumps({"Message" : "There are not tips on the last month", "Sucess" : False}, indent=4)
+		return json.dumps({"Message" : "Tips from a month ago", "Sucess" : True, "Tips" : Tips}, indent=4 )
+
+
 
 
 
 #Funcion para mostrar un solo tip o muetra los tips de todos los usuarios
+#O Los usuarios de un mes o de una semana
 @app.route("/api/Tips/<Id>", methods = ['GET'])
 def ShowTipOrUserTips(Id):
 	cursor = DataBaseConnection.cursor()
 	QueryObject = QuerysFlask(request.query_string)
 	ListQuery = QueryObject.QueryDics()
-	if ListQuery == None or ListQuery[0]["Type"] == "Tip":
+	CurrentTime = datetime.date.today()
+
+	print(ListQuery)
+	if ListQuery['Querys'] == [] or ListQuery['Querys'][0]["Type"] == "Tip":
 		cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
 		TipShow = list(list(cursor)[0])
 		if not TipShow:
@@ -85,123 +126,58 @@ def ShowTipOrUserTips(Id):
 		TipDic = {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2]}
 		return json.dumps({"Message" : "One Tip", "Sucess" : True, "Tip" : TipDic}, indent=4)
 
-	elif ListQuery[0]["Type"] == "User":
+	elif ListQuery['Querys'][0]["Type"] == "User":
 		cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
 		Tips = []
-		for row in list(cursor):
-			RowList = list(row)
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
-			Tips.append(DicTip)
-		if not Tips:
-			return json.dumps({"Message" : f"The user by id = {Id} does not has Tips", "Succes" : False}, indent=4)
-		return json.dumps({"Message" : f"The all Tips from a user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
+		if len(ListQuery['Querys']) == 1:
+			for row in list(cursor):
+				RowList = list(row)
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+				Tips.append(DicTip)
+			if not Tips:
+				return json.dumps({"Message" : f"The user by id = {Id} does not has Tips", "Succes" : False}, indent=4)
+			return json.dumps({"Message" : f"The all Tips from a user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
+
+		elif ListQuery['Querys'][1]['Time'] == "Week":
+			for row in Reverse(list(cursor)):
+				RowList = list(row)
+				PastDay = int(RowList[2].split("-")[2])
+				PastMonth = int(RowList[2].split("-")[1])
+				PastYear = int(RowList[2].split("-")[0])
+				Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+				Timelapse = CurrentTime - Pastdate
+				if int(Timelapse.days) <= 7:
+					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+					Tips.append(DicTip)
+				else:
+					break
+			if not Tips:
+				return json.dumps({"Message" : f"There are not tips on the last week for that user with id = {Id}", "Sucess" : False}, indent=4)
+
+			return json.dumps({"Message" : f"Tips from a week ago from the user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
+
+		elif ListQuery['Querys'][1]['Time'] == "Month":
+			cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
+			for row in Reverse(list(cursor)):
+				RowList = list(row)
+				PastDay = int(RowList[2].split("-")[2])
+				PastMonth = int(RowList[2].split("-")[1])
+				PastYear = int(RowList[2].split("-")[0])
+				Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+				DaysAgo = CurrentTime - Pastdate
+				if int(DaysAgo.days) <= 31:
+					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
+					Tips.append(DicTip)
+				else:
+					break
+
+			if not Tips:
+				return json.dumps({"Message" : "There are not tips on the last month", "Sucess" : False}, indent=4)
+
+			return json.dumps({"Message" : f"Tips from a month ago for user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
 
 
 
-
-
-
-
-
-
-#Funcion para mostrar los tips de hace una semana
-@app.route("/api/Tips/Week", methods = ['GET'])
-def ShowTipsWeekAgo():
-	CurrentTime = datetime.date.today()
-	cursor = DataBaseConnection.cursor()
-	cursor.execute("SELECT * FROM Tips;")
-	Tips = []
-	for row in Reverse(list(cursor)):
-		RowList = list(row)
-		PastDay = int(RowList[2].split("-")[2])
-		PastMonth = int(RowList[2].split("-")[1])
-		PastYear = int(RowList[2].split("-")[0])
-		Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
-		Timelapse = CurrentTime - Pastdate
-		if int(Timelapse.days) <= 7:
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
-			Tips.append(DicTip)
-		else:
-			break
-	if not Tips:
-		return json.dumps({"Message" : "There are not tips on the last week", "Sucess" : False}, indent=4)
-
-	return json.dumps({"Message" : "Tips from a week ago", "Sucess" : True, "Tips" : Tips}, indent=4)
-
-
-
-#Funcion para mostrar los tips de hace una semana de un usuario
-@app.route("/api/Tips/Week/<IdUser>", methods = ['GET'])
-def ShowTipsWeekAgoFromUser(IdUser):
-	CurrentTime = datetime.date.today()
-	cursor = DataBaseConnection.cursor()
-	cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (IdUser))
-	Tips = []
-	for row in Reverse(list(cursor)):
-		RowList = list(row)
-		PastDay = int(RowList[2].split("-")[2])
-		PastMonth = int(RowList[2].split("-")[1])
-		PastYear = int(RowList[2].split("-")[0])
-		Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
-		Timelapse = CurrentTime - Pastdate
-		if int(Timelapse.days) <= 7:
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
-			Tips.append(DicTip)
-		else:
-			break
-	if not Tips:
-		return json.dumps({"Message" : f"There are not tips on the last week for that user with id = {IdUser}", "Sucess" : False}, indent=4)
-
-	return json.dumps({"Message" : f"Tips from a week ago from the user with id = {IdUser}", "Sucess" : True, "Tips" : Tips}, indent=4)
-
-
-#Funcion para mostrar los tips de hace un mes 
-@app.route("/api/Tips/Month", methods = ['GET'])
-def ShowTipsMonthAgo():
-	CurrentTime = datetime.date.today()
-	cursor = DataBaseConnection.cursor()
-	cursor.execute("SELECT * FROM Tips;")
-	Tips = []
-	for row in Reverse(list(cursor)):
-		RowList = list(row)
-		PastDay = int(RowList[2].split("-")[2])
-		PastMonth = int(RowList[2].split("-")[1])
-		PastYear = int(RowList[2].split("-")[0])
-		Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
-		DaysAgo = CurrentTime - Pastdate
-		if int(DaysAgo.days) <= 31:
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
-			Tips.append(DicTip)
-		else:
-			break
-	if not Tips:
-		return json.dumps({"Message" : "There are not tips on the last month", "Sucess" : False}, indent=4)
-	return json.dumps({"Message" : "Tips from a month ago", "Sucess" : True, "Tips" : Tips}, indent=4 )
-
-#Funcion para mostrar los tips de hace un mes de un usuario
-@app.route("/api/Tips/Month/<IdUser>", methods = ['GET'])
-def ShowTipsMonthAgoFromUser(IdUser):
-	CurrentTime = datetime.date.today()
-	cursor = DataBaseConnection.cursor()
-	cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (IdUser))
-	Tips = []
-	for row in Reverse(list(cursor)):
-		RowList = list(row)
-		PastDay = int(RowList[2].split("-")[2])
-		PastMonth = int(RowList[2].split("-")[1])
-		PastYear = int(RowList[2].split("-")[0])
-		Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
-		DaysAgo = CurrentTime - Pastdate
-		if int(DaysAgo.days) <= 31:
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
-			Tips.append(DicTip)
-		else:
-			break
-
-	if not Tips:
-		return json.dumps({"Message" : "There are not tips on the last month", "Sucess" : False}, indent=4)
-
-	return json.dumps({"Message" : f"Tips from a month ago for user with id = {IdUser}", "Sucess" : True, "Tips" : Tips}, indent=4)
 
 
 #Funcion para agregar un tip 

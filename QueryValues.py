@@ -6,31 +6,21 @@ class QuerysFlask():
 	def QueryDics(self):
 		if self.query == "":
 			return None
-		QueryStr = self.query.split("%22")
+		QueryList = self.query.split("&")
 		Dics = []
-		num = 0
-		for i in QueryStr:
-			if i == "":
-				QueryStr.remove(i)
-			elif i == "=":
-				DicValues = {QueryStr[num - 1] : QueryStr[num + 1]}
-				Dics.append(DicValues)
-			num += 1
+		for Q in QueryList:
+			QueryS = Q.split("=")
+			Dics.append({QueryS[0] : QueryS[1]})
 		return {"Querys" : Dics}
 
 	def QueryJson(self):
 		if self.query == "":
 			return None
-		QueryStr = self.query.split("%22")
+		QueryList = self.query.split("&")
 		Dics = []
-		num = 0
-		for i in QueryStr:
-			if i == "":
-				QueryStr.remove(i)
-			elif i == "=":
-				DicValues = {QueryStr[num - 1] : QueryStr[num + 1]}
-				Dics.append(DicValues)
-			num += 1
+		for Q in QueryList:
+			QueryS = Q.split("=")
+			Dics.append({QueryS[0] : QueryS[1]})
 		return json.dumps({"Querys" : Dics}, indent=4)
 
 
