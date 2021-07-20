@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Switch from 'react-input-switch';
+import Switch from './Switch';
 import '../styles/settings.scss';
 
 const Settings = ({publicHelps,setPublicHelps}) => {
@@ -7,7 +7,7 @@ const Settings = ({publicHelps,setPublicHelps}) => {
         <form className="form-setting">
             <div className="form-group">
                 <h3>Public helps</h3>
-                <Switch value={publicHelps} onChange={setPublicHelps} style={{width:"52px",height:"32px"}}/>
+                <Switch value={publicHelps} onChange={setPublicHelps}/>
             </div>
         </form>
     )
