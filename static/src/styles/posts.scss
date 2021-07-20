@@ -89,6 +89,13 @@ h3{
     background-color:#fff;
     overflow-y:auto;
 
+    & p{
+        text-align: center;
+        font-size: clamp(18px,2.5vw,20px);
+        font-weight: 600;
+        margin:10px;
+    }
+
     &::-webkit-scrollbar{
         width:10px;
     }

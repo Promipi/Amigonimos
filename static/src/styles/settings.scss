@@ -1,0 +1,30 @@
+.css-153wf2s-Switch,.css-jfsaru-Switch{
+    border-radius: 16px !important;
+}
+
+.css-19a995p-Switch{
+    right:21px !important;
+    border-radius: 16px !important;
+}
+
+.css-1v96km2-Switch{
+    left:21px !important;
+    border-radius: 16px !important;
+}
+
+.form-setting{
+    padding:10px;
+    margin:10px;
+}
+
+.form-group{
+    margin:10px auto;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    flex-wrap: wrap;
+
+    & h3{
+        font-size: clamp(20px,2.5vw,26px)
+    }
+}

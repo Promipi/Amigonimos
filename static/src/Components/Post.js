@@ -12,7 +12,7 @@ const MySwal = withReactContent(Swal)
 const Post = ({ user }) => {
   const [post, setPost] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [helps, setHelps] = useState(null);
+  const [helps, setHelps] = useState([]);
   const [message,setMessage] = useState("");
   const [isLoading,setLoading] = useState(false);
   const {token} = useContext(UserContext);
@@ -92,7 +92,7 @@ const Post = ({ user }) => {
                 <h3>Helps</h3>
               </div>
               <div className="helps-container">
-                {helps !== null ? helps.map((help, i) => (
+                {helps.length ? helps.map((help, i) => (
                   <div className="helps" key={i}>
                     <div className="avatar">
                       <img

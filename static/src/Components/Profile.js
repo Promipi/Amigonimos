@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import AvatarCard from "./AvatarCard";
 import Modal from './Modal';
+import Settings from "./Settings";
 
 const MySwal = withReactContent(Swal);
 
@@ -19,7 +20,7 @@ const Profile = ({ user }) => {
   const [helps, setHelps] = useState(null);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
-
+  const [publicHelps,setPublicHelps] = useState(false);
   const [show,setShow] = useState(false);
 
   const handleClose = () =>{
@@ -47,6 +48,7 @@ const Profile = ({ user }) => {
       .then((res) => {
         setUsername(res.data.content.userName);
         getHelpsById(id);
+        setPublicHelps(res.data.publicHelps);
       });
     }else
     return MySwal.fire(
@@ -60,10 +62,7 @@ const Profile = ({ user }) => {
 
   useEffect(() => {
     const getHelps = async () => {
-      if (id === undefined) {
-        return await getHelpsById(user.nameid);
-      }
-      await getDataUser(id);
+      await getDataUser(id ? id : user.nameid);
     };
 
     getHelps();
@@ -106,7 +105,8 @@ const Profile = ({ user }) => {
         </div>
         )
       }
-      <Modal title="Settings" show={show} onClose={handleClose}>
+      <Modal title="Settings" show={show} onClose={handleClose} close="Save">
+        <Settings setPublicHelps={setPublicHelps} publicHelps={publicHelps}/>
         <Link to="/" className="btn" onClick={LogOut}>LogOut</Link>
       </Modal>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/modal.scss';
 
-const Modal = ({show,onClose,children,title}) =>{
+const Modal = ({show,onClose,children,title,close}) =>{
     return(
         <div className={`modal ${show ? "show" : ""}`} onClick={onClose}>
             <div className="modal-content" onClick={e=>e.stopPropagation()}>
@@ -13,7 +13,7 @@ const Modal = ({show,onClose,children,title}) =>{
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn" onClick={onClose}>
-                        Close
+                        {close ? close : "Close"}
                     </button>
                 </div>
             </div>
