@@ -6,7 +6,6 @@ import Posts from "../Components/Posts";
 import Post from '../Components/Post';
 import RightSide from '../Components/RightSide';
 import Footer from '../Components/Footer';
-import FormAdd from './FormAdd';
 import Profile from '../Components/Profile';
 import {UserContext} from '../Context/UserContext'
 
@@ -27,9 +26,6 @@ const Home = () => {
             </Route>
             <Route path="/page/:page">
               <Posts/>
-            </Route>
-            <Route path="/add">
-              <FormAdd user={user}/>
             </Route>
             <Route exact path="/profile">
               <Profile user={user} />
