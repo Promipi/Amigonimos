@@ -48,7 +48,7 @@ const Profile = ({ user }) => {
       .then((res) => {
         setUsername(res.data.content.userName);
         getHelpsById(id);
-        setPublicHelps(res.data.publicHelps);
+        setPublicHelps(res.data.content.publicHelps);
       });
     }else
     return MySwal.fire(

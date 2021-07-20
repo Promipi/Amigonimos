@@ -1,3 +1,4 @@
+@import "base.scss";
 label{
     position: relative;
     display: inline-block;
@@ -18,12 +19,17 @@ label{
     border-radius: 16px;
 }
 
+.enabled-track{
+    background-color:$primary-color;
+}
+
 .disabled-thumb,.enabled-thumb{
     position:absolute;
     top:2px;
     bottom:2px;
     border-radius: 16px;
     background-color:#fff;
+    transition:all 100ms ease 0s;
 }
 
 .disabled-thumb{

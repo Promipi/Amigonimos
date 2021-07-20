@@ -3,7 +3,7 @@ import '../styles/switch.scss'
 
 const Switch = ({value,onChange}) => {
     return (
-        <label style={{width:"52px",height:"32px"}}>
+        <label style={{width:"52px",height:"32px"}} onClick={(e)=>onChange(!value)}>
             {
                 !value ? (
                     <Fragment>
