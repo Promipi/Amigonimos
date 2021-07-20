@@ -31,20 +31,15 @@
 }
 
 .modal-body{
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 
 .btn{
     border:none;
     appearance: none;
-    background-color:#2ecc71;
     padding:10px 15px;
     border-radius: 2px;
     color:white;
     transition:all 0.25s;
-
-    &:hover{
-        background-color:#27ae60;
-    }
 }

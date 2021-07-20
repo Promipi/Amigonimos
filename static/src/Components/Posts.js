@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import "../styles/posts.scss";
@@ -6,10 +6,12 @@ import * as timeago from "timeago.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Loader from './Loader'
+import FormAdd from "../Pages/FormAdd";
+import { UserContext } from "../Context/UserContext";
 
 const MySwal = withReactContent(Swal)
 
-const Posts = ({ }) => {
+const Posts = ({}) => {
   const [posts, setPosts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [pages,setPages] = useState(null);
@@ -39,10 +41,11 @@ const Posts = ({ }) => {
 
   return (
     <div style={{width:"100%"}}>
-        <div className="title">
-            <h2><i className="fas fa-angle-right"></i>Posts</h2>
-        </div>
+      <div className="title">
+          <h2><i className="fas fa-angle-right"></i>Posts</h2>
+      </div>
       {!loaded && <Loader />}
+      {loaded && <FormAdd />}
       {loaded &&
         posts.map((post, id) => (
           <Link to={`/post/${post.id}`} className="post" key={id}>

@@ -35,8 +35,8 @@ h3{
 
 .post-bar{
     background-color:$complement-color;
-    width:100px;
-    min-width:100px;
+    width:clamp(50px,7vw,100px);
+    min-width:clamp(50px,7vw,100px);
 }
 
 .post-title{
@@ -46,6 +46,8 @@ h3{
 
 .post-title h3{
     text-align: left;
+    font-size:clamp(20px,2.5vw,24px);
+    text-transform: capitalize;
 }
 
 .post-content{

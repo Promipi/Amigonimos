@@ -42,15 +42,15 @@ const Register = () =>{
         if(type==="password"){
             if(!/[\A-Z]/.test(value)){
                 setPasswordValidity(true);
-                return setMessagePassword("Password must contain a letter upper case.");
+                return setMessagePassword("Password must contain a letter upper case A-Z.");
             }
             if(!/[\a-z]/.test(value)){
                 setPasswordValidity(true);
-                return setMessagePassword("Password must contain a letter lower case.");
+                return setMessagePassword("Password must contain a letter lower case a-z.");
             }
             if(!/[\0-9]/.test(value)){
                 setPasswordValidity(true);
-                return setMessagePassword("Password must contain an number.");
+                return setMessagePassword("Password must contain an number 0-9.");
             }
         }
         else if(type=="username"){

@@ -43,7 +43,7 @@ const Post = ({ user }) => {
   const handleSubmit = async(e) =>{
     try{
       e.preventDefault();
-      if(message.trim()==="") return MySwal.fire("Alert","No puedes comentar un menaje en blanco.","info");
+      if(message.trim()==="") return MySwal.fire("Alert","You cant comment with a text blank.","info");
       setLoading(true);
       const res = await axios.post("https://amigonimo-web-api.herokuapp.com/api/helps",JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:user.nameid,ownerUsername:user.unique_name}),{
         headers:{
@@ -89,7 +89,7 @@ const Post = ({ user }) => {
                 </div>
               </div>
               <div className="post-help">
-                <h3>Ayudas</h3>
+                <h3>Helps</h3>
               </div>
               <div className="helps-container">
                 {helps !== null ? helps.map((help, i) => (
@@ -108,7 +108,7 @@ const Post = ({ user }) => {
                   </div>
                 )):
                 (
-                  <p>No hay comentarios</p>
+                  <p>There is no helps</p>
                 )}
               </div>
               {user ? (
@@ -117,7 +117,7 @@ const Post = ({ user }) => {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Comentar"
+                      placeholder="Comment:"
                       id="comentario"
                       name="comentario"
                       onChange={e=>setMessage(e.target.value)}
@@ -137,8 +137,8 @@ const Post = ({ user }) => {
               ) :
               (
                 <form className="comment-form not-login">
-                  <label>Debes iniciar sesion para ayudar!!!</label>
-                  <Link to={`/login?redirect=${window.location.href}`} className="btn">Iniciar Sesion</Link>
+                  <label>You need to be logged in to comment.!!!</label>
+                  <Link to={`/login?redirect=${window.location.href}`} className="btn">LogIn</Link>
                 </form>
               )}
             </div>

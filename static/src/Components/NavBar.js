@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import BtnAdd from "./BtnAdd";
 
 import "../styles/navbar.scss";
 
@@ -27,7 +26,6 @@ const NavBar = ({ user }) => {
         )}
         {user && (
           <li className="nav-right">
-            <BtnAdd />
             <Link to="/profile" className="nav-link btn">
               Profile
             </Link>
