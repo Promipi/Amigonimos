@@ -108,7 +108,7 @@ const Post = ({ user }) => {
                   </div>
                 )):
                 (
-                  <p>There is no helps</p>
+                  <p id="no-help">There is no helps</p>
                 )}
               </div>
               {user ? (
