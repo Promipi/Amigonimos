@@ -12,9 +12,11 @@ const Modal = ({show,onClose,children,title,close}) =>{
                     {children}
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn" onClick={onClose}>
-                        {close ? close : "Close"}
-                    </button>
+                    {close && (
+                        <button type="button" className="btn" onClick={onClose}>
+                            {"Close"}
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

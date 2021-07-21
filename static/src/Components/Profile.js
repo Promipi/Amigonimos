@@ -87,7 +87,7 @@ const Profile = ({ user }) => {
             username={id ? username : user.unique_name}
             onClick={(e) => setShow(true)}
           />
-          {!publicHelps ? (
+          {!publicHelps && id ? (
             <Fragment />
           ) : (
             <Fragment>
@@ -122,7 +122,7 @@ const Profile = ({ user }) => {
         </div>
       )}
       <Modal title="Settings" show={show} onClose={handleClose} close="Save">
-        <Settings setPublicHelps={setPublicHelps} publicHelps={publicHelps} />
+        <Settings publicHelps={publicHelps} id={user.nameid} userName={username}/>
         <Link to="/" className="btn" onClick={LogOut}>
           LogOut
         </Link>

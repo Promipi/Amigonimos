@@ -44,6 +44,8 @@ p {
   font-weight: 500;
   transition:all .25s;
   color: $white;
+  text-align: center;
+  display: inline-block;
   
   &:after {
     content: "";

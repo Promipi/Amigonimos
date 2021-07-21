@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Loader from '../Components/Loader';
 import Modal from '../Components/Modal';
+import { Link } from 'react-router-dom';
 
 const MySwal = withReactContent(Swal)
 
@@ -51,7 +52,7 @@ const FormAdd = () =>{
                     <button className="btn primary" onClick={e=>setShow(true)} style={{width:"100%"}}>Create Post</button>
                 ):
                 (
-                    <p>To create a problem login</p>
+                    <Link to={"/login?redirectUrl="+window.location.href} className="btn primary" style={{width:"100%"}}>To create a problem login</Link>
                 )
             }
             <Modal show={show} onClose={handleClose} title="Create Post">

@@ -137,7 +137,7 @@ const Post = ({ user }) => {
               ) :
               (
                 <form className="comment-form not-login">
-                  <label>You need to be logged in to comment.!!!</label>
+                  <p>You need to be logged in to comment.!!!</p>
                   <Link to={`/login?redirect=${window.location.href}`} className="btn">LogIn</Link>
                 </form>
               )}
