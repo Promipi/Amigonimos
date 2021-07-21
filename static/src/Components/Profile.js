@@ -30,7 +30,7 @@ const Profile = ({ user }) => {
   const getHelpsById = async (id) => {
     setLoading(true);
     const res = await axios.get(
-      `https://amigonimo-web-api.herokuapp.com/api/helps?ownerId=${id}&take=5`
+      `${process.env.API_URL}/helps?ownerId=${id}&take=5`
     );
     const data = res.data;
     setHelps([...data.content.items]);
@@ -40,7 +40,7 @@ const Profile = ({ user }) => {
   const getDataUser = async (id) => {
     if (user) {
       axios
-        .get("https://amigonimo-web-api.herokuapp.com/api/users/" + id, {
+        .get(`${process.env.API_URL}/users/` + id, {
           headers: {
             Authorization: "Bearer " + token,
           },

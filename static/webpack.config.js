@@ -2,6 +2,15 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const LinkTypePlugin = require('html-webpack-link-type-plugin').HtmlWebpackLinkTypePlugin;
+const webpack = require("webpack");
+const dotenv = require('dotenv');
+
+const env = dotenv.config().parsed;
+  const envKeys = Object.keys(env).reduce((prev, next) => {
+      prev[`process.env.${next}`] = JSON.stringify(env[next]);
+      return prev;
+}, {});
+
 
 module.exports = {
     stats: {
@@ -51,6 +60,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin(envKeys),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "./index.html")
         }),

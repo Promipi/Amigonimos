@@ -45,7 +45,7 @@ const Post = ({ user }) => {
       e.preventDefault();
       if(message.trim()==="") return MySwal.fire("Alert","You cant comment with a text blank.","info");
       setLoading(true);
-      const res = await axios.post("https://amigonimo-web-api.herokuapp.com/api/helps",JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:user.nameid,ownerUsername:user.unique_name}),{
+      const res = await axios.post(`${process.env.API_URL}/helps`,JSON.stringify({content:message,problemId:id,creationDate:new Date().toISOString(),ownerId:user.nameid,ownerUsername:user.unique_name}),{
         headers:{
           "Content-Type":"application/json",
           "Authorization" : `Bearer ${token}`

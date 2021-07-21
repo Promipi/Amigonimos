@@ -21,7 +21,7 @@ const Posts = ({}) => {
       try{
         setLoaded(false);
         const response = await axios.get(
-          `https://amigonimo-web-api.herokuapp.com/api/Problems?page=${
+          `${process.env.API_URL}/Problems?page=${
             page === undefined ? 1 : page
           }`
         );

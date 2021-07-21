@@ -41,7 +41,7 @@ export const useUser = () => {
         });
       }
       const res = await axios.post(
-        "https://identity-web-service.herokuapp.com/api/Users/login",
+        `${process.env.IDENTITY_URL}/login`,
         objSend,
         {
           headers: {
@@ -82,7 +82,7 @@ export const useUser = () => {
   const Register = async (username, email, password, redirectUrl = "/", cb) => {
     try {
       const response = await axios.post(
-        "https://identity-web-service.herokuapp.com/api/Users/SignUp",
+        `${process.env.IDENTITY_URL}/SignUp`,
         JSON.stringify({
           email: email,
           password: password,
@@ -134,11 +134,12 @@ export const useUser = () => {
 
   useEffect(() => {
     const getCurrentUser = async () => {
+      console.log(process.env.API_URL)
       if (verify_token() && token)
         setUser(
           jwt_decode(
             token,
-            "DASDASDPANIAUDAPADNADADASDOSDAUNUNOOUNDOUNASOUNDSAUNODUNO"
+            process.env.TOKEN
           )
         );
       else {

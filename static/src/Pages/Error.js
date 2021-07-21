@@ -5,6 +5,7 @@ class PageError extends Component {
         return (
           <div>
             <h1>ERROR</h1>
+            <p>PageError</p>
           </div>
         )
     }

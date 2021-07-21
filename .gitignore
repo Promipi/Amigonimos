@@ -2,3 +2,4 @@
 static/public/bundle.css
 static/public/bundle.js
 static/public/index.html
+.env
