@@ -134,7 +134,6 @@ export const useUser = () => {
 
   useEffect(() => {
     const getCurrentUser = async () => {
-      console.log(process.env.API_URL)
       if (verify_token() && token)
         setUser(
           jwt_decode(

@@ -3,14 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const LinkTypePlugin = require('html-webpack-link-type-plugin').HtmlWebpackLinkTypePlugin;
 const webpack = require("webpack");
-const dotenv = require('dotenv');
-
-const env = dotenv.config().parsed;
-  const envKeys = Object.keys(env).reduce((prev, next) => {
-      prev[`process.env.${next}`] = JSON.stringify(env[next]);
-      return prev;
-}, {});
-
+require("dotenv").config();
 
 module.exports = {
     stats: {
@@ -60,7 +53,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.DefinePlugin(envKeys),
+        new webpack.DefinePlugin({
+            "process.env.API_URL" : JSON.stringify(process.env.API_URL),
+            "process.env.IDENTITY_URL" : JSON.stringify(process.env.IDENTITY_URL),
+            "TOKEN":JSON.stringify(process.env.TOKEN)
+        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "./index.html")
         }),
