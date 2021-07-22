@@ -22,7 +22,3 @@ class QuerysFlask():
 			QueryS = Q.split("=")
 			Dics.append({QueryS[0] : QueryS[1]})
 		return json.dumps({"Querys" : Dics}, indent=4)
-
-
-
-		

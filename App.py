@@ -33,7 +33,8 @@ def DeleteTip(Id):
 		cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
 		TipDeleted = list(list(cursor)[0])
 		if not TipDeleted:
-			return json.dumps({"Message" : f"The Id {Id} does not exist", "Sucess" : False}, indent=4)
+			return json.dumps({"Message" : "The Id {} does not exist".format(Id), "Sucess" : False}, indent=4)
+
 		cursor.execute("DELETE FROM Tips WHERE Id = ?;", (Id))
 		return json.dumps({"Message" : "The tip was deleted", "Sucess" : True, 
 			"Element deleted" : {"Id" : TipDeleted[4], "OwnerId" : TipDeleted[3], "Title" : TipDeleted[0], "Content" : TipDeleted[1], "CreationDate" : TipDeleted[2]}}, indent=4)
@@ -49,7 +50,7 @@ def DeleteTip(Id):
 				Tips.append(DicTip)
 				cursor.execute("DELETE FROM Tips WHERE Id = ?;", (RowList[4]))
 			if not Tips:
-				return json.dumps({"Message" : f"The User by id = {Id} does not has Tips", "Succes" : False}, indent = 4)
+				return json.dumps({"Message" : "The User by id = {} does not has Tips".format(Id), "Succes" : False}, indent = 4)
 			return json.dumps({"Message" : "The tips were delete", "Sucess" : True,
 				"Tips Deleted": Tips}, indent=4)
 
@@ -178,8 +179,8 @@ def ShowTipOrUserTips(Id):
 				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
 				Tips.append(DicTip)
 			if not Tips:
-				return json.dumps({"Message" : f"The user by id = {Id} does not has Tips", "Succes" : False}, indent=4)
-			return json.dumps({"Message" : f"The all Tips from a user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
+				return json.dumps({"Message" : "The user by id = {} does not has Tips".format(Id), "Succes" : False}, indent=4)
+			return json.dumps({"Message" : "The all Tips from a user with id = {}".format(Id), "Sucess" : True, "Tips" : Tips}, indent=4)
 
 		elif ListQuery['Querys'][1]['Time'] == "Week":
 			for row in Reverse(list(cursor)):
@@ -195,9 +196,9 @@ def ShowTipOrUserTips(Id):
 				else:
 					break
 			if not Tips:
-				return json.dumps({"Message" : f"There are not tips on the last week for that user with id = {Id}", "Sucess" : False}, indent=4)
+				return json.dumps({"Message" : "There are not tips on the last week for that user with id = {}".format(Id), "Sucess" : False}, indent=4)
 
-			return json.dumps({"Message" : f"Tips from a week ago from the user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
+			return json.dumps({"Message" : "Tips from a week ago from the user with id = {}".format(Id), "Sucess" : True, "Tips" : Tips}, indent=4)
 
 		elif ListQuery['Querys'][1]['Time'] == "Month":
 			cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
@@ -217,7 +218,7 @@ def ShowTipOrUserTips(Id):
 			if not Tips:
 				return json.dumps({"Message" : "There are not tips on the last month", "Sucess" : False}, indent=4)
 
-			return json.dumps({"Message" : f"Tips from a month ago for user with id = {Id}", "Sucess" : True, "Tips" : Tips}, indent=4)
+			return json.dumps({"Message" : "Tips from a month ago for user with id = {}".format(Id), "Sucess" : True, "Tips" : Tips}, indent=4)
 
 
 
@@ -236,7 +237,7 @@ def AddTip():
 		except:
 			return json.dumps({"Message" : "Your send wrong the json", "Sucess" : False})
 		Id = str(uuid.uuid4())
-		cursor.execute(f"insert into Tips(Id, OwnerId, Title, Content, CreationDate) values(?, ?, ?, ?, ?);",
+		cursor.execute("insert into Tips(Id, OwnerId, Title, Content, CreationDate) values(?, ?, ?, ?, ?);",
 		(Id, OwnerId, Title, Content, CreationDate))
 		cursor.commit()
 		return json.dumps({"Message" : "Tip added", "Sucess" : True,
