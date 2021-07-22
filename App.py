@@ -1,6 +1,6 @@
 from flask import Flask, request
 import pyodbc
-import json #json.dumps(dataOr, ident=4)
+import json 
 import datetime
 import uuid
 import sys
@@ -16,11 +16,6 @@ app = Flask(__name__)
 #Connection to the database
 DataBaseConnection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=SQL5053.site4now.net;PORT=1344;UID=db_a76731_amigonimodb_admin;PWD=Supersecreta123;')
 
-
-
-#Funciones extras
-def Reverse(lst):
-    return [ele for ele in reversed(lst)]
 
 
 
