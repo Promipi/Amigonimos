@@ -26,6 +26,8 @@ namespace Identity.Api.Controllers
             _userRepository = userRepository;
         }
 
+        
+
         [HttpPost("SignUp")] //SignUp
         public async Task<ActionResult<GetResponseDto<TokenInfo>>> SignUp(UserCreateDto userCreateDto)
         {
@@ -73,7 +75,7 @@ namespace Identity.Api.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut]
-        public async Task<ActionResult<GetResponseDto<TokenInfo>>> Update(UserUpdateDto userUpdateDto)
+        public async Task<ActionResult<PostResponseDto<UserGetDto>>> Update(UserUpdateDto userUpdateDto)
         {
             var response = await _userRepository.UpdateAsync(userUpdateDto);
             if (!response.Success) return BadRequest(response);

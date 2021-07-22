@@ -58,6 +58,7 @@ namespace Identity.Api
             {    //we config the identity
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequiredUniqueChars = 0;
+                opt.Password.RequireUppercase = true;
                 opt.Lockout = new LockoutOptions() { AllowedForNewUsers = false };
             }).AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
 
@@ -90,9 +91,10 @@ namespace Identity.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity.Api v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity.Api v1"));
 
             app.UseRouting();
 

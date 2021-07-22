@@ -4,14 +4,16 @@ using Help.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Help.Api.Migrations
 {
     [DbContext(typeof(HelpDbContext))]
-    partial class HelpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210705013240_Field-Added")]
+    partial class FieldAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

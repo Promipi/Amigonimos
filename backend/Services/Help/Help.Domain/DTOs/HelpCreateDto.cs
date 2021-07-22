@@ -13,6 +13,8 @@ namespace Help.Domain.DTOs
         public string ProblemId { get; set; }// what problem does it belong to
 
         public DateTime CreationDate { get; set; }
+
+        public string OwnerUsername { get; set; }
     
         public string OwnerId { get; set; }
     }

@@ -16,6 +16,8 @@ namespace Help.Domain
 
         public string OwnerId { get; set; }
 
+        public string OwnerUsername {get; set; }
+
         public DateTime CreationDate { get; set; }
     }
 }

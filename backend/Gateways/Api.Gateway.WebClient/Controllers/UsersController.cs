@@ -18,7 +18,7 @@ namespace Api.Gateway.WebClient.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [ApiExplorerSettings(GroupName = "Identity.API")]
-    [EnableCors]
+    [EnableCors("AmigonimoPolicy")]
     public class UsersController : ControllerBase
     {
         private IUserProxy _userProxy;
@@ -75,7 +75,7 @@ namespace Api.Gateway.WebClient.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut]
-        public async Task<ActionResult<GetResponseDto<TokenInfo>>> Update(UserUpdateDto userUpdateDto)
+        public async Task<ActionResult<PostResponseDto<UserGetDto>>> Update(UserUpdateDto userUpdateDto)
         {
             var response = await _userProxy.UpdateAsync(userUpdateDto);
             if (!response.Success) return BadRequest(response);

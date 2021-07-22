@@ -250,6 +250,8 @@
 #PROMIPI
 *.swp
 *.*~
+secrets.json
+
 project.lock.json
 .DS_Store
 *.pyc

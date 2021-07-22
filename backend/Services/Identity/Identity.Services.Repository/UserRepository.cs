@@ -101,14 +101,15 @@ namespace Identity.Services.Repository
             return response;
         }
 
-        public async Task<GetResponseDto<DataCollection<User>>> GetAsync(List<Func<User, bool>> filter, int page, int take)
+        public async Task<GetResponseDto<DataCollection<UserGetDto>>> GetAsync(List<Func<User, bool>> filter, int page, int take)
         {
-            var response = new GetResponseDto<DataCollection<User>>();
+            var response = new GetResponseDto<DataCollection<UserGetDto>>();
             try
             {
-                var helps = _context.Users.ToList();
-                filter.ForEach(f => { helps = helps.Where(f).ToList(); });
-                var result = await helps.GetPagedAsync(page, take);
+                var users = _context.Users.ToList();
+                filter.ForEach(f => { users = users.Where(f).ToList(); });
+                var usersMapped = users.Select(x => _mapper.Map<UserGetDto>(x));
+                var result = await usersMapped.GetPagedAsync(page, take);
 
                 response.Success = true;
                 response.Message = "Success";
@@ -122,9 +123,9 @@ namespace Identity.Services.Repository
             return response;
         }
 
-        public async Task<GetResponseDto<User>> GetByIdAsync(string id)
+        public async Task<GetResponseDto<UserGetDto>> GetByIdAsync(string id)
         {
-            var response = new GetResponseDto<User>();
+            var response = new GetResponseDto<UserGetDto>();
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -132,19 +133,24 @@ namespace Identity.Services.Repository
             }
             else
             {
-                response.Success = true; response.Content = user;
+                response.Success = true; response.Content = _mapper.Map<UserGetDto>(user);
             }
             return response;
         }
 
        
-        public async Task<PostResponseDto<User>> UpdateAsync(UserUpdateDto helpUpdateDto)
+        public async Task<PostResponseDto<UserGetDto>> UpdateAsync(UserUpdateDto userUpdateDto)
         {
-            var response = new PostResponseDto<User>();
+            var response = new PostResponseDto<UserGetDto>();
             try
             {
-                var result = _context.Users.Update(_mapper.Map<User>(helpUpdateDto));
-                response.Success = true; response.Entity = result.Entity; 
+                var user = _context.Users.Find(userUpdateDto.Id);
+                user.PublicHelps = userUpdateDto.PublicHelps; user.PublicProblems = userUpdateDto.PublicProblems; user.PublicTips = userUpdateDto.PublicTips;
+                user.UserName = userUpdateDto.Username;
+
+                var result = _context.Users.Update(user);
+                _context.SaveChanges();
+                response.Success = true; response.Entity = _mapper.Map<UserGetDto>(result.Entity); 
             }
             catch (Exception ex)
             {
@@ -188,5 +194,6 @@ namespace Identity.Services.Repository
                 Expiration = expiration
             }); //return the info token
         }
+
     }
 }

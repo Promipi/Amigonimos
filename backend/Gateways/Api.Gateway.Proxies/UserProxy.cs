@@ -19,17 +19,17 @@ namespace Api.Gateway.Proxies
 {
     public interface IUserProxy
     {
-        public Task<GetResponseDto<DataCollection<User>>> GetAsync(int page, int take);
+        public Task<GetResponseDto<DataCollection<UserGetDto>>> GetAsync(int page, int take);
 
         public Task<GetResponseDto<TokenInfo>> CreateUserAsync(UserCreateDto userCreateDto);
 
         public Task<GetResponseDto<TokenInfo>> LoginAsync(LoginDto loginDto);
 
-        public Task<PostResponseDto<User>> UpdateAsync(UserUpdateDto userUpdateDto);
+        public Task<PostResponseDto<UserGetDto>> UpdateAsync(UserUpdateDto userUpdateDto);
 
         public Task<DeleteResponseDto> DeleteAsync(string id,string password);
 
-        public Task<GetResponseDto<User>> GetByIdAsync(string userId);
+        public Task<GetResponseDto<UserGetDto>> GetByIdAsync(string userId);
     }
 
     public class UserProxy : IUserProxy
@@ -58,19 +58,19 @@ namespace Api.Gateway.Proxies
             return response;
         }
 
-        public async Task<GetResponseDto<DataCollection<User>>> GetAsync(int page, int take)
+        public async Task<GetResponseDto<DataCollection<UserGetDto>>> GetAsync(int page, int take)
         {
             var request = await _httpClient.GetAsync($"{_apiUrls.Value.IdentityApi}/api/users?page={page}&take={take}"); 
             request.EnsureSuccessStatusCode();
-            var response = JsonConvert.DeserializeObject<GetResponseDto<DataCollection<User>>>(await request.Content.ReadAsStringAsync());
+            var response = JsonConvert.DeserializeObject<GetResponseDto<DataCollection<UserGetDto>>>(await request.Content.ReadAsStringAsync());
             return response;
         }
 
-        public async Task<GetResponseDto<User>> GetByIdAsync(string userId)
+        public async Task<GetResponseDto<UserGetDto>> GetByIdAsync(string userId)
         {
             var request = await _httpClient.GetAsync($"{_apiUrls.Value.IdentityApi}/api/users/{userId}"); 
             request.EnsureSuccessStatusCode();
-            var response = JsonConvert.DeserializeObject<GetResponseDto<User>>(await request.Content.ReadAsStringAsync());
+            var response = JsonConvert.DeserializeObject<GetResponseDto<UserGetDto>>(await request.Content.ReadAsStringAsync());
             return response;
         }
 
@@ -82,11 +82,11 @@ namespace Api.Gateway.Proxies
             return response;
         }
 
-        public async Task<PostResponseDto<User>> UpdateAsync(UserUpdateDto userUpdateDto)
+        public async Task<PostResponseDto<UserGetDto>> UpdateAsync(UserUpdateDto userUpdateDto)
         {
-            var request = await _httpClient.PutAsJsonAsync($"{_apiUrls.Value.ProblemApi}/api/users",userUpdateDto); //post an new user "SIGNUP"
+            var request = await _httpClient.PutAsJsonAsync($"{_apiUrls.Value.IdentityApi}/api/users",userUpdateDto); //post an new user "SIGNUP"
             request.EnsureSuccessStatusCode();
-            var response = JsonConvert.DeserializeObject<PostResponseDto<User>>(await request.Content.ReadAsStringAsync());
+            var response = JsonConvert.DeserializeObject<PostResponseDto<UserGetDto>>(await request.Content.ReadAsStringAsync());
             return response;
         }
     }

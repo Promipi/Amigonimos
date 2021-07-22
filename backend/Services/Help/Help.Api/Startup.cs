@@ -35,7 +35,7 @@ namespace Help.Api
         {
             services.AddDbContext<HelpDbContext>(opt =>
             {
-                opt.UseSqlServer(Configuration.GetConnectionString("Hosted"));
+                opt.UseSqlServer(Configuration.GetConnectionString("Hosted"),b => b.MigrationsAssembly("Help.Api"));
             });
 
             services.AddControllers();

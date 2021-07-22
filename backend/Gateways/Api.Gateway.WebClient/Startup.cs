@@ -29,7 +29,7 @@ namespace Api.Gateway.WebClient
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAppsettingBinding(Configuration,ModeTypes.Local).AddProxiesRegistration(Configuration);
+            services.AddAppsettingBinding(Configuration,ModeTypes.Hosted).AddProxiesRegistration(Configuration);
 
             services.AddControllers();
 
@@ -38,7 +38,7 @@ namespace Api.Gateway.WebClient
 
                 setupAction.SwaggerDoc("Identity.API", new OpenApiInfo()
                 {
-                    Title = "Identity.API",
+                    Title = "API.Gateway.Identity",
                     Version = "v1",
                     Description = "Through this API you can log in and register to be able to receive tokens and be able to make user requests and other services",
                     Contact = new OpenApiContact() { Email = "promipisharp@gmail.com", Name = "Promipi", Url = new Uri("https://discord.gg/JqU4v28") }
@@ -46,7 +46,7 @@ namespace Api.Gateway.WebClient
 
                 setupAction.SwaggerDoc("Problem.API", new OpenApiInfo
                 {
-                    Title = "Problem.API",
+                    Title = "API.Gateway.Problem",
                     Version = "v1",
                     Description = "Through this API you can access the problems that people publish as well as insert, delete and filter them",
                     Contact = new OpenApiContact() { Email = "promipisharp@gmail.com", Name = "Promipi", Url = new Uri("https://discord.gg/JqU4v28") }
@@ -54,7 +54,7 @@ namespace Api.Gateway.WebClient
 
                 setupAction.SwaggerDoc("Help.API", new OpenApiInfo()
                 {
-                    Title = "Help.API",
+                    Title = "API.Gateway.Help",
                     Version = "v1",
                     Description = "Through this API you can access the help that pertain to a problem as well as edit, delete and create new ones.",
                     Contact = new OpenApiContact() { Email = "promipisharp@gmail.com", Name = "Promipi", Url = new Uri("https://discord.gg/JqU4v28") }

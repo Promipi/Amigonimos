@@ -17,6 +17,8 @@ namespace Identity.Api.Mapper
             //USER
             CreateMap<UserCreateDto, User>();
             CreateMap<UserUpdateDto, User>();
+            CreateMap<User, UserGetDto>();
+            
         }
     }
 }

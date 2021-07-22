@@ -29,7 +29,7 @@ namespace Api.Gateway.WebClient.Config
         {
             service.AddHttpContextAccessor();
 
-            service.AddHttpClient<IProblemProxy, ProblemProxy>();
+            service.AddHttpClient<IProblemProxy,ProblemProxy>();
             service.AddHttpClient<IHelpProxy,HelpProxy>();
             service.AddHttpClient<IUserProxy,UserProxy>();
 
