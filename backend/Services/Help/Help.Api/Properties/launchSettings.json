@@ -27,6 +27,12 @@
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:3000"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true
     }
   }
 }

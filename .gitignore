@@ -250,7 +250,8 @@
 #PROMIPI
 *.swp
 *.*~
-secrets.json
+appsettings.json
+**/appsettings.json
 
 project.lock.json
 .DS_Store
