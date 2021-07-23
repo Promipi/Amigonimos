@@ -46,7 +46,6 @@ const Profile = ({ user }) => {
           },
         })
         .then((res) => {
-          console.log(res.data.content);
           setUsername(res.data.content.userName);
           getHelpsById(id);
           setPublicHelps(res.data.content.publicHelps);

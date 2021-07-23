@@ -20,7 +20,6 @@ const Settings = ({publicHelps,id,userName}) => {
                 "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             }
         }).then((data)=>{
-            console.log(data.data)
             MySwal.fire({title:"Updated successfully!",icon:"success"});
         }).catch((err)=>{
             MySwal.fire({title:"Something went wrong!",icon:"error"});
