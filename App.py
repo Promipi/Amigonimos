@@ -5,16 +5,26 @@ import datetime
 import uuid
 import sys
 from QueryValues import QuerysFlask
+import os
+from dotenv import load_dotenv
 
-
-
+#saco las variables .env por seguridad
+load_dotenv()
+DB_PASS = os.getenv('DB_KEY')
+DB_IDUSER = os.getenv('DB_IDUSER')
+DB_SERVER = os.getenv('DB_SERVER')
 
 #App
 app = Flask(__name__)
 
 
-#Connection to the database
-DataBaseConnection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=SQL5053.site4now.net;PORT=1344;UID=db_a76731_amigonimodb_admin;PWD=Supersecreta123;')
+
+
+#Connection to the remote database
+#DataBaseConnection = pyodbc.connect(f'DRIVER={ODBC Driver 17 for SQL Server};SERVER={DB_SERVER};PORT=1344;UID={DB_IDUSER};PWD={DB_PASS};')
+
+#Connection to the local database
+DataBaseConnection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=192.168.100.64;PORT=1344;UID=usuario1;PWD=cola;DATABASE=SQL Tutorial')
 
 
 
@@ -29,7 +39,7 @@ def DeleteTip(Id):
 	ListQuery = QueryObject.QueryDics()
 	CurrentTime = datetime.date.today()
 	print(ListQuery)
-	if ListQuery['Querys'] == [] or ListQuery['Querys'][0]['Type'] == 'Tip':
+	if ListQuery['Querys'] == None or ListQuery['Querys'][0]['Type'] == 'Tip':
 		cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
 		TipDeleted = list(list(cursor)[0])
 		if not TipDeleted:
@@ -41,7 +51,7 @@ def DeleteTip(Id):
 
 
 	elif ListQuery['Querys'][0]['Type'] == 'User':
-		if len(ListQuery['Querys']) == 1:	
+		if len(ListQuery['Querys']) == 1:
 			cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
 			Tips = []
 			for row in reversed(list(cursor)):
@@ -104,7 +114,7 @@ def ShowAllTips():
 	CurrentTime = datetime.date.today()
 	cursor.execute("SELECT * FROM Tips;")
 	Tips = []
-	if ListQuery["Querys"] == []:
+	if ListQuery["Querys"] == None:
 		for row in list(cursor):
 			RowList = list(row)
 			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2]}
@@ -162,11 +172,14 @@ def ShowTipOrUserTips(Id):
 	CurrentTime = datetime.date.today()
 
 	print(ListQuery)
-	if ListQuery['Querys'] == [] or ListQuery['Querys'][0]["Type"] == "Tip":
+	if ListQuery['Querys'] == None or ListQuery['Querys'][0]["Type"] == "Tip":
 		cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
-		TipShow = list(list(cursor)[0])
+		try:
+			TipShow = list(list(cursor)[0])
+		except:
+			return json.dumps({"Message" : "That Id for a Tip does not exist", "Success" : False}, indent=4)
 		if not TipShow:
-			return json.dumps({"Message" : "That tip does not exist", "Sucess" : False, }, indent=4)
+			return json.dumps({"Message" : "That tip does not exist", "Sucess" : False}, indent=4)
 		TipDic = {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2]}
 		return json.dumps({"Message" : "One Tip", "Sucess" : True, "Tip" : TipDic}, indent=4)
 
@@ -183,7 +196,7 @@ def ShowTipOrUserTips(Id):
 			return json.dumps({"Message" : "The all Tips from a user with id = {}".format(Id), "Sucess" : True, "Tips" : Tips}, indent=4)
 
 		elif ListQuery['Querys'][1]['Time'] == "Week":
-			for row in Reverse(list(cursor)):
+			for row in reversed(list(cursor)):
 				RowList = list(row)
 				PastDay = int(RowList[2].split("-")[2])
 				PastMonth = int(RowList[2].split("-")[1])
@@ -202,7 +215,7 @@ def ShowTipOrUserTips(Id):
 
 		elif ListQuery['Querys'][1]['Time'] == "Month":
 			cursor.execute("SELECT * FROM Tips WHERE OwnerId = ?;", (Id))
-			for row in Reverse(list(cursor)):
+			for row in reversed(list(cursor)):
 				RowList = list(row)
 				PastDay = int(RowList[2].split("-")[2])
 				PastMonth = int(RowList[2].split("-")[1])
@@ -216,7 +229,7 @@ def ShowTipOrUserTips(Id):
 					break
 
 			if not Tips:
-				return json.dumps({"Message" : "There are not tips on the last month", "Sucess" : False}, indent=4)
+				return json.dumps({"Message" : "There are not tips on the last month by user id {}".format(Id), "Sucess" : False}, indent=4)
 
 			return json.dumps({"Message" : "Tips from a month ago for user with id = {}".format(Id), "Sucess" : True, "Tips" : Tips}, indent=4)
 
