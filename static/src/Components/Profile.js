@@ -61,6 +61,7 @@ const Profile = ({ user }) => {
   };
 
   useEffect(() => {
+    console.log(user);
     const getHelps = async () => {
       await getDataUser(id ? id : user.nameid);
     };
@@ -120,7 +121,7 @@ const Profile = ({ user }) => {
           )}
         </div>
       )}
-      <Modal title="Settings" show={show} onClose={handleClose} close="Save">
+      <Modal title="Settings" show={show} onClose={handleClose}>
         <Settings publicHelps={publicHelps} id={user.nameid} userName={username}/>
         <Link to="/" className="btn" onClick={LogOut}>
           LogOut
