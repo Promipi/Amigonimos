@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 
 
 
-
 #saco las variables .env por seguridad
 load_dotenv("file.env")
 DB_PASS = os.getenv('DB_KEY')
@@ -35,28 +34,93 @@ DataBaseConnection = pyodbc.connect("DRIVER={ODBC Driver 17 for SQL Server};SERV
 @app.route("/api/Tips/Vote/<Id>", methods=['PUT'])
 def VoteOrDevote(Id):
 	cursor = DataBaseConnection.cursor()
-	QueryObject = QuerysFlask(request.query_string)
-	ListQuery = QueryObject.QueryDics()
-	if ListQuery['Querys'] == None:
-		return json.dumps({"Message" : "The action is not specified", "Sucess" : False}, indent=4)
-	if ListQuery['Querys'][0]['Action'] == "Add":
-		cursor.execute("UPDATE Tips SET Votes = Votes + 1 WHERE Id = ?;", (Id))
-	elif ListQuery['Querys'][0]['Action'] == "Subtract":
-		cursor.execute("UPDATE Tips SET Votes = Votes - 1 WHERE Id = ?;", (Id))
-	DataBaseConnection.commit()
+	try:
+		UserId = request.json['UserId']
+	except:
+		return json.dumps({"Message" : "You don't send the user id", "Sucess" : False}, indent=4)
 	cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
 	try:
 		TipShow = list(list(cursor)[0])
 		DataBaseConnection.commit()
 	except:
 		DataBaseConnection.commit()
-		return json.dumps({"Message" : "That Id = {} for a Tip does not exist".format(Id), "Success" : False}, indent=4)
-	return json.dumps({"Message" : "The Vote from Id {} was updated".format(Id), "Sucess" : True,
-		"Tip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5]}}, indent=4)
+		return json.dumps({"Message" : "The Tip id = {} does not exist".format(Id), "Sucess" : False}, indent=4)
+	cursor.execute("SELECT * FROM TipsVotesUser WHERE (TipId = ? AND UserId = ?);", (Id, UserId))
+	try:
+		Relation = list(list(cursor)[0])
+		cursor.execute("DELETE FROM TipsVotesUser WHERE (TipId = ? AND UserId = ?);", (Id, UserId))
+		DataBaseConnection.commit()
+		cursor.execute("UPDATE Tips SET Votes = Votes - 1 WHERE Id = ?;", (Id))
+		DataBaseConnection.commit()
+		action = "Dislike"
+	except:
+		print("Does not exist, so now exist")
+		DataBaseConnection.commit()
+		cursor.execute("INSERT INTO TipsVotesUser(TipId, UserId) VALUES(?, ?);", (Id, UserId))
+		DataBaseConnection.commit()
+		cursor.execute("UPDATE Tips SET Votes = Votes + 1 WHERE Id = ?;", (Id))
+		DataBaseConnection.commit()
+		action = "Like"
+	cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
+	TipShow = list(list(cursor)[0])
+	DataBaseConnection.commit()
+	return json.dumps({"Message" : "The Vote from Id {} was updated the action was {}".format(Id, action), "Sucess" : True,
+		"Tip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5]},
+		"Action" : action}, indent=4)
 
 
 
+#Esta va ser la ruta que va retornar un numero de los like mas votados
+@app.route('/api/Tips/Vote', methods=['GET'])
+def TheMostBestTips():
+	cursor = DataBaseConnection.cursor()
+	QueryObject = QuerysFlask(request.query_string)
+	ListQuery = QueryObject.QueryDics()
+	Num = 0
+	UserId = ""
+	for dic in ListQuery['Querys']:
+		for i in dic: 
+			if i == "Num":
+				try:
+					Num = int(dic["Num"])
+				except:
+					return json.dumps({"Message" : "You must send a number not a string", "Sucess" : False}, indent=4)
+			elif i == "UserId":
+				UserId = dic["UserId"]
+	if Num == 0:
+		return json.dumps({"Message" : "You must send a number lager then 0", "Sucess" : False}, indent=4)
+	elif UserId != "":
+		cursor.execute("SELECT * FROM Tips WHERE Id = ? ORDER BY Votes DESC;", (UserId))
+		if list(cursor) == []:
+			return json.dumps({"Message" : "There is not tips from the user id = {}".format(UserId), "Sucess" : False}, indent=4)
+		Tips = []
+		n = 0
+		while n < len(list(cursor)) and n < Num:
+			RowList = list(list(cursor)[n])
+			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+			Tips.append(DicTip)
+			n += 1
 
+		DataBaseConnection.commit()
+		return json.dumps({"Message" : "The top {} of the most voted tips from the user id = {}".format(str(Num), UserId), "Sucess" : True, 
+			"Tips" : Tips}, indent=4)
+	else:
+		cursor.execute("SELECT * FROM Tips ORDER BY Votes DESC;")
+		DataList = list(cursor)
+		if DataList == []:
+			return json.dumps({"Message" : "There is not tips", "Sucess" : False}, indent=4)
+		Tips = []
+		n = 0
+		while n < len(DataList) and n < Num:
+			RowList = list(DataList[n])
+			print(RowList)
+			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+			Tips.append(DicTip)
+			n += 1
+
+		DataBaseConnection.commit()
+		return json.dumps({"Message" : "The top {} of the most voted tips".format(str(Num)), "Sucess" : True, 
+			"Tips" : Tips}, indent=4)
 
 
 #Esta va ser la ruta para poder actualizar los datos de un Tip
