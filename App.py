@@ -113,7 +113,6 @@ def TheMostBestTips():
 		n = 0
 		while n < len(DataList) and n < Num:
 			RowList = list(DataList[n])
-			print(RowList)
 			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 			Tips.append(DicTip)
 			n += 1
