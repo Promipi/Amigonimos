@@ -65,7 +65,7 @@ def VoteOrDevote(Id):
 	TipShow = list(list(cursor)[0])
 	DataBaseConnection.commit()
 	return json.dumps({"Message" : "The Vote from Id {} was updated the action was {}".format(Id, action), "Sucess" : True,
-		"Tip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5]},
+		"Tip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5], "Valid" : TipShow[6]},
 		"Action" : action}, indent=4)
 
 
@@ -97,7 +97,7 @@ def TheMostBestTips():
 		n = 0
 		while n < len(list(cursor)) and n < Num:
 			RowList = list(list(cursor)[n])
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 			Tips.append(DicTip)
 			n += 1
 
@@ -114,7 +114,7 @@ def TheMostBestTips():
 		while n < len(DataList) and n < Num:
 			RowList = list(DataList[n])
 			print(RowList)
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 			Tips.append(DicTip)
 			n += 1
 
@@ -129,12 +129,15 @@ def UpdateTip(Id):
 	cursor = DataBaseConnection.cursor()
 	Title = ""
 	Content = ""
+	ChangeValid = False
 	for i in request.json:
 		if i == "Title":
 			Title = request.json[i]
 		elif i == "Content":
 			Content = request.json[i]
-	if Title == "" and Content == "":
+		elif i == "Valid":
+			ChangeValid = True
+	if Title == "" and Content == "" and not ChangeValid:
 		return json.dumps({"Message" : "Your send wrong the json or you don't send anything", "Sucess" : False})
 	cursor.execute("SELECT * FROM Tips WHERE Id = ?;", (Id))
 	try:
@@ -145,12 +148,13 @@ def UpdateTip(Id):
 		return json.dumps({"Message" : "That Id = {} for a Tip does not exist".format(Id), "Success" : False}, indent=4)
 	Title = Title if Title != "" else TipShow[0]
 	Content = Content if Content != "" else TipShow[1]
-	cursor.execute("UPDATE Tips SET Title = ?, Content = ? WHERE Id = ?;",
-	(Title, Content, Id))
+	Valid = request.json["Valid"] if ChangeValid else TipShow[6]
+	cursor.execute("UPDATE Tips SET Title = ?, Content = ?, Valid = ? WHERE Id = ?;",
+	(Title, Content, Valid, Id))
 	DataBaseConnection.commit()
 	return json.dumps({"Message" : "I The Tips with id = {} was updated".format(Id), "Sucess" : False, 
-		"PastTip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5]}, 
-		"NewTip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : Title, "Content" : Content, "CreationDate" : TipShow[2], "Votes" : TipShow[5]}}, indent=4)
+		"PastTip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5], "Valid" : TipShow[6]}, 
+		"NewTip" : {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : Title, "Content" : Content, "CreationDate" : TipShow[2], "Votes" : TipShow[5], "Valid" : Valid}}, indent=4)
 
 
 
@@ -177,7 +181,7 @@ def DeleteTip(Id):
 		cursor.execute("DELETE FROM Tips WHERE Id = ?;", (Id))
 		DataBaseConnection.commit()
 		return json.dumps({"Message" : "The tip was deleted", "Sucess" : True, 
-			"Element deleted" : {"Id" : TipDeleted[4], "OwnerId" : TipDeleted[3], "Title" : TipDeleted[0], "Content" : TipDeleted[1], "CreationDate" : TipDeleted[2], "Votes" : TipDeleted[5]}}, indent=4)
+			"Element deleted" : {"Id" : TipDeleted[4], "OwnerId" : TipDeleted[3], "Title" : TipDeleted[0], "Content" : TipDeleted[1], "CreationDate" : TipDeleted[2], "Votes" : TipDeleted[5], "Valid" : TipDeleted[6]}}, indent=4)
 
 
 	elif ListQuery['Querys'][0]['Type'] == 'User':
@@ -188,7 +192,7 @@ def DeleteTip(Id):
 			Tips = []
 			for row in DataList:
 				RowList = list(row)
-				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 				Tips.append(DicTip)
 				cursor.execute("DELETE FROM Tips WHERE Id = ?;", (DicTip["Id"]))
 				DataBaseConnection.commit()
@@ -212,7 +216,7 @@ def DeleteTip(Id):
 				if int(Timelapse.days) <= 7:
 					cursor.execute("DELETE FROM Tips WHERE Id = ?;", (RowList[4]))
 					DataBaseConnection.commit()
-					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 					Tips.append(DicTip)
 				else:
 					break
@@ -234,7 +238,7 @@ def DeleteTip(Id):
 				if int(Timelapse.days) <= 31:
 					cursor.execute("DELETE FROM Tips WHERE Id = ?;", (RowList[4]))
 					DataBaseConnection.commit()
-					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 					Tips.append(DicTip)
 				else:
 					break
@@ -261,7 +265,7 @@ def ShowAllTips():
 	if ListQuery["Querys"] == None:
 		for row in DataList:
 			RowList = list(row)
-			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+			DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 			Tips.append(DicTip)
 		if not Tips:
 			return json.dumps({"Message" : "There are not tips", "Sucess" : False}, indent=4)
@@ -276,7 +280,7 @@ def ShowAllTips():
 			Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
 			Timelapse = CurrentTime - Pastdate
 			if int(Timelapse.days) <= 7:
-				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 				Tips.append(DicTip)
 			else:
 				break
@@ -294,7 +298,7 @@ def ShowAllTips():
 			Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
 			DaysAgo = CurrentTime - Pastdate
 			if int(DaysAgo.days) <= 31:
-				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 				Tips.append(DicTip)
 			else:
 				break
@@ -323,7 +327,7 @@ def ShowTipOrUserTips(Id):
 		except:
 			DataBaseConnection.commit()
 			return json.dumps({"Message" : "That Id for a Tip does not exist", "Success" : False}, indent=4)
-		TipDic = {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5]}
+		TipDic = {"Id" : TipShow[4], "OwnerId" : TipShow[3], "Title" : TipShow[0], "Content" : TipShow[1], "CreationDate" : TipShow[2], "Votes" : TipShow[5], "Valid" : TipShow[6]}
 		return json.dumps({"Message" : "One Tip", "Sucess" : True, "Tip" : TipDic}, indent=4)
 
 	elif ListQuery['Querys'][0]["Type"] == "User":
@@ -334,7 +338,7 @@ def ShowTipOrUserTips(Id):
 		if len(ListQuery['Querys']) == 1:
 			for row in DataList:
 				RowList = list(row)
-				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+				DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 				Tips.append(DicTip)
 			if not Tips:
 				return json.dumps({"Message" : "The user by id = {} does not has Tips".format(Id), "Succes" : False}, indent=4)
@@ -349,7 +353,7 @@ def ShowTipOrUserTips(Id):
 				Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
 				Timelapse = CurrentTime - Pastdate
 				if int(Timelapse.days) <= 7:
-					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 					Tips.append(DicTip)
 				else:
 					break
@@ -367,7 +371,7 @@ def ShowTipOrUserTips(Id):
 				Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
 				DaysAgo = CurrentTime - Pastdate
 				if int(DaysAgo.days) <= 31:
-					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5]}
+					DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
 					Tips.append(DicTip)
 				else:
 					break
@@ -393,11 +397,11 @@ def AddTip():
 	except:
 		return json.dumps({"Message" : "Your send wrong the json or you don't send anything", "Sucess" : False})
 	Id = str(uuid.uuid4())
-	cursor.execute("INSERT INTO Tips(Id, OwnerId, Title, Content, CreationDate, Votes) VALUES(?, ?, ?, ?, ?, ?);",
-	(Id, OwnerId, Title, Content, CreationDate, 0))
+	cursor.execute("INSERT INTO Tips(Id, OwnerId, Title, Content, CreationDate, Votes, Valid) VALUES(?, ?, ?, ?, ?, ?, ?);",
+	(Id, OwnerId, Title, Content, CreationDate, 0, False))
 	DataBaseConnection.commit()
 	return json.dumps({"Message" : "Tip added", "Sucess" : True,
-		"Element created" : {"Id" : Id, "OwnerId" : OwnerId, "Title" : Title, "Content" : Content, "CreationDate" : CreationDate, "Votes" : 0}}, indent=4)
+		"Element created" : {"Id" : Id, "OwnerId" : OwnerId, "Title" : Title, "Content" : Content, "CreationDate" : CreationDate, "Votes" : 0, "Valid" : False}}, indent=4)
 
 
 
