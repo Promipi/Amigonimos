@@ -7,7 +7,7 @@ import sys
 from QueryValues import QuerysFlask
 import os
 from dotenv import load_dotenv
-
+from flask_cors import CORS
 
 
 #saco las variables .env por seguridad
@@ -18,7 +18,13 @@ DB_SERVER = os.getenv('DB_SERVER')
 
 #App
 app = Flask(__name__)
-
+CORS(app)
+cors = CORS(app, resources={
+		r"/*" :{
+			"origins" : "*"
+		}
+	}
+)
 
 #Connection to the remote database
 DataBaseConnection = pyodbc.connect("DRIVER={ODBC Driver 17 for SQL Server};SERVER={" + DB_SERVER + "};PORT=1344;UID={" + DB_IDUSER + "};PWD={" + DB_PASS + "},DATABASE=Tips;")
