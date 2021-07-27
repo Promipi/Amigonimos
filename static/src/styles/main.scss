@@ -4,11 +4,69 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Rubik', sans-serif;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body{
+  background-color: #F4F2F8;
+}
+
+h2{
+  font-weight: 500;
+}
+
+h3{
+  font-size: clamp(18px,2.5vw,20px);
 }
 
 p {
   font-size: $text-size;
+}
+
+.spin{
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  0%{
+    transform:rotate(0deg);
+  }
+  100%{
+    transform:rotate(360deg);
+  }
+}
+
+.btn{
+  background-color:$complement-color;
+  padding:10px 15px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition:all .25s;
+  color: $white;
+  text-align: center;
+  cursor:pointer;
+  display: inline-block;
+  
+  &:after {
+    content: "";
+    display: none;
+  }
+  &:hover {
+    background-color:#ffc34b;
+  }
+}
+
+.btn.transparent{
+  background-color:#ECF0F1;
+  color:$black;
+  &:hover{
+    background-color:#fcfdfd;
+  }
+}
+
+.btn.primary{
+  background-color:$primary-color;
 }
 
 .main-container {
@@ -28,19 +86,15 @@ p {
   box-shadow: 0 10px 15px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.18);
 }
 
-form {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  
-  flex-direction: column;
+form{
+  width:100%;
 }
 
 form h1 {
   margin: 5px;
 }
 
-input {
+input,textarea{
   display: block;
   padding: 10px;
   background: rgba(0, 0, 0, .05);
@@ -76,7 +130,7 @@ input {
   }
 }
 
-input:focus {
+input:focus ,textarea:focus{
   ~ .bar:before {
     width: 50%;
   }
@@ -88,14 +142,14 @@ input:focus {
 .form-btn {
   color: white;
   
-  background: $primary-color;
+  background: $complement-color;
   display: block;
-  font-weight: bold;
+  font-weight: 400;
   padding: 10px;
   margin-bottom: 5px;
   
   cursor: pointer;
-  &:hover {
-    background: $primary-light-color;
-  }
+  appearance: none;
+  border:none;
+  transition:all .15s;
 }

@@ -1,41 +1,39 @@
-import React, { Component } from 'react'
-import {A} from 'hookrouter';
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 
-import * as Session from '../Utils/Session';
+import "../styles/navbar.scss";
 
-import '../styles/navbar.scss'
-
-class NavBar extends Component {
-    constructor(props) {
-      super(props);
-    }
-    render() {
-        return ( 
-          <div className="nav-bar">
-            <ul>
-              <li className="nav-left">
-                <A href="/" className="nav-link">
-                    Home 
-                </A>
-              </li>
-              {!this.props.logged &&
-                <li className="nav-right">
-                  <A href="/login" className="nav-link">
-                    Sign in
-                  </A>
-                </li>
-              } 
-              {this.props.logged && 
-                <li className="nav-right">
-                  <A href="#!" onClick={() => Session.logout()} className="nav-link">
-                    Sign out
-                  </A>
-                </li>
-              } 
-            </ul>
-          </div>
-        )
-    }
-}
+const NavBar = ({ user }) => {
+  const history = useHistory();
+  
+  return (
+    <div className="nav-bar">
+      <ul>
+        <li className="nav-left">
+          <Link to="/" className="nav-link" id="home">
+            <i className="fas fa-home"></i>Home
+          </Link>
+        </li>
+        {!user && (
+          <li className="nav-right">
+            <Link to="/login" className="nav-link btn transparent">
+              Sign in
+            </Link>
+            <Link className="nav-link" to="/register" className="nav-link btn">
+              Register
+            </Link>
+          </li>
+        )}
+        {user && (
+          <li className="nav-right">
+            <Link to="/profile" className="nav-link btn">
+              Profile
+            </Link>
+          </li>
+        )}
+      </ul>
+    </div>
+  );
+};
 
 export default NavBar;

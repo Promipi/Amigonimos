@@ -1,30 +1,32 @@
-import React, { Component } from 'react';
-import { useRoutes } from 'hookrouter';
-import axios from 'axios';
-
+import React from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import "babel-polyfill"
-
-import * as Session from './Utils/Session';
-
-import Home from './Components/Home';
-import Login from './Components/Login';
-import Account from './Components/Account';
-import PageError from './Components/Error';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import PageError from './Pages/Error';
+import Register from './Pages/Register';
+import UserContext from './Context/UserContext';
 
 import './styles/main.scss';
 
 const App = () => {
-	let isLogged = Session.isLoggedIn();
-	const routes = {
-		'/': () => <Home logged={isLogged}/>,
-		'/account': () => <Account logged={isLogged} />,
-		'/login': () => <Login logged={isLogged} />
-	};
-	const Router = useRoutes(routes);
+
 	return (
-		<div>
-			{Router || PageError}
-		</div>
+		<Router>
+			<UserContext>
+				<Switch>
+					<Route exact path="/" component={Home}/>
+					<Route exact path="/profile" component={Home}/>
+					<Route exact path="/login" component={Login}/>
+					<Route path="/page/:page" component={Home}/>
+					<Route path="/post/:id" component={Home}/>
+					<Route exact path="/add" component={Home}/>
+					<Route exact path="/profile/:id" component={Home}/>
+					<Route path="/register" component={Register} />
+					<Route path="/*" component={PageError}/>
+				</Switch>
+			</UserContext>
+		</Router>
 	);
 };
 

@@ -1,0 +1,42 @@
+@import "base.scss";
+
+.container-form{
+    width:90%;
+    margin: 30px auto;
+    background-color: $primary-color;
+    box-shadow: 0 3px 5px rgba(0,0,0,.1);
+    border-radius: 3px;
+}
+
+.form-add{
+    width:100%;
+    display:flex;
+    background-color: #fff;
+    justify-content:center;
+    align-items:center;
+    flex-direction: column;
+    padding:20px;
+    border-radius: 8px;
+    margin:20px;
+    overflow-y:auto;
+}
+
+.form-group{
+    width:80%;
+}
+
+.form-group {
+    & input,textarea{
+        max-width: 100%;
+        width:100%;
+        min-width: 100%;
+        max-height: 250px;
+        font-size:clamp(16px,2.5vw,20px)
+    }
+
+    & textarea{
+        margin:5px 0;
+        appearance: none;
+        min-height: 100px;
+    }
+}
