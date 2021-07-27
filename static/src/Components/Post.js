@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import {UserContext} from '../Context/UserContext';
 import withReactContent from 'sweetalert2-react-content'
 import Loader from './Loader';
+import Help from "./Help";
 
 const MySwal = withReactContent(Swal)
 
@@ -89,23 +90,11 @@ const Post = ({ user }) => {
                 </div>
               </div>
               <div className="post-help">
-                <h3>Helps</h3>
+                <h3>Recent Helps</h3>
               </div>
               <div className="helps-container">
                 {helps.length ? helps.map((help, i) => (
-                  <div className="helps" key={i}>
-                    <div className="avatar">
-                      <img
-                        src="https://pbs.twimg.com/profile_images/1185798852/anonimo2_400x400.jpg"
-                        alt="no"
-                      />
-                      <Link  to={"/profile/"+help.ownerId}><h4>{help.ownerUsername}</h4></Link>
-                    </div>
-                    <div className="helps-comentario">
-                        <p>{help.content}</p>
-                        <h4>{timeago.format(help.creationDate+"Z")}</h4>
-                    </div>
-                  </div>
+                  <Help help={help} key={i}/>
                 )):
                 (
                   <p id="no-help">There is no helps</p>

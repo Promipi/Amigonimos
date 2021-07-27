@@ -10,6 +10,10 @@ img{
   max-width: 100%;
 }
 
+h2{
+  font-size:clamp(22px,1vw,29px);
+}
+
 .container-main {
   width: 100%;
   height: calc(100% - #{$navbar-height});
@@ -146,6 +150,7 @@ img{
 .tips,.friends-container{
   max-height: 250px;
   overflow-y:auto;
+  overflow-x: hidden;
   box-shadow: 0 3px 5px rgba(0,0,0,.1);
   margin: 0 0 1px 0;
 
@@ -156,6 +161,7 @@ img{
 
 .tips-container{
   margin: 5px 0 0 0;
+  height:calc(250px - 77px);
 }
 
 .tip{
@@ -164,6 +170,46 @@ img{
   padding:15px;
   display: flex;
   justify-content:space-between;
+}
+
+i.fa-heart{
+  width:32px;
+  height:32px;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  transition: all 0.25s;
+  position:relative;
+  &::after{
+    position:absolute;
+    content:"";
+    background-color:rgba(255,255,255);
+    top:50%;
+    transform:translate(-50%,-50%);
+    left:50%;
+    transition:all .1s;
+    border-radius:50%;
+  }
+  &.clicked::after{
+    animation:click .300s linear;
+  }
+  &.clicked{
+    opacity: .7;
+  }
+}
+
+
+@keyframes click {
+  0%{
+    height:0;
+    width:0;
+    opacity:1;
+  }
+  100%{
+      height:300%;
+      width:300%;
+      opacity:0;
+  }
 }
 
 .likes-tip{

@@ -32,11 +32,13 @@ const Settings = ({publicHelps,id,userName}) => {
 
     return (
         <form className="form-setting" onSubmit={updateSettings}>
-            <div className="form-group">
-                <h3>Public helps</h3>
-                <Switch value={publicHS} onChange={e=>setPublicHS(!publicHS)}/>
+            <div id="settings">
+                <div className="form-group">
+                    <h3>Public helps</h3>
+                    <Switch value={publicHS} onChange={e=>setPublicHS(!publicHS)}/>
+                </div>
             </div>
-            <div className="form-group">
+            <div className="form-group" id="btn">
                 <input type="submit" className="btn" value="Save"/>
             </div>
         </form>

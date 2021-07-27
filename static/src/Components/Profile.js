@@ -11,6 +11,7 @@ import withReactContent from "sweetalert2-react-content";
 import AvatarCard from "./AvatarCard";
 import Modal from "./Modal";
 import Settings from "./Settings";
+import Help from "./Help";
 
 const MySwal = withReactContent(Swal);
 
@@ -99,19 +100,7 @@ const Profile = ({ user }) => {
               <div className="profile-helps">
                 {!loading && helps ? (
                   helps.map((help, i) => (
-                    <div className="helps" key={i}>
-                      <div className="avatar">
-                        <img
-                          src="https://pbs.twimg.com/profile_images/1185798852/anonimo2_400x400.jpg"
-                          alt={id ? username : user.unique_name}
-                        />
-                        <h4>{help.ownerUsername}</h4>
-                      </div>
-                      <div className="helps-comentario">
-                        <p>{help.content}</p>
-                        <h4>{timeago.format(help.creationDate + "Z")}</h4>
-                      </div>
-                    </div>
+                    <Help key={i} help={help}/>
                   ))
                 ) : (
                   <Loader />
@@ -121,11 +110,8 @@ const Profile = ({ user }) => {
           )}
         </div>
       )}
-      <Modal title="Settings" show={show} onClose={handleClose}>
+      <Modal title="Settings" show={show} onClose={handleClose} close={<Link to="/" className="btn" onClick={LogOut}>LogOut</Link>}>
         <Settings publicHelps={publicHelps} id={user.nameid} userName={username}/>
-        <Link to="/" className="btn" onClick={LogOut}>
-          LogOut
-        </Link>
       </Modal>
     </div>
   );

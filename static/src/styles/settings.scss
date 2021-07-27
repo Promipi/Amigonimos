@@ -1,6 +1,19 @@
 .form-setting{
     padding:10px;
     margin:10px;
+    height:100%;
+    display:grid;
+    grid-template-areas: "settings"
+               "btn";
+    grid-template-rows: 1fr 80px;
+}
+
+#setting{
+    grid-area: settings;
+}
+
+#btn{
+    grid-area:btn;
 }
 
 .form-group{

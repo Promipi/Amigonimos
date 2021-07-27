@@ -56,7 +56,8 @@ module.exports = {
         new webpack.DefinePlugin({
             "process.env.API_URL" : JSON.stringify(process.env.API_URL),
             "process.env.IDENTITY_URL" : JSON.stringify(process.env.IDENTITY_URL),
-            "TOKEN":JSON.stringify(process.env.TOKEN)
+            "process.env.TOKEN":JSON.stringify(process.env.TOKEN),
+            "process.env.LOCAL":JSON.stringify(process.env.LOCAL)
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "./index.html")

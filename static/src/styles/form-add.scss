@@ -11,9 +11,14 @@
 .form-add{
     width:100%;
     display:flex;
+    background-color: #fff;
     justify-content:center;
     align-items:center;
     flex-direction: column;
+    padding:20px;
+    border-radius: 8px;
+    margin:20px;
+    overflow-y:auto;
 }
 
 .form-group{

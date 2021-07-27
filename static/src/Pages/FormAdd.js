@@ -62,13 +62,13 @@ const FormAdd = () =>{
                         <div className="bar"></div>
                     </div>
                     <div className="form-group">
-                        <textarea  name="content" id="content" value={content} placeholder="Description" autoComplete="off" onChange={e=>setContent(e.target.value)}/> 
+                        <textarea  name="content" id="content" value={content} placeholder="Description:" autoComplete="off" onChange={e=>setContent(e.target.value)}/> 
                         <div className="bar"></div>
                     </div>
                     {
                         !isLoading ? (
                             <div className="form-group">
-                                <input type="submit" value="ADD" className="form-btn btn"/>
+                                <input type="submit" value="Add" className="form-btn btn"/>
                             </div>
                         ) : 
                         <Loader />

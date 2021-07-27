@@ -3,9 +3,10 @@
     justify-content:center;
     flex-direction: column;
     align-items: center;
-    height:80%;
+    height:100%;
+}
 
-    & i{
-        font-size:52px;
-    }
+.MuiCircularProgress-colorPrimary{
+    width:62px !important;
+    height:62px !important;
 }
