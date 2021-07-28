@@ -33,7 +33,24 @@ DataBaseConnection = pyodbc.connect("DRIVER={ODBC Driver 17 for SQL Server};SERV
 #DataBaseConnection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=192.168.100.64;PORT=1344;UID=usuario1;PWD=cola;DATABASE=SQL Tutorial')
 
 
-
+#Ruta para retornar tips al azar
+@app.route('/api/Tips/Random', methods=['GET'])
+def RandomTips():
+	cursor = DataBaseConnection.cursor()
+	Tips = []
+	QueryObject = QuerysFlask(request.query_string)
+	ListQuery = QueryObject.QueryDics()
+	if ListQuery['Querys'] == None or int(ListQuery['Querys'][0]['Num']) == 0:
+		return json.dumps({"message" : "You must to send a number and also this number must be different to zero", "success" : False}, indent=4)
+	cursor.execute("SELECT * FROM Tips ORDER BY newid();")
+	n = 0
+	DataList = list(cursor)
+	while n < int(ListQuery['Querys'][0]['Num']) and n < len(DataList):
+		RowList = list(DataList[n])
+		DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
+		Tips.append(DicTip)
+		n += 1
+	return json.dumps({"message" : "{} Tips from a random query".format(int(ListQuery['Querys'][0]['Num'])), "success" : True, "tips" : Tips}, indent=4)
 
 
 #Esta va ser la ruta la cual va permitir cargar el like o el voto o si alguien desvota

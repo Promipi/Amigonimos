@@ -13,10 +13,14 @@ DataBaseConnection = pyodbc.connect("DRIVER={ODBC Driver 17 for SQL Server};SERV
 def main():	
 	cursor = DataBaseConnection.cursor()
 	#cursor.execute("ALTER TABLE Tips ADD Valid BIT DEFAULT 'FALSE'")
-	#cursor.commit()
-	cursor.execute("EXEC SP_COLUMNS Tips;")
+	#cursor.execute("EXEC SP_COLUMNS Tips;")
+	cursor.execute("SELECT * FROM Tips ORDER BY newid();")
+	n = 0
 	for i in list(cursor):
-		print(i)
+		if n <= 5: 
+			print(list(i))
+		n += 1
+	cursor.commit()
 
 
 
