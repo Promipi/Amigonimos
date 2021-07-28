@@ -6,6 +6,7 @@ import Posts from "../Components/Posts";
 import Post from '../Components/Post';
 import RightSide from '../Components/RightSide';
 import Footer from '../Components/Footer';
+import Tips from '../Components/Tips';
 import Profile from '../Components/Profile';
 import {UserContext} from '../Context/UserContext'
 
@@ -18,21 +19,18 @@ const Home = () => {
       <div className="container-main">
         <div className="container-posts">
           <Switch>
-            <Route exact path="/">
-              <Posts/>
-            </Route>
+            <Route exact path="/" component={Posts}/>
             <Route path="/post/:id">
               <Post user={user}/>
             </Route>
-            <Route path="/page/:page">
-              <Posts/>
-            </Route>
+            <Route path="/page/:page" component={Posts}/>
             <Route exact path="/profile">
               <Profile user={user} />
             </Route>
             <Route exact path="/profile/:id">
               <Profile user={user}/>
             </Route>
+            <Route exact path="/tips" component={Tips}/>
           </Switch>
         </div>
         <RightSide user={user}/>

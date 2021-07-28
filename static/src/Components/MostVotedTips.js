@@ -3,24 +3,24 @@ import React, { useState, useEffect } from 'react';
 import Loader from './Loader';
 import Tip from './Tip';
 
-const Tips = () =>{
+const MostVotedTips = () =>{
     const [tips,setTips] = useState([]);
 
-    const getAllTips = async() =>{
-        const res = await axios.get(`${process.env.LOCAL}/api/Tips?Time=Week`);
+    const getAllTipsUpVote = async() =>{
+        const res = await axios.get(`${process.env.LOCAL}/api/Tips/Vote?Num=5`);
         const data = res.data;
         console.log(data);
         setTips(data.Tips);
     }
 
     useEffect(() => {
-        getAllTips();
+        getAllTipsUpVote();
     },[]);
 
     return(
         <div className="tips">
             <div className="title">
-                <h2><i className="fas fa-angle-right"></i> One month ago</h2>
+                <h2><i className="fas fa-angle-right"></i> Most Voted Tips</h2>
             </div>
             <ul className="tips-container">
             {tips.length ? tips.map((tip,i)=>(
@@ -34,4 +34,4 @@ const Tips = () =>{
     )
 }
 
-export default Tips;
+export default MostVotedTips;

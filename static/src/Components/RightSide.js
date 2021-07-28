@@ -1,9 +1,8 @@
 import React from 'react';
-import Tips from './Tips';
+import MostVotedTips from './MostVotedTips';
 import Friends from './Friends';
-import Footer from './Footer';
 
-const RightSide = ({logged}) =>{
+const RightSide = ({user}) =>{
     let work = true;
     return(
         <div className="container-other">
@@ -15,19 +14,17 @@ const RightSide = ({logged}) =>{
                 )
             }
             {
-                !logged && !work &&(
+                !user && !work &&(
                     <div style={{width:"100%",height:"100%"}}>
-                        <Tips />
-                        <Footer id="footer"/>
+                        <MostVotedTips />
                     </div>
                 )
             }
             {
-                logged && !work &&(
+                user && !work &&(
                     <div style={{width:"100%",height:"100%"}}>
                         <Friends />
-                        <Tips />
-                        <Footer id="footer"/>
+                        <MostVotedTips />
                     </div>
                 )
             }

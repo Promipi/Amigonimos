@@ -150,6 +150,7 @@ h2{
 .tips,.friends-container{
   max-height: 250px;
   overflow-y:auto;
+  width:100%;
   overflow-x: hidden;
   box-shadow: 0 3px 5px rgba(0,0,0,.1);
   margin: 0 0 1px 0;
@@ -160,13 +161,12 @@ h2{
 }
 
 .tips-container{
-  margin: 5px 0 0 0;
   height:calc(250px - 77px);
 }
 
 .tip{
-  background-color:rgba(255, 255, 255, 0.13);
-  margin:0px 0 5px 0;
+  background-color:rgba(255, 255, 255, .6);
+  box-shadow:0 0 1px 0px rgba(0, 0, 0, .7);
   padding:15px;
   display: flex;
   justify-content:space-between;
@@ -180,6 +180,7 @@ i.fa-heart{
   align-items:center;
   transition: all 0.25s;
   position:relative;
+  cursor: pointer; 
   &::after{
     position:absolute;
     content:"";

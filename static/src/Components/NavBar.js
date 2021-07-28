@@ -13,6 +13,9 @@ const NavBar = ({ user }) => {
           <Link to="/" className="nav-link" id="home">
             <i className="fas fa-home"></i>Home
           </Link>
+          <Link to="/tips" className="btn transparent nav-link">
+            <i className="fas fa-bookmark"></i>Tips
+          </Link>
         </li>
         {!user && (
           <li className="nav-right">
@@ -27,7 +30,7 @@ const NavBar = ({ user }) => {
         {user && (
           <li className="nav-right">
             <Link to="/profile" className="nav-link btn">
-              Profile
+            <i className="fas fa-user-circle"></i>Profile
             </Link>
           </li>
         )}
