@@ -12,7 +12,7 @@ const Tip = ({tip}) => {
         btn.current.classList.add("clicked");
         const res =await axios.put(`${process.env.LOCAL}/api/Tips/Vote/${tip.Id}`,JSON.stringify({UserId:id}),{headers:{"Content-Type": "application/json"}});
         const data = res.data;
-        setVotes(data.Tip.Votes);
+        setVotes(data.tip.Votes);
         setTimeout(()=>{
             btn.current.classList.remove("clicked");
         },300);

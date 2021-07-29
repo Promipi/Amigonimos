@@ -10,7 +10,7 @@ const Tips = () =>{
         const res = await axios.get(`${process.env.LOCAL}/api/Tips?Time=Week`);
         const data = res.data;
         console.log(data);
-        setTips(data.Tips);
+        setTips(data.tips);
     }
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const Tips = () =>{
     return(
         <div className="tips">
             <div className="title">
-                <h2><i className="fas fa-angle-right"></i> One month ago</h2>
+                <h2><i className="fas fa-angle-right"></i> Recent Tips</h2>
             </div>
             <ul className="tips-container">
             {tips.length ? tips.map((tip,i)=>(

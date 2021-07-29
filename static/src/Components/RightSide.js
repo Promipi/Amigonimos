@@ -1,6 +1,8 @@
 import React from 'react';
 import MostVotedTips from './MostVotedTips';
 import Friends from './Friends';
+import RandomTip from './RandomTip';
+import TipsContextProvider from '../Context/TipsContext';
 
 const RightSide = ({user}) =>{
     let work = true;
@@ -14,17 +16,15 @@ const RightSide = ({user}) =>{
                 )
             }
             {
-                !user && !work &&(
+                !work && (
                     <div style={{width:"100%",height:"100%"}}>
-                        <MostVotedTips />
-                    </div>
-                )
-            }
-            {
-                user && !work &&(
-                    <div style={{width:"100%",height:"100%"}}>
-                        <Friends />
-                        <MostVotedTips />
+                        {user && (
+                            <Friends />
+                        )}
+                        <TipsContextProvider>
+                            <MostVotedTips />
+                            <RandomTip />
+                        </TipsContextProvider>
                     </div>
                 )
             }

@@ -7,7 +7,7 @@ const Footer = ({id}) =>{
         <div className="footer" id={id}> 
             <ul className="nav-bar">
                 <li className="nav-left">
-                    <Link className="nav-link"><h1>AM</h1></Link>
+                    <Link className="nav-link" to="/"><h1>AM</h1></Link>
                 </li>
                 <li className="nav-right">
                     <div className="nav-grid">
