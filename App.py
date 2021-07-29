@@ -34,7 +34,7 @@ DataBaseConnection = pyodbc.connect("DRIVER={ODBC Driver 17 for SQL Server};SERV
 
 
 #Ruta para retornar tips al azar
-@app.route('/api/Tips/Random', methods=['GET'])
+@app.route('/api/tips/random', methods=['GET'])
 def RandomTips():
     cursor = DataBaseConnection.cursor()
     Tips = []
@@ -55,7 +55,7 @@ def RandomTips():
 
 
 #Esta va ser la ruta la cual va permitir cargar el like o el voto o si alguien desvota
-@app.route("/api/Tips/Vote/<Id>", methods=['PUT'])
+@app.route("/api/tips/vote/<Id>", methods=['PUT'])
 def VoteOrDevote(Id):
     cursor = DataBaseConnection.cursor()
     try:
@@ -95,7 +95,7 @@ def VoteOrDevote(Id):
 
 
 #Esta va ser la ruta que va retornar un numero de los like mas votados
-@app.route('/api/Tips/Vote', methods=['GET'])
+@app.route('/api/tips/vote', methods=['GET'])
 def TheMostBestTips():
     cursor = DataBaseConnection.cursor()
     QueryObject = QuerysFlask(request.query_string)
@@ -147,7 +147,7 @@ def TheMostBestTips():
 
 
 #Esta va ser la ruta para poder actualizar los datos de un Tip
-@app.route('/api/Tips/<Id>', methods=['PUT'])
+@app.route('/api/tips/<Id>', methods=['PUT'])
 def UpdateTip(Id):
     cursor = DataBaseConnection.cursor()
     Title = ""
@@ -188,7 +188,7 @@ def UpdateTip(Id):
 
 #Funcion para eliminar un tip o los todos los tips de un usuario o los tips del usuasrio pero de hacer semana
 #o para eliminar los tips de un usuario el ultimo mes
-@app.route('/api/Tips/<Id>', methods=['DELETE'])
+@app.route('/api/tips/<Id>', methods=['DELETE'])
 def DeleteTip(Id):
     cursor = DataBaseConnection.cursor()
     QueryObject = QuerysFlask(request.query_string)
@@ -276,7 +276,7 @@ def DeleteTip(Id):
 
 #Funcion para mostrar todas los Tips o muestra todos los tips de una ultima semana
 #o de un ultimo mes y de la ultima semana 
-@app.route("/api/Tips", methods = ['GET'])
+@app.route("/api/tips", methods = ['GET'])
 def ShowAllTips():
     cursor = DataBaseConnection.cursor()
     QueryObject = QuerysFlask(request.query_string)
@@ -336,7 +336,7 @@ def ShowAllTips():
 
 #Funcion para mostrar un solo tip o muetra los tips de todos los usuarios
 #O Los usuarios de un mes o de una semana
-@app.route("/api/Tips/<Id>", methods = ['GET'])
+@app.route("/api/tips/<Id>", methods = ['GET'])
 def ShowTipOrUserTips(Id):
     cursor = DataBaseConnection.cursor()
     QueryObject = QuerysFlask(request.query_string)
@@ -410,7 +410,7 @@ def ShowTipOrUserTips(Id):
 
 
 #Funcion para agregar un tip 
-@app.route("/api/Tips", methods = ['POST'])
+@app.route("/api/tips", methods = ['POST'])
 def AddTip():
     cursor = DataBaseConnection.cursor()
     try:
