@@ -39,19 +39,50 @@ def RandomTips():
     cursor = DataBaseConnection.cursor()
     Tips = []
     QueryObject = QuerysFlask(request.query_string)
+    CurrentTime = datetime.date.today()
     ListQuery = QueryObject.QueryDics()
-    if ListQuery['Querys'] == None or int(ListQuery['Querys'][0]['Num']) == 0:
+    if ListQuery['Querys'] == None or int(ListQuery['Querys'][0]['mum']) == 0:
         return json.dumps({"message" : "You must to send a number and also this number must be different to zero", "success" : False}, indent=4)
     cursor.execute("SELECT * FROM Tips ORDER BY newid();")
     n = 0
     DataList = list(cursor)
     DataBaseConnection.commit()
-    while n < int(ListQuery['Querys'][0]['Num']) and n < len(DataList):
-        RowList = list(DataList[n])
-        DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
-        Tips.append(DicTip)
-        n += 1
-    return json.dumps({"message" : "{} Tips from a random query".format(int(ListQuery['Querys'][0]['Num'])), "success" : True, "tips" : Tips}, indent=4)
+    if ListQuery['Querys'][0]['num'] and len(ListQuery['Querys']) == 1:
+        while n < int(ListQuery['Querys'][0]['num']) and n < len(DataList):
+            RowList = list(DataList[n])
+            DicTip = {"id" : RowList[4], "ownerid" : RowList[3], "title" : RowList[0], "content" : RowList[1], "creationdate" : RowList[2], "votes" : RowList[5], "valid" : RowList[6]}
+            Tips.append(DicTip)
+            n += 1
+        return json.dumps({"message" : "{} Tips from a random query".format(int(ListQuery['Querys'][0]['num'])), "success" : True, "tips" : Tips}, indent=4)
+
+    elif ListQuery['Querys'][1]['time'] == 'week':
+        while n < int(ListQuery['Querys'][0]['num']) and n < len(DataList):
+            RowList = list(DataList[n])
+            PastDay = int(RowList[2].split("-")[2])
+            PastMonth = int(RowList[2].split("-")[1])
+            PastYear = int(RowList[2].split("-")[0])
+            Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+            Timelapse = CurrentTime - Pastdate
+            if int(Timelapse.days) <= 7:
+                DicTip = {"id" : RowList[4], "ownerid" : RowList[3], "title" : RowList[0], "content" : RowList[1], "creationdate" : RowList[2], "votes" : RowList[5], "valid" : RowList[6]}
+                Tips.append(DicTip)
+            n += 1
+        return json.dumps({"message" : "{} Tips from a random query and form a week".format(int(ListQuery['Querys'][0]['Num'])), "success" : True, "tips" : Tips}, indent=4)
+
+
+    elif ListQuery['Querys'][1]['Time'] == 'Month':
+        while n < int(ListQuery['Querys'][0]['Num']) and n < len(DataList):
+            RowList = list(DataList[n])
+            PastDay = int(RowList[2].split("-")[2])
+            PastMonth = int(RowList[2].split("-")[1])
+            PastYear = int(RowList[2].split("-")[0])
+            Pastdate = datetime.date(int(PastYear), int(PastMonth), int(PastDay))
+            Timelapse = CurrentTime - Pastdate
+            if int(Timelapse.days) <= 31:
+                DicTip = {"Id" : RowList[4], "OwnerId" : RowList[3], "Title" : RowList[0], "Content" : RowList[1], "CreationDate" : RowList[2], "Votes" : RowList[5], "Valid" : RowList[6]}
+                Tips.append(DicTip)
+            n += 1
+        return json.dumps({"message" : "{} Tips from a random query and from a month ago".format(int(ListQuery['Querys'][0]['Num'])), "success" : True, "tips" : Tips}, indent=4)
 
 
 #Esta va ser la ruta la cual va permitir cargar el like o el voto o si alguien desvota
