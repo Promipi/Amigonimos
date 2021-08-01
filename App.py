@@ -66,7 +66,9 @@ def RandomTips():
             if int(Timelapse.days) <= 7:
                 DicTip = {"id" : RowList[4], "ownerid" : RowList[3], "title" : RowList[0], "content" : RowList[1], "creationdate" : RowList[2], "votes" : RowList[5], "valid" : RowList[6]}
                 Tips.append(DicTip)
-                n += 1
+            n += 1
+        if Tips == []:
+            return json.dumps({"message" : "There is not {} random tips from this week".format(int(ListQuery['Querys'][0]['num'])), "success" : False, "tips" : Tips}, indent=4)
         return json.dumps({"message" : "{} Tips from a random query and form a week".format(int(ListQuery['Querys'][0]['num'])), "success" : True, "tips" : Tips}, indent=4)
 
 
@@ -81,7 +83,9 @@ def RandomTips():
             if int(Timelapse.days) <= 31:
                 DicTip = {"id" : RowList[4], "ownerid" : RowList[3], "title" : RowList[0], "content" : RowList[1], "creationdate" : RowList[2], "votes" : RowList[5], "valid" : RowList[6]}
                 Tips.append(DicTip)
-                n += 1
+            n += 1
+        if Tips == []:
+            return json.dumps({"message" : "There is not {} random tips from this month".format(int(ListQuery['Querys'][0]['num'])), "success" : False, "tips" : Tips}, indent=4)
         return json.dumps({"message" : "{} Tips from a random query and from a month ago".format(int(ListQuery['Querys'][0]['num'])), "success" : True, "tips" : Tips}, indent=4)
 
 
@@ -186,8 +190,10 @@ def TheMostBestTips():
                 if int(Timelapse.days) <= 7:
                     DicTip = {"id" : RowList[4], "ownerid" : RowList[3], "title" : RowList[0], "content" : RowList[1], "creationdate" : RowList[2], "votes" : RowList[5], "valid" : RowList[6]}
                     Tips.append(DicTip)
-                    n += 1
-            return json.dumps({"message" : "{} Tips top voted from a week a week".format(int(ListQuery['Querys'][0]['num'])), "success" : True, "tips" : Tips}, indent=4)
+                n += 1
+            if Tips == []:
+                return json.dumps({"message" : "There is not {} top voted tips from a week ago".format(int(ListQuery['Querys'][0]['num'])), "success" : False, "tips" : Tips}, indent=4)
+            return json.dumps({"message" : "{} Tips top voted from a week ago".format(int(ListQuery['Querys'][0]['num'])), "success" : True, "tips" : Tips}, indent=4)
 
 
         elif ListQuery['Querys'][1]['time'] == 'month':
@@ -201,7 +207,10 @@ def TheMostBestTips():
                 if int(Timelapse.days) <= 31:
                     DicTip = {"id" : RowList[4], "ownerid" : RowList[3], "title" : RowList[0], "content" : RowList[1], "creationdate" : RowList[2], "votes" : RowList[5], "valid" : RowList[6]}
                     Tips.append(DicTip)
-                    n += 1
+                n += 1
+
+            if Tips == []:
+                return json.dumps({"message" : "There is not {} top voted tips from a month ago".format(int(ListQuery['Querys'][0]['num'])), "success" : False, "tips" : Tips}, indent=4)
             return json.dumps({"message" : "{} Tips top voted from a month ago".format(int(ListQuery['Querys'][0]['num'])), "success" : True, "tips" : Tips}, indent=4)
 
 
