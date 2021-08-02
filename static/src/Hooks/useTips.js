@@ -18,8 +18,16 @@ const useTips = () =>{
     }
 
     const getAll = async() =>{
-        await getMostVotedTips();
-        await getRandomTips();
+        try{
+            await getMostVotedTips();
+        }catch(err){
+            await getMostVotedTips();
+        }
+        try{
+            await getRandomTips();
+        }catch(err){
+            await getRandomTips();
+        }
     }
 
     useEffect(()=>{
