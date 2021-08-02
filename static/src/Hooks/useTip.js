@@ -1,32 +1,28 @@
-import { useState,useEffect } from "react";
 import axios from 'axios';
+import {useEffect,useState} from 'react';
 
-const useTip = () =>{
-    const [mostVotedTips, setMostVoted] = useState([]);
-    const [randomTips,setRandomTips] = useState([]);
+const useTip = (page,limit) =>{
+    const [tips,setTips] = useState([]);
+    const [loading,setLoading] = useState(false);
+    const [pages,setPages] = useState(0);
 
-    const getRandomTips = async() =>{
-        const res = await axios.get(`${process.env.LOCAL}/api/Tips/Random?Num=5`);
+    const getAllTips = async() =>{
+        setLoading(true);
+        const res = await axios.get(`${process.env.LOCAL}api/tips`);
         const data = res.data;
-        setRandomTips(data.tips);
+        const tips = data.tips.slice((page * limit-10),limit);
+        const pages = Math.round(tips.length/limit);
+        setPages(pages);
+        setTips(tips);
+        setLoading(false);
     }
 
-    const getMostVotedTips = async() =>{
-        const res = await axios.get(`${process.env.LOCAL}/api/Tips/Vote?Num=5`);
-        const data = res.data;
-        setMostVoted(data.tips);
-    }
 
-    const getAll = async() =>{
-        await getMostVotedTips();
-        await getRandomTips();
-    }
-
-    useEffect(()=>{
-        getAll();
+    useEffect(() => {
+        getAllTips();
     },[]);
 
-    return [mostVotedTips,randomTips]
+    return [tips,pages,loading];
 }
 
 export default useTip;

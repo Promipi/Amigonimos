@@ -18,9 +18,10 @@ const App = () => {
 					<Route exact path="/" component={Home}/>
 					<Route exact path="/profile" component={Home}/>
 					<Route exact path="/login" component={Login}/>
-					<Route path="/page/:page" component={Home}/>
+					<Route path="/post/page/:page" component={Home}/>
 					<Route path="/post/:id" component={Home}/>
 					<Route path="/tips" component={Home} />
+					<Route path="/tips/page/:page" component={Home} />
 					<Route exact path="/add" component={Home}/>
 					<Route exact path="/profile/:id" component={Home}/>
 					<Route path="/register" component={Register} />

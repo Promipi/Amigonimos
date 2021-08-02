@@ -12,6 +12,9 @@ const NavBar = ({ user }) => {
           <Link to="/" className="nav-link" id="home">
             <i className="fas fa-home"></i>Home
           </Link>
+          <Link to="/tips" className="nav-link btn transparent">
+            <i class="fas fa-bookmark"></i>Tips
+          </Link>
         </li>
         {!user && (
           <li className="nav-right">

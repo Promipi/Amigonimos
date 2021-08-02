@@ -8,26 +8,15 @@ const RightSide = ({user}) =>{
     let work = true;
     return(
         <div className="container-other">
-            {
-                work && (
-                    <div style={{width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
-                        <h2>Work In Progress</h2>
-                    </div>
-                )
-            }
-            {
-                !work && (
-                    <div style={{width:"100%",height:"100%"}}>
-                        {user && (
-                            <Friends />
-                        )}
-                        <TipsContextProvider>
-                            <MostVotedTips />
-                            <RandomTip />
-                        </TipsContextProvider>
-                    </div>
-                )
-            }
+            <div style={{width:"100%",height:"100%"}}>
+                {user && !work && (
+                    <Friends />
+                )}
+                <TipsContextProvider>
+                    <MostVotedTips />
+                    <RandomTip />
+                </TipsContextProvider>
+            </div>
         </div>
     )
 }

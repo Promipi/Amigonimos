@@ -20,17 +20,22 @@ const Home = () => {
         <div className="container-posts">
           <Switch>
             <Route exact path="/" component={Posts}/>
+            <Route path="/post/page/:page" component={Posts}/>
             <Route path="/post/:id">
               <Post user={user}/>
             </Route>
-            <Route path="/page/:page" component={Posts}/>
             <Route exact path="/profile">
               <Profile user={user} />
             </Route>
             <Route exact path="/profile/:id">
               <Profile user={user}/>
             </Route>
-            <Route exact path="/tips" component={Tips}/>
+            <Route exact path="/tips">
+              <Tips fullHeight={true}/>
+            </Route>
+            <Route exact path="/tips/page/:page">
+              <Tips fullHeight={true}/>
+            </Route>
           </Switch>
         </div>
         <RightSide user={user}/>

@@ -1,34 +1,31 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Loader from './Loader';
 import Tip from './Tip';
+import useTip from '../Hooks/useTip';
+import PageNav from './PageNav';
+import {useParams} from 'react-router-dom'
 
-const Tips = () =>{
-    const [tips,setTips] = useState([]);
-
-    const getAllTips = async() =>{
-        const res = await axios.get(`${process.env.LOCAL}/api/Tips?Time=Week`);
-        const data = res.data;
-        console.log(data);
-        setTips(data.tips);
-    }
-
-    useEffect(() => {
-        getAllTips();
-    },[]);
+const Tips = ({fullHeight}) =>{
+    const {page} = useParams()
+    const [tips,pages,loading] = useTip(page ? page : 1,10);
 
     return(
-        <div className="tips">
+        <div className={`tips ${fullHeight ? 'full' : ''} ${loading ? 'loading' : ''}`}>
             <div className="title">
-                <h2><i className="fas fa-angle-right"></i> Recent Tips</h2>
+                <h2><i className="fas fa-angle-right"></i> All Tips</h2>
             </div>
-            <ul className="tips-container">
-            {tips.length ? tips.map((tip,i)=>(
-                <Tip tip={tip} key={i}/>
+            <ul>
+            {tips.length || !loading ? tips.map((tip,i)=>(
+                <Tip tip={tip} key={i} post={true}/>
             )):
             (
                 <Loader />
             )}
+            {
+                !loading && (
+                    <PageNav pages={pages} to="tips"/>
+                )
+            }
             </ul>
         </div>
     )

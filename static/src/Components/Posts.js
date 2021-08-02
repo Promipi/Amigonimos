@@ -6,8 +6,8 @@ import * as timeago from "timeago.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Loader from './Loader'
-import FormAdd from "../Pages/FormAdd";
-import { UserContext } from "../Context/UserContext";
+import FormAdd from "../Pages/FormAddPost";
+import PageNav from "./PageNav";
 
 const MySwal = withReactContent(Swal)
 
@@ -15,7 +15,7 @@ const Posts = ({}) => {
   const [posts, setPosts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [pages,setPages] = useState(null);
-  const { page } = useParams();
+  const {page} = useParams();
 
   const getPosts = async () => {
       try{
@@ -59,11 +59,7 @@ const Posts = ({}) => {
           </Link>
         ))}
         {loaded && (
-            <div className="page-nav">
-                {Array(pages).fill(1).map((page,id)=>(
-                    <Link to={"/page/"+(id+1)} key={id} className="page-link">{id+1}</Link>
-                ))}
-            </div>
+          <PageNav pages={pages} to="post"/>
         )}
     </div>
   );

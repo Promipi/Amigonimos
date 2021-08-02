@@ -21,6 +21,7 @@
         "swal",
         "sweetalert",
         "switch",
-        "timeago"
+        "timeago",
+        "userid"
     ]
 }

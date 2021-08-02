@@ -1,10 +1,10 @@
 import React from 'react';
-import useTip from '../Hooks/useTip'
+import useTips from '../Hooks/useTips'
 
 export const TipsContext = React.createContext({});
 
 const TipsContextProvider = ({children}) =>{
-    const [mostVotedTips,randomTips] = useTip();
+    const [mostVotedTips,randomTips] = useTips();
     
     return(
         <TipsContext.Provider value={{mostVotedTips,randomTips}}>
