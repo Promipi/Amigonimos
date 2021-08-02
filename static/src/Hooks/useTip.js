@@ -19,7 +19,11 @@ const useTip = (page,limit) =>{
 
 
     useEffect(() => {
-        getAllTips();
+        try{
+            getAllTips();
+        }catch(err){
+            getAllTips();
+        }
     },[]);
 
     return [tips,pages,loading];

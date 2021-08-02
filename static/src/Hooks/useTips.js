@@ -23,7 +23,11 @@ const useTips = () =>{
     }
 
     useEffect(()=>{
-        getAll();
+        try{
+            getAll();
+        }catch(err){
+            getAll();
+        }
     },[]);
 
     return [mostVotedTips,randomTips]
