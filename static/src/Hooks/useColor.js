@@ -13,7 +13,7 @@ const useColor = () =>{
             const input = tf.tensor2d([[1,1,1],[0,0,0],[0,1,0],[1,1,0]])
             const output = tf.tensor2d([[0],[1],[0],[0]])
         
-            const layer = tf.layers.dense({units:1,inputShape:[3]});
+            const layer = tf.layers.dense({units:8,inputShape:[3]});
         
             const model = tf.sequential({layers:[layer]});
         
@@ -24,7 +24,7 @@ const useColor = () =>{
             loss:"meanSquaredError"
             })
         
-            model.fit(input, output,{epochs:500}).then(()=>{
+            model.fit(input, output,{epochs:1000}).then(()=>{
                 model.predict(tf.tensor2d([[1,1,1]])).print()
             })
             await model.save("localstorage://model-color");
@@ -45,6 +45,7 @@ const useColor = () =>{
         (async()=>{
             const model = await getModel();
             const value = model.predict(tf.tensor2d([[r,g,b]])).dataSync()[0];
+            console.log(value)
             setColorText(value < .5 ? "white" : "black")
         })()
     },[color]);
