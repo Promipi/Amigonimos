@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Switch from './Switch';
 import '../styles/settings.scss';
 import axios from 'axios';
@@ -42,7 +42,7 @@ const Settings = ({publicHelps,id,userName}) => {
                 </div>
                 <div className="form-group">
                     <h3>Card Color</h3>
-                    <input type="color" value={color} onChange={e=>setColor(e.target.value)} style={{height:"80px",width:"80px",minWidth:"auto"}}/>
+                    <input type="color" value={color} onChange={e=>setColor(e.target.value)}style={{height:"80px",width:"80px",minWidth:"auto"}}/>
                 </div>
             </div>
             <div className="form-group" id="btn">
