@@ -6,10 +6,10 @@ export const UserContext = React.createContext();
 
 const UserContextProvider = ({children}) =>{
     const [user,token,isLoading,Login,LogOut,Register] = useUser();
-    const [color,setColor] = useColor();
+    const [color,setColor,colorText] = useColor();
 
     return(
-        <UserContext.Provider value={{user,token,isLoading,Login,LogOut,Register,color,setColor}}>
+        <UserContext.Provider value={{user,token,isLoading,Login,LogOut,Register,color,setColor,colorText}}>
             {children}
         </UserContext.Provider>
     )
