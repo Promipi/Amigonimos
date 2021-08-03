@@ -14,7 +14,7 @@ const useColor = () =>{
     }
 
     const getPredict = async(r,g,b) =>{
-        const model = await tf.loadLayersModel("http://localhost:8080/model/model.json");
+        const model = await tf.loadLayersModel("https://no-name-web.netlify.app/model/model.json");
         const value = model.predict(tf.tensor2d([[r,g,b]])).dataSync()[0];
         setColorText(value > .5 ? "white" : "black");
     }
