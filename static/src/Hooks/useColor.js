@@ -19,7 +19,7 @@ const useColor = () =>{
         
         
             model.compile({
-            optimizer:"adam",
+            optimizer:tf.train.adam(.1),
             metrics:["accuracy"],
             loss:"meanSquaredError"
             })
