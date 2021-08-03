@@ -62,7 +62,6 @@ const Profile = ({ user }) => {
   };
 
   useEffect(() => {
-    console.log(user);
     const getHelps = async () => {
       await getDataUser(id ? id : user.nameid);
     };

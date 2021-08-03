@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import { UserContext } from '../Context/UserContext';
+
 
 const AvatarCard = ({id,username,onClick}) => {
+    const {color} = useContext(UserContext);
     return (
         <div className="profile-avatar">
             {
@@ -15,6 +18,7 @@ const AvatarCard = ({id,username,onClick}) => {
                 <div className="profile-username">
                     <h2>{username}</h2>
                 </div>
+                <span style={{backgroundColor:color}}></span>
             </div>
         </div>
     )

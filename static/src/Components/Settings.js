@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Switch from './Switch';
 import '../styles/settings.scss';
 import axios from 'axios';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { UserContext } from '../Context/UserContext';
+
 const MySwal = withReactContent(Swal);
 
 const Settings = ({publicHelps,id,userName}) => {
     const [publicHS,setPublicHS] = useState(publicHelps);
+    const {color,setColor} = useContext(UserContext);
 
     const updateSettings = (e) =>{
         e.preventDefault();
@@ -36,6 +39,10 @@ const Settings = ({publicHelps,id,userName}) => {
                 <div className="form-group">
                     <h3>Public helps</h3>
                     <Switch value={publicHS} onChange={e=>setPublicHS(!publicHS)}/>
+                </div>
+                <div className="form-group">
+                    <h3>Card Color</h3>
+                    <input type="color" value={color} onChange={e=>setColor(e.target.value)} style={{height:"80px",width:"80px",minWidth:"auto"}}/>
                 </div>
             </div>
             <div className="form-group" id="btn">
